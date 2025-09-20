@@ -1,0 +1,509 @@
+{% extends 'base.html' %}
+
+{% block title %}Events - Optimizing People{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4 animate-fade-in">Events</h1>
+                <p class="lead animate-fade-in">
+                    Join us in making a difference in communities around the world
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- View Past Events Button -->
+{% if past_events %}
+<section class="py-4 bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <button type="button" class="btn btn-light btn-lg px-5 py-3" id="view-past-events-btn" style="cursor: pointer;">
+                    <i class="fas fa-history me-2"></i>View Past Events
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Search and Filter -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="get" class="row g-3">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="q" placeholder="Search events by title or location..." value="{{ query }}">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search me-2"></i>Search Events
+                                </button>
+                            </div>
+                        </form>
+                        {% if query %}
+                        <div class="mt-3">
+                            <p class="text-muted">Search results for "{{ query }}" ({{ results_count }} events found)</p>
+                            <a href="{% url 'frontend:events' %}" class="btn btn-outline-secondary btn-sm">Clear Search</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Events -->
+{% if featured_events %}
+<section class="section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Featured Events</h2>
+                <p class="lead">Don't miss these important upcoming events</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for event in featured_events %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             class="card-img-top" alt="{{ event.title }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title text-primary">{{ event.title }}</h5>
+                            <span class="badge bg-warning text-dark">Featured</span>
+                        </div>
+                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
+                        <div class="mt-auto">
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                            </p>
+                            <p class="text-muted mb-3">
+                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                            </p>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-info-circle me-1"></i>Details
+                                </a>
+                                {% if event.registration_url %}
+                                    <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
+                                        <i class="fas fa-user-plus me-1"></i>Register
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Search Results Section (only shown when searching) -->
+{% if query %}
+<section class="section-padding bg-primary text-white">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">
+                    <i class="fas fa-search me-3"></i>Search Results
+                </h2>
+                <p class="lead">Found {{ results_count }} event{{ results_count|pluralize }} for "{{ query }}"</p>
+                <a href="{% url 'frontend:events' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-times me-2"></i>Clear Search
+                </a>
+            </div>
+        </div>
+        
+        {% if events %}
+        <div class="row g-4">
+            {% for event in events %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-lg">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             class="card-img-top" alt="{{ event.title }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title text-primary">{{ event.title }}</h5>
+                            <span class="badge bg-success">Search Result</span>
+                        </div>
+                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
+                        <div class="mt-auto">
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                            </p>
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-clock me-2"></i>{{ event.date|time:"g:i A" }}
+                            </p>
+                            <p class="text-muted mb-3">
+                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                            </p>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-info-circle me-1"></i>Details
+                                </a>
+                                {% if event.registration_url %}
+                                    <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
+                                        <i class="fas fa-user-plus me-1"></i>Register
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination for search results -->
+        {% if is_paginated %}
+        <nav aria-label="Search results pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link bg-light text-dark" href="?q={{ query }}&page=1">&laquo; First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link bg-light text-dark" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link bg-light text-dark">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+                
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link bg-light text-dark" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link bg-light text-dark" href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="card bg-light text-dark">
+                    <div class="card-body py-5">
+                        <i class="fas fa-search text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h4 class="text-primary mb-3">No Events Found</h4>
+                        <p class="text-muted">No events found for "{{ query }}". Try a different search term.</p>
+                        <a href="{% url 'frontend:events' %}" class="btn btn-primary">
+                            <i class="fas fa-list me-2"></i>View All Events
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+<!-- All Upcoming Events -->
+<section class="section-padding {% if query %}bg-light{% else %}{% if featured_events %}bg-light{% endif %}{% endif %}">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">
+                    <i class="fas fa-calendar-alt me-3"></i>All Upcoming Events
+                </h2>
+                <p class="lead">Join us in our mission to serve communities</p>
+            </div>
+        </div>
+        
+        {% if all_events %}
+        <div class="row g-4">
+            {% for event in all_events %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             class="card-img-top" alt="{{ event.title }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">{{ event.title }}</h5>
+                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
+                        <div class="mt-auto">
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                            </p>
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-clock me-2"></i>{{ event.date|time:"g:i A" }}
+                            </p>
+                            <p class="text-muted mb-3">
+                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                            </p>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-info-circle me-1"></i>Details
+                                </a>
+                                {% if event.registration_url %}
+                                    <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
+                                        <i class="fas fa-user-plus me-1"></i>Register
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination for all events -->
+        {% if all_events_paginated %}
+        <nav aria-label="All events pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if all_page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo; First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ all_page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">
+                        Page {{ all_page_obj.number }} of {{ all_page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+                
+                {% if all_page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ all_page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ all_page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="card">
+                    <div class="card-body py-5">
+                        <i class="fas fa-calendar-alt text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h4 class="text-primary mb-3">No Upcoming Events</h4>
+                        <p class="text-muted">We're planning some exciting events. Check back soon for updates!</p>
+                        <a href="{% url 'frontend:contact' %}" class="btn btn-primary">
+                            <i class="fas fa-envelope me-2"></i>Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+
+<!-- Past Events -->
+{% if past_events %}
+<section id="past-events" class="section-padding bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Past Events</h2>
+                <p class="lead">See what we've accomplished together</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for event in past_events %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 opacity-75">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             class="card-img-top" alt="{{ event.title }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title text-primary">{{ event.title }}</h5>
+                            <span class="badge bg-secondary">Past Event</span>
+                        </div>
+                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:15 }}</p>
+                        <div class="mt-auto">
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                            </p>
+                            <p class="text-muted mb-3">
+                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                            </p>
+                            <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-info-circle me-1"></i>View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Back to top button -->
+        <div class="text-center mt-5">
+            <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-up me-2"></i>Back to Top
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Event Categories -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Event Types</h2>
+                <p class="lead">Different types of events we organize</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-heart text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Medical Outreach</h5>
+                        <p class="card-text">Free medical clinics and health awareness programs in rural communities.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-tint text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Water Projects</h5>
+                        <p class="card-text">Borehole drilling ceremonies and water access initiatives.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-utensils text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Food Distribution</h5>
+                        <p class="card-text">Community food drives and feeding programs for families in need.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-cross text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Spiritual Events</h5>
+                        <p class="card-text">Evangelical crusades, Bible studies, and spiritual gatherings.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="section-padding bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">Want to Stay Updated?</h2>
+                <p class="lead mb-4">
+                    Subscribe to our newsletter to receive updates about upcoming events and our work.
+                </p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="{% url 'frontend:contact' %}" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-envelope me-2"></i>Subscribe
+                    </a>
+                    <a href="{% url 'frontend:donate' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-donate me-2"></i>Support Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Smooth Scroll JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Handle View Past Events button click
+        const viewPastEventsBtn = document.getElementById('view-past-events-btn');
+        if (viewPastEventsBtn) {
+            viewPastEventsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Button clicked!'); // Debug log
+                const pastEventsSection = document.getElementById('past-events');
+                if (pastEventsSection) {
+                    console.log('Scrolling to past events section'); // Debug log
+                    pastEventsSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                } else {
+                    console.log('Past events section not found'); // Debug log
+                }
+            });
+            
+            // Add hover effects
+            viewPastEventsBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+            });
+            
+            viewPastEventsBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        }
+    });
+</script>
+
+{% endblock %}

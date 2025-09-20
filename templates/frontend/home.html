@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Optimizing People - Promoting Supernatural Living and Wellness{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section-new">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="hero-title animate-fade-in">
+                    Promoting supernatural living and wellness
+                </h1>
+                <p class="hero-subtitle animate-fade-in">
+                    Sometimes, all it takes to change the world is a little support.<br>
+                    Making an impact in Christ's strength across rural communities.
+                </p>
+                <div class="hero-buttons animate-fade-in">
+                    <a href="{% url 'frontend:donate' %}" class="btn btn-support-mission">
+                        Support Our Mission
+                    </a>
+                    <a href="{% url 'frontend:what_we_do' %}" class="btn btn-learn-more">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission Statement -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Promoting Supernatural Living and Wellness</h2>
+                <p class="lead mb-4">
+                    Optimizing People aims to achieve more in promoting health and living. We are structured to work on many projects 
+                    at rural communities towards improving the lives of others.
+                </p>
+                <p class="mb-0">
+                    It is the heart cry of our Lord Jesus Christ that everyone is saved! Therefore, our desire is to walk in this path; 
+                    proclaiming the gospel. We participate in evangelical crusades but we are not a church or a fellowship. 
+                    Our services are equally opened to Christians and non-Christians.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Activities -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Our Activities</h2>
+                <p class="lead">We are committed to serving communities through various humanitarian activities</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for activity in activities %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card activity-card h-100">
+                    {% if activity.image %}
+                        <img src="{{ activity.image.url }}" class="card-img-top" alt="{{ activity.title }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1559027615 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             class="card-img-top" alt="{{ activity.title }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">{{ activity.title }}</h5>
+                        <p class="card-text flex-grow-1">{{ activity.description }}</p>
+                    </div>
+                    <div class="activity-overlay">
+                        <h5 class="text-white">{{ activity.title }}</h5>
+                        <p class="text-white">{{ activity.description|truncatewords:20 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card activity-card h-100">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                         class="card-img-top" alt="Medical/Mental Health Clinic">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">Medical/Mental Health Clinic</h5>
+                        <p class="card-text flex-grow-1">Providing essential medical and mental health services to underserved communities in rural areas.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card activity-card h-100">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                         class="card-img-top" alt="Rural Borehole Water Supply">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">Rural Borehole Water Supply</h5>
+                        <p class="card-text flex-grow-1">Installing and maintaining clean water sources to improve health and quality of life.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card activity-card h-100">
+                    <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                         class="card-img-top" alt="Food Distribution">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">Food Distribution</h5>
+                        <p class="card-text flex-grow-1">Ensuring families have access to nutritious food through organized distribution programs.</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Our Beliefs -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Our Beliefs</h2>
+                <p class="lead">Our foundation is built on Christian principles and values</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for belief in beliefs %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-cross text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">{{ belief.belief_text|truncatewords:8 }}</h5>
+                        <p class="card-text">{{ belief.belief_text }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-cross text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">We believe in God the Father, God the Son, and the Holy Spirit</h5>
+                        <p class="card-text">Our faith is rooted in the Trinity and the teachings of Jesus Christ.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-heart text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">We believe that God is love and we must live in love</h5>
+                        <p class="card-text">Love is the foundation of all our actions and interactions with others.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-star text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">We believe in God's good plans for all believers</h5>
+                        <p class="card-text">Despite life challenges, we trust in God's perfect plan for our lives.</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Quotes -->
+{% if featured_quotes %}
+<section class="section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Inspirational Quotes</h2>
+                <p class="lead">Words of wisdom and encouragement</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for quote in featured_quotes %}
+            <div class="col-lg-6">
+                <div class="quote-card">
+                    <blockquote class="blockquote mb-0">
+                        <p class="mb-3">"{{ quote.quote_text }}"</p>
+                        <footer class="blockquote-footer">
+                            <cite title="Source Title">
+                                {% if quote.author %}{{ quote.author }}{% endif %}
+                                {% if quote.source %} - {{ quote.source }}{% endif %}
+                            </cite>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'frontend:quotes' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-quote-left me-2"></i>View All Quotes
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Upcoming Events -->
+{% if featured_events %}
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Upcoming Events</h2>
+                <p class="lead">Join us in making a difference</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for event in featured_events %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                             class="card-img-top" alt="{{ event.title }}">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">{{ event.title }}</h5>
+                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
+                        <div class="mt-auto">
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                            </p>
+                            <p class="text-muted mb-3">
+                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                            </p>
+                            {% if event.registration_url %}
+                                <a href="{{ event.registration_url }}" class="btn btn-primary btn-sm" target="_blank">
+                                    Register Now
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'frontend:events' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-calendar me-2"></i>View All Events
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="section-padding bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">Ready to Make a Difference?</h2>
+                <p class="lead mb-4">
+                    Join us in our mission to bring hope, healing, and help to communities in need. 
+                    Your support can change lives.
+                </p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="{% url 'frontend:donate' %}" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-donate me-2"></i>Donate Now
+                    </a>
+                    <a href="{% url 'frontend:contact' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-envelope me-2"></i>Get Involved
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

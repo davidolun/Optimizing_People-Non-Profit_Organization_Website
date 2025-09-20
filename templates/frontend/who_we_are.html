@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% block title %}Who We Are - Optimizing People{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4 animate-fade-in">Who We Are</h1>
+                <p class="lead animate-fade-in">
+                    A Christian non-profit organization dedicated to making a difference through Christ's love
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold text-primary mb-5 text-center">Our Story</h2>
+                
+                <div class="row mb-5">
+                    <div class="col-lg-6">
+                        <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Community helping hands" class="img-fluid rounded-3 shadow">
+                    </div>
+                    <div class="col-lg-6">
+                        <h3 class="h4 text-primary mb-3">Our Foundation</h3>
+                        <p class="mb-3">
+                            Here at Optimizing People, we understand that sometimes, all it takes to change the world is a little support. 
+                            Since the founding vision received, we have been determined to make an impact in Christ's strength.
+                        </p>
+                        <p class="mb-3">
+                            Optimizing People is a dream and kingdom vision that began with revelation about upbringing in the remote part of Nigeria. 
+                            It is inspired further by the Holy Spirit on ministering to society through provision of water outlets, basic human needs, 
+                            free medical/mental health care to the impoverished community in rural areas.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row mb-5">
+                    <div class="col-lg-6 order-lg-2">
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Prayer and community" class="img-fluid rounded-3 shadow">
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <h3 class="h4 text-primary mb-3">Our Mission</h3>
+                        <p class="mb-3">
+                            It is an international, non-denominational, and evangelical non-profit organization. This indicates that we are 
+                            Christian-based believers; upholding the word of God and the leading of the Holy Spirit.
+                        </p>
+                        <p class="mb-3">
+                            Our operation is situated in California, United States, from where we are reaching out to Nigeria and in future 
+                            to the other parts of the world as the Lord leads.
+                        </p>
+                        <p class="mb-0">
+                            It is the heart cry of our Lord Jesus Christ that everyone is saved! Therefore, our desire is to walk in this path; 
+                            proclaiming the gospel. We participate in evangelical crusades but we are not a church or a fellowship. 
+                            Our services are equally opened to Christians and non-Christians.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Team -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Meet Our Team</h2>
+                <p class="lead">The dedicated individuals who lead our mission</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for member in team_members %}
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    {% if member.photo %}
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="team-member-photo">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1507000000 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                             alt="{{ member.name }}" class="team-member-photo">
+                    {% endif %}
+                    <h5 class="text-primary mb-2">{{ member.name }}</h5>
+                    <p class="text-muted mb-3">{{ member.position }}</p>
+                    {% if member.bio %}
+                        <p class="small">{{ member.bio|truncatewords:20 }}</p>
+                    {% endif %}
+                    {% if member.email or member.phone %}
+                        <div class="mt-3">
+                            {% if member.email %}
+                                <a href="mailto:{{ member.email }}" class="btn btn-outline-primary btn-sm me-2">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            {% endif %}
+                            {% if member.phone %}
+                                <a href="tel:{{ member.phone }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-phone"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <!-- Default team members if none are added -->
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                         alt="Team Member" class="team-member-photo">
+                    <h5 class="text-primary mb-2">John Smith</h5>
+                    <p class="text-muted mb-3">Executive Director</p>
+                    <p class="small">Leading our mission with passion and dedication to serve communities in need.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                         alt="Team Member" class="team-member-photo">
+                    <h5 class="text-primary mb-2">Sarah Johnson</h5>
+                    <p class="text-muted mb-3">Program Director</p>
+                    <p class="small">Overseeing our medical and health programs to ensure maximum impact.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                         alt="Team Member" class="team-member-photo">
+                    <h5 class="text-primary mb-2">Michael Brown</h5>
+                    <p class="text-muted mb-3">Operations Manager</p>
+                    <p class="small">Managing day-to-day operations and ensuring smooth program delivery.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                         alt="Team Member" class="team-member-photo">
+                    <h5 class="text-primary mb-2">Emily Davis</h5>
+                    <p class="text-muted mb-3">Community Outreach Coordinator</p>
+                    <p class="small">Building relationships with communities and coordinating outreach efforts.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Our Values -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Our Values</h2>
+                <p class="lead">The principles that guide everything we do</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-heart text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Love</h5>
+                        <p class="card-text">We believe that God is love and we must live in love, showing compassion to all people regardless of their background or circumstances.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-hands-helping text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Service</h5>
+                        <p class="card-text">We are committed to serving others with humility and dedication, following the example of Jesus Christ in our daily work.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-cross text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Faith</h5>
+                        <p class="card-text">Our work is grounded in faith and trust in God's plan, believing in His good plans for all believers despite life challenges.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-globe text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Global Impact</h5>
+                        <p class="card-text">We are committed to reaching communities worldwide, starting from Nigeria and expanding as the Lord leads us.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-users text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Inclusivity</h5>
+                        <p class="card-text">Our services are open to both Christians and non-Christians, welcoming all who need help and support.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-seedling text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Sustainability</h5>
+                        <p class="card-text">We focus on creating lasting change through sustainable solutions that empower communities for long-term success.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h3 class="text-primary mb-4 text-center">Get in Touch</h3>
+                        <p class="text-center text-muted mb-4">
+                            Have questions about our work or want to get involved? We'd love to hear from you!
+                        </p>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ contact_form.name.id_for_label }}" class="form-label">Full Name *</label>
+                                    {{ contact_form.name }}
+                                    {% if contact_form.name.errors %}
+                                        <div class="text-danger small mt-1">{{ contact_form.name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ contact_form.email.id_for_label }}" class="form-label">Email Address *</label>
+                                    {{ contact_form.email }}
+                                    {% if contact_form.email.errors %}
+                                        <div class="text-danger small mt-1">{{ contact_form.email.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ contact_form.phone.id_for_label }}" class="form-label">Phone Number</label>
+                                    {{ contact_form.phone }}
+                                    {% if contact_form.phone.errors %}
+                                        <div class="text-danger small mt-1">{{ contact_form.phone.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ contact_form.subject.id_for_label }}" class="form-label">Subject *</label>
+                                    {{ contact_form.subject }}
+                                    {% if contact_form.subject.errors %}
+                                        <div class="text-danger small mt-1">{{ contact_form.subject.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-12">
+                                    <label for="{{ contact_form.message.id_for_label }}" class="form-label">Message *</label>
+                                    {{ contact_form.message }}
+                                    {% if contact_form.message.errors %}
+                                        <div class="text-danger small mt-1">{{ contact_form.message.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

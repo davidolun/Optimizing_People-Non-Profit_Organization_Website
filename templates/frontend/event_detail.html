@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }} - Optimizing People{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4 animate-fade-in">{{ event.title }}</h1>
+                <p class="lead animate-fade-in">
+                    <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }} at {{ event.date|time:"g:i A" }}
+                </p>
+                <p class="lead animate-fade-in">
+                    <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Event Details -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    {% if event.image %}
+                    <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}" style="height: 400px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body p-5">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5 class="text-primary">
+                                    <i class="fas fa-calendar-alt me-2"></i>Date & Time
+                                </h5>
+                                <p class="mb-0">{{ event.date|date:"F j, Y" }} at {{ event.date|time:"g:i A" }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="text-primary">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Location
+                                </h5>
+                                <p class="mb-0">{{ event.location }}</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-primary mb-3">Event Description</h3>
+                        <div class="event-description">
+                            {{ event.description|linebreaks }}
+                        </div>
+                        
+                        {% if event.registration_url %}
+                        <div class="text-center mt-4">
+                            <a href="{{ event.registration_url }}" class="btn btn-primary btn-lg" target="_blank">
+                                <i class="fas fa-user-plus me-2"></i>Register Now
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Events -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Other Events</h2>
+                <p class="lead">Check out our other upcoming events</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-alt text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">View All Events</h5>
+                        <p class="card-text">See all our upcoming events and activities</p>
+                        <a href="{% url 'frontend:events' %}" class="btn btn-primary">
+                            <i class="fas fa-list me-2"></i>View Events
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-envelope text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Get Updates</h5>
+                        <p class="card-text">Subscribe to receive event notifications</p>
+                        <a href="{% url 'frontend:contact' %}" class="btn btn-secondary">
+                            <i class="fas fa-bell me-2"></i>Subscribe
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-donate text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Support Us</h5>
+                        <p class="card-text">Help us continue organizing these events</p>
+                        <a href="{% url 'frontend:donate' %}" class="btn btn-success">
+                            <i class="fas fa-heart me-2"></i>Donate
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

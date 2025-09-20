@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ team_member.name }} - Optimizing People{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4 animate-fade-in">{{ team_member.name }}</h1>
+                <p class="lead animate-fade-in">{{ team_member.position }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Member Details -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <div class="row">
+                            <div class="col-lg-4 text-center mb-4">
+                                {% if team_member.photo %}
+                                    <img src="{{ team_member.photo.url }}" alt="{{ team_member.name }}" class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
+                                {% else %}
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                                         alt="{{ team_member.name }}" class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-8">
+                                <h3 class="text-primary mb-3">{{ team_member.name }}</h3>
+                                <h5 class="text-secondary mb-4">{{ team_member.position }}</h5>
+                                
+                                {% if team_member.bio %}
+                                <div class="mb-4">
+                                    <h5 class="text-primary">About</h5>
+                                    <p>{{ team_member.bio|linebreaks }}</p>
+                                </div>
+                                {% endif %}
+                                
+                                {% if team_member.email or team_member.phone %}
+                                <div class="mb-4">
+                                    <h5 class="text-primary">Contact Information</h5>
+                                    {% if team_member.email %}
+                                    <p class="mb-2">
+                                        <i class="fas fa-envelope me-2"></i>
+                                        <a href="mailto:{{ team_member.email }}">{{ team_member.email }}</a>
+                                    </p>
+                                    {% endif %}
+                                    {% if team_member.phone %}
+                                    <p class="mb-0">
+                                        <i class="fas fa-phone me-2"></i>
+                                        <a href="tel:{{ team_member.phone }}">{{ team_member.phone }}</a>
+                                    </p>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Other Team Members -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold text-primary mb-4">Meet Our Team</h2>
+                <p class="lead">Get to know the rest of our dedicated team</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">View All Team</h5>
+                        <p class="card-text">Meet all our team members</p>
+                        <a href="{% url 'frontend:who_we_are' %}" class="btn btn-primary">
+                            <i class="fas fa-arrow-right me-2"></i>View Team
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body text-center">
+                        <i class="fas fa-envelope text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Contact Us</h5>
+                        <p class="card-text">Get in touch with our team</p>
+                        <a href="{% url 'frontend:contact' %}" class="btn btn-secondary">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body text-center">
+                        <i class="fas fa-hands-helping text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Volunteer</h5>
+                        <p class="card-text">Join our mission</p>
+                        <a href="{% url 'frontend:contact' %}" class="btn btn-success">
+                            <i class="fas fa-user-plus me-2"></i>Volunteer
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <div class="card-body text-center">
+                        <i class="fas fa-donate text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title text-primary">Support Us</h5>
+                        <p class="card-text">Help our mission</p>
+                        <a href="{% url 'frontend:donate' %}" class="btn btn-warning">
+                            <i class="fas fa-heart me-2"></i>Donate
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,60 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="#000000"/>
+  
+  <!-- Globe -->
+  <circle cx="100" cy="100" r="80" fill="#2E86AB" stroke="#1A5F7A" stroke-width="2"/>
+  
+  <!-- Landmasses -->
+  <path d="M 40 60 Q 50 50 60 55 Q 70 60 80 55 Q 90 50 100 55 Q 110 50 120 55 Q 130 60 140 55 Q 150 50 160 60 Q 155 70 150 80 Q 145 90 140 100 Q 135 110 130 120 Q 125 130 120 125 Q 115 120 110 125 Q 105 130 100 125 Q 95 120 90 125 Q 85 130 80 125 Q 75 120 70 125 Q 65 130 60 125 Q 55 120 50 125 Q 45 130 40 125 Q 35 120 40 110 Q 40 100 40 90 Q 40 80 40 70 Q 40 60" fill="#90EE90"/>
+  
+  <!-- Additional landmass -->
+  <path d="M 60 140 Q 70 135 80 140 Q 90 145 100 140 Q 110 145 120 140 Q 130 135 140 140 Q 135 150 130 160 Q 125 170 120 175 Q 115 180 110 175 Q 105 170 100 175 Q 95 180 90 175 Q 85 170 80 175 Q 75 180 70 175 Q 65 170 60 160 Q 60 150 60 140" fill="#90EE90"/>
+  
+  <!-- Dancing figures -->
+  <g transform="translate(100, 60)">
+    <!-- Figure 1 (light blue) -->
+    <circle cx="-15" cy="-5" r="3" fill="#87CEEB"/>
+    <rect x="-18" y="-2" width="6" height="8" fill="#87CEEB"/>
+    <line x1="-15" y1="6" x2="-20" y2="12" stroke="#87CEEB" stroke-width="2"/>
+    <line x1="-15" y1="6" x2="-10" y2="12" stroke="#87CEEB" stroke-width="2"/>
+    <line x1="-15" y1="2" x2="-18" y2="8" stroke="#87CEEB" stroke-width="2"/>
+    <line x1="-15" y1="2" x2="-12" y2="8" stroke="#87CEEB" stroke-width="2"/>
+  </g>
+  
+  <g transform="translate(100, 60)">
+    <!-- Figure 2 (reddish-orange) -->
+    <circle cx="15" cy="-5" r="3" fill="#FF7F50"/>
+    <rect x="12" y="-2" width="6" height="8" fill="#FF7F50"/>
+    <line x1="15" y1="6" x2="10" y2="12" stroke="#FF7F50" stroke-width="2"/>
+    <line x1="15" y1="6" x2="20" y2="12" stroke="#FF7F50" stroke-width="2"/>
+    <line x1="15" y1="2" x2="12" y2="8" stroke="#FF7F50" stroke-width="2"/>
+    <line x1="15" y1="2" x2="18" y2="8" stroke="#FF7F50" stroke-width="2"/>
+  </g>
+  
+  <!-- Cupped hands -->
+  <g transform="translate(100, 130)">
+    <path d="M -15 0 Q -20 -5 -15 -10 Q -10 -15 -5 -10 Q 0 -5 5 -10 Q 10 -15 15 -10 Q 20 -5 15 0 Q 10 5 5 0 Q 0 5 -5 0 Q -10 5 -15 0" fill="#87CEEB" stroke="#5F9EA0" stroke-width="1"/>
+  </g>
+  
+  <!-- Heart with cross -->
+  <g transform="translate(100, 130)">
+    <path d="M 0 -5 Q -3 -8 -6 -5 Q -6 -2 -3 1 Q 0 4 3 1 Q 6 -2 6 -5 Q 3 -8 0 -5" fill="#FF0000"/>
+    <line x1="-2" y1="-3" x2="2" y2="-3" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="-5" x2="0" y2="-1" stroke="white" stroke-width="1"/>
+  </g>
+  
+  <!-- Droplet -->
+  <g transform="translate(100, 120)">
+    <path d="M 0 -8 Q -2 -10 -4 -8 Q -4 -6 -2 -4 Q 0 -2 2 -4 Q 4 -6 4 -8 Q 2 -10 0 -8" fill="url(#dropletGradient)"/>
+    <defs>
+      <linearGradient id="dropletGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#FF0000;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#90EE90;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+  </g>
+  
+  <!-- Text "OPTIMIZING PEOPLE" -->
+  <text x="100" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FF0000" stroke="#FFFFFF" stroke-width="0.5">OPTIMIZING PEOPLE</text>
+</svg>
