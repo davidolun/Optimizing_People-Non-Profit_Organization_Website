@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-change-this-in-production-12345'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.8','0.0.0.0','knightly-sherril-dynamometric.ngrok-free.dev' ]
 
 
 # Application definition

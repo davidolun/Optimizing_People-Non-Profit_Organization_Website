@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 app_name = 'frontend'
 
 urlpatterns = [
@@ -21,4 +22,4 @@ urlpatterns = [
     path('api/newsletter-signup/', views.newsletter_signup, name='newsletter_signup'),
     path('api/get-quote/', views.get_quote, name='get_quote'),
     path('search-events/', views.search_events, name='search_events'),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
