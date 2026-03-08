@@ -1,0 +1,131 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block content %}
+<div class="mb-5">
+    <h1 class="fw-bold mb-2" style="color: #1d1d1f; letter-spacing: -1px;">Dashboard Overview</h1>
+    <p class="text-secondary fs-5" style="font-weight: 400;">Welcome back. Here is a quick summary of your metrics.</p>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-4 mb-5">
+    <!-- Total Events -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 rounded-4 h-100 p-3" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="small fw-semibold text-secondary text-uppercase mb-1" style="letter-spacing: 0.5px;">Total Events</div>
+                        <div class="h2 mb-0 fw-bold" style="color: #1d1d1f; letter-spacing: -0.5px;">{{ total_events }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center rounded-circle" style="width: 48px; height: 48px; background-color: rgba(0, 113, 227, 0.1);">
+                            <i class="fas fa-calendar fa-lg" style="color: #0071e3;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Images -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 rounded-4 h-100 p-3" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="small fw-semibold text-secondary text-uppercase mb-1" style="letter-spacing: 0.5px;">Gallery Images</div>
+                        <div class="h2 mb-0 fw-bold" style="color: #1d1d1f; letter-spacing: -0.5px;">{{ total_gallery }}</div>
+                     </div>
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center rounded-circle" style="width: 48px; height: 48px; background-color: rgba(52, 199, 89, 0.1);">
+                            <i class="fas fa-images fa-lg" style="color: #34c759;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Members -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 rounded-4 h-100 p-3" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="small fw-semibold text-secondary text-uppercase mb-1" style="letter-spacing: 0.5px;">Active Team</div>
+                        <div class="h2 mb-0 fw-bold" style="color: #1d1d1f; letter-spacing: -0.5px;">{{ total_team }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center rounded-circle" style="width: 48px; height: 48px; background-color: rgba(88, 86, 214, 0.1);">
+                            <i class="fas fa-users fa-lg" style="color: #5856d6;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Messages -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 rounded-4 h-100 p-3" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="small fw-semibold text-secondary text-uppercase mb-1" style="letter-spacing: 0.5px;">Unread Messages</div>
+                        <div class="h2 mb-0 fw-bold" style="color: #1d1d1f; letter-spacing: -0.5px;">{{ unread_messages }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="d-flex justify-content-center align-items-center rounded-circle" style="width: 48px; height: 48px; background-color: rgba(255, 149, 0, 0.1);">
+                            <i class="fas fa-envelope fa-lg" style="color: #ff9500;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card border-0 rounded-4 mb-5" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
+            <div class="card-header bg-transparent py-4 d-flex flex-row align-items-center justify-content-between border-0 border-bottom border-secondary border-opacity-10">
+                <h5 class="m-0 fw-bold" style="color: #1d1d1f;">Recently Added Events</h5>
+                <a href="{% url 'dashboard:event_list' %}" class="btn btn-sm px-3 rounded-pill fw-medium" style="background-color: #f5f5f7; color: #1d4ed8;">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 border-0">
+                        <thead style="background-color: transparent;">
+                            <tr>
+                                <th class="ps-4 text-secondary fw-normal border-0 pt-3 pb-2 small">Title</th>
+                                <th class="text-secondary fw-normal border-0 pt-3 pb-2 small">Date</th>
+                                <th class="text-secondary fw-normal border-0 pt-3 pb-2 small">Location</th>
+                                <th class="text-secondary fw-normal border-0 pt-3 pb-2 small">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in recent_events %}
+                            <tr>
+                                <td class="ps-4 fw-medium border-light">
+                                    <a href="{% url 'dashboard:event_update' event.id %}" class="text-decoration-none" style="color: #1d1d1f;">{{ event.title }}</a>
+                                </td>
+                                <td class="text-secondary border-light">{{ event.date|date:"M j, Y" }}</td>
+                                <td class="text-secondary small border-light">{{ event.location }}</td>
+                                <td class="border-light">
+                                    {% if event.is_upcoming %}
+                                        <span class="badge rounded-pill fw-medium" style="background-color: rgba(52, 199, 89, 0.1); color: #34c759; padding: 6px 12px;">Upcoming</span>
+                                    {% else %}
+                                        <span class="badge rounded-pill fw-medium" style="background-color: rgba(142, 142, 147, 0.1); color: #8e8e93; padding: 6px 12px;">Past</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="text-center py-5 text-secondary border-0">No events in database.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

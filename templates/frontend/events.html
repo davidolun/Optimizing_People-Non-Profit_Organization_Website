@@ -77,12 +77,7 @@
             {% for event in featured_events %}
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100">
-                    {% if event.image %}
-                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                             class="card-img-top" alt="{{ event.title }}">
-                    {% endif %}
+                    <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h5 class="card-title text-primary">{{ event.title }}</h5>
@@ -91,7 +86,7 @@
                         <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
                         <div class="mt-auto">
                             <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
                             </p>
                             <p class="text-muted mb-3">
                                 <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
@@ -137,12 +132,7 @@
             {% for event in events %}
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100 shadow-lg">
-                    {% if event.image %}
-                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                             class="card-img-top" alt="{{ event.title }}">
-                    {% endif %}
+                    <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h5 class="card-title text-primary">{{ event.title }}</h5>
@@ -151,7 +141,7 @@
                         <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
                         <div class="mt-auto">
                             <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
                             </p>
                             <p class="text-muted mb-2">
                                 <i class="fas fa-clock me-2"></i>{{ event.date|time:"g:i A" }}
@@ -244,18 +234,13 @@
             {% for event in all_events %}
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100">
-                    {% if event.image %}
-                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                             class="card-img-top" alt="{{ event.title }}">
-                    {% endif %}
+                    <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-primary">{{ event.title }}</h5>
                         <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
                         <div class="mt-auto">
                             <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
                             </p>
                             <p class="text-muted mb-2">
                                 <i class="fas fa-clock me-2"></i>{{ event.date|time:"g:i A" }}
@@ -346,12 +331,7 @@
             {% for event in past_events %}
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100 opacity-75">
-                    {% if event.image %}
-                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                             class="card-img-top" alt="{{ event.title }}">
-                    {% endif %}
+                    <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h5 class="card-title text-primary">{{ event.title }}</h5>
@@ -360,7 +340,7 @@
                         <p class="card-text flex-grow-1">{{ event.description|truncatewords:15 }}</p>
                         <div class="mt-auto">
                             <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
+                                <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
                             </p>
                             <p class="text-muted mb-3">
                                 <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}

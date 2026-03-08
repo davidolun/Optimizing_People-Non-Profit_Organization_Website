@@ -1,26 +1,569 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home - Optimizing People - Promoting Supernatural Living and Wellness{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Montserrat:wght@800;900&display=swap');
+
+    /* Hero Section */
+    .hero-section-new {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                    url('{% static "images/hero-image.jpg" %}'); /* Fallback image */
+        background-size: cover;
+        background-position: center;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding-top: 80px;
+    }
+    
+    .hero-title-new {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 5rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: white;
+        margin-bottom: 1.5rem;
+        letter-spacing: -1.5px;
+    }
+    
+    .hero-highlight {
+        color: #D4F870; /* Neon yellow-green from design */
+    }
+    
+    .hero-subtitle-new {
+        font-size: 1.15rem;
+        font-weight: 500;
+        color: white;
+        max-width: 800px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.6;
+    }
+    
+    .btn-solid-white {
+        background-color: white;
+        color: #1e3a8a;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        font-size: 1rem;
+    }
+    
+    .btn-solid-white:hover {
+        background-color: #f8f9fa;
+        color: #1e3a8a;
+        transform: translateY(-2px);
+    }
+    
+    .btn-outline-white {
+        background-color: transparent;
+        color: white;
+        border: 1px solid white;
+        padding: 14px 32px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        font-size: 1rem;
+    }
+    
+    .btn-outline-white:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .hero-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    /* Stats Section */
+    .stats-section {
+        background-color: #F6F6F6;
+        padding: 60px 0;
+    }
+    
+    .stat-number {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #1e3a8a; /* Deep blue from design */
+        margin-bottom: -2px;
+        line-height: 1.1;
+        letter-spacing: -1px;
+    }
+    
+    .stat-label {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #333;
+    }
+
+    /* Events Section */
+    .events-section {
+        padding: 80px 0;
+        background-color: white;
+    }
+    
+    .section-tag {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #333;
+        display: block;
+        text-align: center;
+        margin-bottom: 8px;
+        text-transform: capitalize;
+    }
+    
+    .section-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #1e3a8a;
+        text-align: center;
+        margin-bottom: 20px;
+        letter-spacing: -1px;
+    }
+    
+    .section-subtitle {
+        text-align: center;
+        font-size: 1.1rem;
+        color: #555;
+        max-width: 650px;
+        margin: 0 auto 40px;
+        line-height: 1.6;
+    }
+    
+    .filters-wrapper {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .filters-container {
+        background-color: #E6EFFF;
+        border-radius: 12px;
+        padding: 6px;
+        display: inline-flex;
+        gap: 5px;
+    }
+    
+    .filter-btn {
+        border: none;
+        background: transparent;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        color: #333;
+        transition: all 0.3s;
+        font-size: 0.95rem;
+    }
+    
+    .filter-btn.active {
+        background-color: #1e3a8a;
+        color: white;
+    }
+    
+    .event-card {
+        border: 1px solid #E5E7EB;
+        border-radius: 20px;
+        overflow: hidden;
+        background: white;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s;
+    }
+    
+    .event-card:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transform: translateY(-5px);
+    }
+    
+    .event-img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+    }
+    
+    .event-body {
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    
+    .event-title {
+        color: #1e3a8a;
+        font-weight: 800;
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+    }
+    
+    .event-meta {
+        font-size: 0.85rem;
+        color: #4B5563;
+        margin-bottom: 15px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    .event-meta i {
+        color: #1e3a8a;
+        margin-right: 5px;
+    }
+    
+    .event-desc {
+        color: #4B5563;
+        font-size: 0.95rem;
+        margin-bottom: 25px;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+    
+    .btn-view-details {
+        display: inline-block;
+        padding: 8px 20px;
+        border: 1px solid #1e3a8a;
+        color: #1e3a8a;
+        background: white;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        width: max-content;
+    }
+    
+    .btn-view-details:hover {
+        background: #1e3a8a;
+        color: white;
+    }
+    
+    .btn-solid-blue {
+        background-color: #1e3a8a;
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        font-size: 1rem;
+    }
+    
+    .btn-solid-blue:hover {
+        background-color: #152968;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    /* About Us Section */
+    .about-section {
+        padding: 80px 0;
+        background-color: white;
+    }
+    
+    .about-tag {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 8px;
+    }
+    
+    .about-title {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin-bottom: 30px;
+        letter-spacing: -1px;
+    }
+    
+    .about-text {
+        font-size: 1.05rem;
+        color: #4B5563;
+        line-height: 1.7;
+        margin-bottom: 24px;
+    }
+    
+    .team-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+    
+    .team-member {
+        border: 1px solid #E5E7EB;
+        background: white;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .team-img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        object-position: center;
+        background-color: white;
+        padding: 10px;
+    }
+    .team-img-cover {
+        object-fit: cover !important;
+        object-position: center !important;
+        padding: 10px !important;
+    }
+    
+    .team-info {
+        background-color: #123386;
+        color: white;
+        padding: 15px 10px;
+        text-align: center;
+        border-top: 1px solid #E5E7EB;
+    }
+    
+    .team-name {
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin: 0 0 2px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .team-role {
+        font-size: 0.75rem;
+        margin: 0;
+        font-weight: 400;
+        color: #E6EFFF;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title-new {
+            font-size: 3rem;
+        }
+        .stat-number {
+            font-size: 2rem;
+        }
+        .hero-buttons {
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .team-grid {
+            grid-template-columns: 1fr;
+            margin-top: 40px;
+        }
+        .filters-container {
+            flex-direction: column;
+            width: 100%;
+        }
+    }
+
+    /* Mission & Vision Section */
+    .mission-vision-section {
+        background-color: #1e3a8a;
+        padding: 90px 0;
+        color: white;
+    }
+    
+    .mv-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin-bottom: 25px;
+        letter-spacing: -1px;
+    }
+    
+    .mv-text {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #E6EFFF;
+        max-width: 100%;
+    }
+    
+    .mv-img-container {
+        text-align: center;
+    }
+    
+    .mv-img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        display: inline-block;
+        border-radius: 16px;
+        
+        /* Visually crop the bottom of the image to hide the AI watermark and curve borders */
+        clip-path: inset(0 0 10% 0 round 16px);
+    }
+    
+    .mv-row {
+        align-items: center;
+    }
+    
+    @media (max-width: 991px) {
+        .mv-text {
+            max-width: 100%;
+        }
+        .mv-img {
+            width: 90%;
+            margin-bottom: 20px;
+        }
+    }
+
+    /* Beliefs Section */
+    .beliefs-section {
+        padding: 80px 0 40px;
+        background-color: white;
+    }
+    
+    .beliefs-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin-bottom: 50px;
+        text-align: center;
+        letter-spacing: -1px;
+    }
+    
+    .belief-card {
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .belief-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #000;
+        margin-bottom: 15px;
+    }
+    
+    .belief-text {
+        font-size: 1.05rem;
+        color: #4B5563;
+        line-height: 1.6;
+    }
+
+    /* Gallery Section */
+    .gallery-section {
+        padding: 40px 0 80px;
+        background-color: white;
+    }
+    
+    .gallery-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin-bottom: 15px;
+        text-align: center;
+        letter-spacing: -1px;
+    }
+    
+    .gallery-subtitle {
+        text-align: center;
+        font-size: 1.05rem;
+        color: #4B5563;
+        max-width: 650px;
+        margin: 0 auto 50px;
+        line-height: 1.6;
+    }
+    
+    .gallery-carousel {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: relative;
+    }
+    
+    .gallery-track {
+        display: flex;
+        gap: 20px;
+        overflow: hidden;
+        flex: 1;
+    }
+    
+    .gallery-img-container {
+        flex: 0 0 calc(33.333% - 14px);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    
+    .gallery-img-container.center-img {
+        transform: none;
+    }
+    
+    .gallery-img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+    
+    .gallery-nav-btn {
+        background-color: #E6EFFF;
+        color: #1e3a8a;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    
+    .gallery-nav-btn:hover {
+        background-color: #1e3a8a;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .gallery-carousel {
+            flex-direction: column;
+        }
+        .gallery-img-container.center-img {
+            transform: scale(1);
+        }
+        .gallery-nav-btn {
+            display: none;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
 <section class="hero-section-new">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h1 class="hero-title animate-fade-in">
-                    Promoting supernatural living and wellness
+            <div class="col-lg-10">
+                <h1 class="hero-title-new animate-fade-in">
+                    Transforming lives<br>
+                    <span class="hero-highlight">through Christ's Love</span>
                 </h1>
-                <p class="hero-subtitle animate-fade-in">
-                    Sometimes, all it takes to change the world is a little support.<br>
-                    Making an impact in Christ's strength across rural communities.
+                <p class="hero-subtitle-new animate-fade-in">
+                    Join us in bringing Hope, Health, and Spiritual Wellness to Communities in Nigeria through Medical Outreaches, Clean Water Projects, and Evangelical Missions.
                 </p>
                 <div class="hero-buttons animate-fade-in">
-                    <a href="{% url 'frontend:donate' %}" class="btn btn-support-mission">
+                    <a href="{% url 'frontend:donate' %}" class="btn-solid-white">
                         Support Our Mission
                     </a>
-                    <a href="{% url 'frontend:what_we_do' %}" class="btn btn-learn-more">
-                        Learn More
+                    <a href="{% url 'frontend:programs' %}?time=upcoming" class="btn-outline-white">
+                        Upcoming Events <i class="fa-solid fa-arrow-right-up ms-1" style="transform: rotate(45deg);"></i>
                     </a>
                 </div>
             </div>
@@ -28,256 +571,262 @@
     </div>
 </section>
 
-<!-- Mission Statement -->
-<section class="section-padding bg-light">
+<!-- Stats Section -->
+<section class="stats-section">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Promoting Supernatural Living and Wellness</h2>
-                <p class="lead mb-4">
-                    Optimizing People aims to achieve more in promoting health and living. We are structured to work on many projects 
-                    at rural communities towards improving the lives of others.
-                </p>
-                <p class="mb-0">
-                    It is the heart cry of our Lord Jesus Christ that everyone is saved! Therefore, our desire is to walk in this path; 
-                    proclaiming the gospel. We participate in evangelical crusades but we are not a church or a fellowship. 
-                    Our services are equally opened to Christians and non-Christians.
-                </p>
+        <div class="d-flex flex-wrap justify-content-center" style="gap: 2.5rem 6rem;">
+            <div class="text-center">
+                <div class="stat-number animate-fade-in">9,000+</div>
+                <div class="stat-label">Lives Impacted</div>
+            </div>
+            <div class="text-center">
+                <div class="stat-number animate-fade-in">10+</div>
+                <div class="stat-label">Collaborators</div>
+            </div>
+            <div class="text-center">
+                <div class="stat-number animate-fade-in">200+</div>
+                <div class="stat-label">Donations</div>
+            </div>
+            <div class="text-center">
+                <div class="stat-number animate-fade-in">20+</div>
+                <div class="stat-label">Assisted Communities</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Our Activities -->
-<section class="section-padding">
+<!-- Events & Outreaches -->
+<section class="events-section">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Our Activities</h2>
-                <p class="lead">We are committed to serving communities through various humanitarian activities</p>
-            </div>
-        </div>
+        <span class="section-tag animate-fade-in">Programs</span>
+        <h2 class="section-title animate-fade-in">Events & Outreaches</h2>
+        <p class="section-subtitle animate-fade-in">
+            Browse through our history of crusades and medical outreaches that have touched lives across Africa
+        </p>
         
-        <div class="row g-4">
-            {% for activity in activities %}
-            <div class="col-lg-4 col-md-6">
-                <div class="card activity-card h-100">
-                    {% if activity.image %}
-                        <img src="{{ activity.image.url }}" class="card-img-top" alt="{{ activity.title }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1559027615 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                             class="card-img-top" alt="{{ activity.title }}">
-                    {% endif %}
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary">{{ activity.title }}</h5>
-                        <p class="card-text flex-grow-1">{{ activity.description }}</p>
-                    </div>
-                    <div class="activity-overlay">
-                        <h5 class="text-white">{{ activity.title }}</h5>
-                        <p class="text-white">{{ activity.description|truncatewords:20 }}</p>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-lg-4 col-md-6">
-                <div class="card activity-card h-100">
-                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                         class="card-img-top" alt="Medical/Mental Health Clinic">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary">Medical/Mental Health Clinic</h5>
-                        <p class="card-text flex-grow-1">Providing essential medical and mental health services to underserved communities in rural areas.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card activity-card h-100">
-                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                         class="card-img-top" alt="Rural Borehole Water Supply">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary">Rural Borehole Water Supply</h5>
-                        <p class="card-text flex-grow-1">Installing and maintaining clean water sources to improve health and quality of life.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card activity-card h-100">
-                    <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                         class="card-img-top" alt="Food Distribution">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary">Food Distribution</h5>
-                        <p class="card-text flex-grow-1">Ensuring families have access to nutritious food through organized distribution programs.</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- Our Beliefs -->
-<section class="section-padding bg-light">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Our Beliefs</h2>
-                <p class="lead">Our foundation is built on Christian principles and values</p>
-            </div>
-        </div>
-        
-        <div class="row g-4">
-            {% for belief in beliefs %}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-cross text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">{{ belief.belief_text|truncatewords:8 }}</h5>
-                        <p class="card-text">{{ belief.belief_text }}</p>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-cross text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">We believe in God the Father, God the Son, and the Holy Spirit</h5>
-                        <p class="card-text">Our faith is rooted in the Trinity and the teachings of Jesus Christ.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-heart text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">We believe that God is love and we must live in love</h5>
-                        <p class="card-text">Love is the foundation of all our actions and interactions with others.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-star text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">We believe in God's good plans for all believers</h5>
-                        <p class="card-text">Despite life challenges, we trust in God's perfect plan for our lives.</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- Featured Quotes -->
-{% if featured_quotes %}
-<section class="section-padding">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Inspirational Quotes</h2>
-                <p class="lead">Words of wisdom and encouragement</p>
-            </div>
-        </div>
-        
-        <div class="row g-4">
-            {% for quote in featured_quotes %}
-            <div class="col-lg-6">
-                <div class="quote-card">
-                    <blockquote class="blockquote mb-0">
-                        <p class="mb-3">"{{ quote.quote_text }}"</p>
-                        <footer class="blockquote-footer">
-                            <cite title="Source Title">
-                                {% if quote.author %}{{ quote.author }}{% endif %}
-                                {% if quote.source %} - {{ quote.source }}{% endif %}
-                            </cite>
-                        </footer>
-                    </blockquote>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        
-        <div class="text-center mt-4">
-            <a href="{% url 'frontend:quotes' %}" class="btn btn-primary btn-lg">
-                <i class="fas fa-quote-left me-2"></i>View All Quotes
-            </a>
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<!-- Upcoming Events -->
-{% if featured_events %}
-<section class="section-padding bg-light">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Upcoming Events</h2>
-                <p class="lead">Join us in making a difference</p>
+        <div class="filters-wrapper animate-fade-in">
+            <div class="filters-container" id="eventFilters">
+                <button class="filter-btn active" data-filter="all">All Events</button>
+                <button class="filter-btn bg-white" data-filter="crusade">Crusades</button>
+                <button class="filter-btn bg-white" data-filter="medical">Medical Outreaches</button>
             </div>
         </div>
         
         <div class="row g-4">
             {% for event in featured_events %}
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    {% if event.image %}
-                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-{{ forloop.counter|add:1516975047 }}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                             class="card-img-top" alt="{{ event.title }}">
-                    {% endif %}
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary">{{ event.title }}</h5>
-                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
-                        <div class="mt-auto">
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }}
-                            </p>
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
-                            </p>
-                            {% if event.registration_url %}
-                                <a href="{{ event.registration_url }}" class="btn btn-primary btn-sm" target="_blank">
-                                    Register Now
-                                </a>
-                            {% endif %}
+            <div class="col-lg-4 col-md-6 filterable-event" data-type="{{ event.event_type|default:'other' }}">
+                <div class="event-card animate-fade-in">
+                    <img src="{{ event.thumbnail_url }}" class="event-img" alt="{{ event.title }}">
+                    <div class="event-body">
+                        <h3 class="event-title">{{ event.title }}</h3>
+                        <div class="event-meta">
+                            <span><i class="far fa-calendar-alt"></i> {{ event.formatted_date_range }}</span>
+                            <span><i class="fas fa-map-marker-alt"></i> {{ event.location }}</span>
                         </div>
+                        <p class="event-desc">
+                            {{ event.description|truncatewords:20 }}
+                        </p>
+                        <a href="{% url 'frontend:events' %}" class="btn-view-details">View Details</a>
                     </div>
                 </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center my-5">
+                <p class="text-muted">No upcoming events right now. Check back soon!</p>
             </div>
             {% endfor %}
         </div>
         
-        <div class="text-center mt-4">
-            <a href="{% url 'frontend:events' %}" class="btn btn-primary btn-lg">
-                <i class="fas fa-calendar me-2"></i>View All Events
-            </a>
+        <div class="text-center mt-5 pt-2 animate-fade-in">
+            <a href="{% url 'frontend:programs' %}" class="btn-solid-blue">View All Programs & Events</a>
         </div>
     </div>
 </section>
-{% endif %}
 
-<!-- Call to Action -->
-<section class="section-padding bg-primary text-white">
+<!-- About Us Section -->
+<section class="about-section">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold mb-4">Ready to Make a Difference?</h2>
-                <p class="lead mb-4">
-                    Join us in our mission to bring hope, healing, and help to communities in need. 
-                    Your support can change lives.
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
+                <div class="about-tag animate-fade-in">Get to Know Us</div>
+                <h2 class="about-title animate-fade-in">About Us</h2>
+                <p class="about-text animate-fade-in">
+                    Optimizing People is an international, non-denominational nonprofit organization dedicated to transforming lives through faith-inspired humanitarian work. Founded on a divine vision in 2020, we extend Christ's love by providing Bibles, healthcare, and essential support to underserved communities.
                 </p>
-                <div class="d-flex flex-wrap justify-content-center gap-3">
-                    <a href="{% url 'frontend:donate' %}" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-donate me-2"></i>Donate Now
-                    </a>
-                    <a href="{% url 'frontend:contact' %}" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-envelope me-2"></i>Get Involved
-                    </a>
+                <p class="about-text animate-fade-in">
+                    Based in California, we currently serve communities across Nigeria and are expanding globally as God leads. Our work is rooted in biblical values, compassion, and service to all—regardless of faith or background.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="team-grid">
+                    {% for member in team_members %}
+                    <div class="team-member animate-fade-in">
+                        {% if member.photo %}
+                            <img src="{{ member.photo.url }}" class="team-img team-img-cover" alt="{{ member.name }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="team-img team-img-cover" alt="{{ member.name }}">
+                        {% endif %}
+                        <div class="team-info">
+                            <h4 class="team-name">{{ member.name }}</h4>
+                            <p class="team-role">{{ member.position }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Mission & Vision Section -->
+<section class="mission-vision-section">
+    <div class="container">
+        <!-- Mission -->
+        <div class="row mv-row mb-5 pb-lg-4">
+            <div class="col-lg-5 mb-4 mb-lg-0 order-2 order-lg-1">
+                <h2 class="mv-title animate-fade-in">Our Mission</h2>
+                <p class="mv-text animate-fade-in">
+                    To demonstrate the love of Christ by reaching out to impoverished and rural communities through humanitarian services, health initiatives, and gospel-centered outreach — uplifting lives and inspiring faith-driven change across nations.
+                </p>
+            </div>
+            <div class="col-lg-7 order-1 order-lg-2 mb-4 mb-lg-0">
+                <div class="mv-img-container animate-fade-in text-center">
+                    <img src="https://res.cloudinary.com/duu7pc7s3/image/upload/v1772142947/c677a494e9b68fabb75899ae2f77b00f4354a0ba_ouxxbi.png" 
+                         class="mv-img" alt="Our Mission">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vision -->
+        <div class="row mv-row mt-5 pt-lg-2">
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <div class="mv-img-container animate-fade-in text-center">
+                    <img src="https://res.cloudinary.com/duu7pc7s3/image/upload/v1772142945/0b69e4dae5c21da0e3be11e11738dd387b45228b_cfg4oi.png" 
+                         class="mv-img" alt="Our Vision">
+                </div>
+            </div>
+            <div class="col-lg-5 ps-lg-4">
+                <h2 class="mv-title animate-fade-in">Our Vision</h2>
+                <p class="mv-text animate-fade-in">
+                    To build a world where hope is restored, needs are met, and communities thrive through the transforming power of Christ's love and compassion.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Beliefs Section -->
+<section class="beliefs-section">
+    <div class="container">
+        <h2 class="beliefs-title animate-fade-in">Our Beliefs</h2>
+        
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="belief-card animate-fade-in">
+                    <h3 class="belief-title">God Is Love</h3>
+                    <p class="belief-text">God is love, and we are called to live and walk in that love daily.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="belief-card animate-fade-in">
+                    <h3 class="belief-title">The Trinity</h3>
+                    <p class="belief-text">God the Father, the Son, and the Holy Spirit — three persons in one true God.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="belief-card animate-fade-in">
+                    <h3 class="belief-title">God's Good Plans</h3>
+                    <p class="belief-text">God's plans for every believer are good, even through life's challenges.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section class="gallery-section">
+    <div class="container">
+        <h2 class="gallery-title animate-fade-in">Gallery</h2>
+        <p class="gallery-subtitle animate-fade-in">
+            A visual journey of love in action — showcasing our outreach, community projects, and the lives being transformed through God's grace.
+        </p>
+        
+        <div class="gallery-carousel animate-fade-in">
+            <button class="gallery-nav-btn" id="galleryPrev"><i class="fas fa-arrow-left"></i></button>
+            <div class="gallery-track" id="galleryTrack">
+                {% for image in gallery_images %}
+                <div class="gallery-img-container">
+                    <img src="{{ image.display_url }}" 
+                         class="gallery-img" alt="{{ image.caption|default:'Outreach Activity' }}">
+                </div>
+                {% empty %}
+                <div class="gallery-img-container">
+                    <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         class="gallery-img" alt="Outreach Activity">
+                </div>
+                <div class="gallery-img-container">
+                    <img src="https://images.unsplash.com/photo-1577880216142-8549e9488dad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="gallery-img" alt="Outreach Activity">
+                </div>
+                <div class="gallery-img-container">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         class="gallery-img" alt="Outreach Activity">
+                </div>
+                {% endfor %}
+            </div>
+            <button class="gallery-nav-btn" id="galleryNext"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterBtns = document.querySelectorAll('#eventFilters .filter-btn');
+        const defaultEvents = document.querySelectorAll('.filterable-event');
+
+        if (filterBtns.length > 0 && defaultEvents.length > 0) {
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active state of buttons
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active');
+                        b.classList.add('bg-white');
+                    });
+                    this.classList.add('active');
+                    this.classList.remove('bg-white');
+
+                    // Filter events
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    defaultEvents.forEach(eventCard => {
+                        if (filterValue === 'all') {
+                            eventCard.style.display = 'block';
+                        } else {
+                            if (eventCard.getAttribute('data-type') === filterValue) {
+                                eventCard.style.display = 'block';
+                            } else {
+                                eventCard.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        }
+        // Gallery arrow navigation
+        const track = document.getElementById('galleryTrack');
+        const prevBtn = document.getElementById('galleryPrev');
+        const nextBtn = document.getElementById('galleryNext');
+        
+        if (track && prevBtn && nextBtn) {
+            const scrollAmount = track.querySelector('.gallery-img-container')?.offsetWidth + 20 || 400;
+            prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
+            nextBtn.addEventListener('click', () => track.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+        }
+    });
+</script>
 {% endblock %}

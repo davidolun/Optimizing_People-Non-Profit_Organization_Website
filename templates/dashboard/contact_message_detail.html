@@ -1,0 +1,32 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block content %}
+<div class="mb-5 d-flex justify-content-between align-items-center">
+    <a href="{% url 'dashboard:contact_message_list' %}" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-medium"><i class="fas fa-chevron-left mt-1 me-1"></i> Back to Messages</a>
+    <a href="{% url 'dashboard:contact_message_delete' contact_message.id %}" class="btn btn-sm rounded-pill px-3 fw-medium" style="background-color: rgba(255, 59, 48, 0.1); color: #ff3b30;"><i class="fas fa-trash me-1"></i> Delete</a>
+</div>
+
+<div class="row w-100 mx-auto">
+    <div class="col-lg-8">
+        <div class="card border-0 rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
+            <div class="card-header bg-transparent p-4 border-0 border-bottom" style="border-color: rgba(0,0,0,0.05) !important;">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h4 class="fw-bold mb-0" style="color: #1d1d1f; letter-spacing: -0.5px;">{{ contact_message.subject }}</h4>
+                    <span class="text-secondary small">{{ contact_message.created_at|date:"F j, Y, g:i a" }}</span>
+                </div>
+                <div class="text-secondary mt-3">
+                    <span style="background-color: #f5f5f7; padding: 6px 12px; border-radius: 12px;">From: <strong style="color: #1d1d1f;">{{ contact_message.name }}</strong> ({{ contact_message.email }})</span>
+                    {% if contact_message.phone %}<span class="ms-3" style="background-color: #f5f5f7; padding: 6px 12px; border-radius: 12px;"><i class="fas fa-phone me-2 opacity-50"></i> {{ contact_message.phone }}</span>{% endif %}
+                </div>
+            </div>
+            
+            <div class="card-body p-4 p-md-5 form-control-plaintext" style="background-color: transparent;">
+                <p style="white-space: pre-wrap; font-size: 1.05rem; color: #1d1d1f; line-height: 1.6;" class="mb-0">{{ contact_message.message }}</p>
+            </div>
+            
+            <div class="card-footer bg-transparent border-0 py-4 text-end" style="border-top: 1px solid rgba(0,0,0,0.05) !important;">
+                 <a href="mailto:{{ contact_message.email }}?subject=Re:%20{{ contact_message.subject|urlencode }}" class="btn px-4 rounded-pill shadow-sm fw-medium" style="background-color: #0071e3; color: white;"><i class="fas fa-reply me-2"></i> Reply by Email</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

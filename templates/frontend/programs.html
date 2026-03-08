@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Programme - Optimizing People{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Header */
+    .programs-header {
+        background-color: #f3f4f6;
+        padding: 140px 0 60px;
+        text-align: center;
+    }
+
+    .programs-page-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 4.5rem;
+        font-weight: 900;
+        color: #1e3a8a;
+        margin-bottom: 20px;
+        letter-spacing: -2px;
+    }
+
+    .programs-page-subtitle {
+        font-size: 1.1rem;
+        color: #4B5563;
+        max-width: 700px;
+        margin: 0 auto 40px;
+        line-height: 1.7;
+    }
+
+    /* Filter Buttons */
+    .programs-filters {
+        display: inline-flex;
+        gap: 10px;
+        background: white;
+        border-radius: 50px;
+        padding: 6px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        margin-bottom: 12px;
+    }
+
+    .prog-filter-btn {
+        padding: 10px 24px;
+        border: 1px solid #e5e7eb;
+        border-radius: 50px;
+        background: white;
+        color: #374151;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .prog-filter-btn.active {
+        background: #1e3a8a;
+        color: white;
+        border-color: #1e3a8a;
+    }
+
+    .prog-filter-btn:hover:not(.active) {
+        background: #f9fafb;
+        border-color: #d1d5db;
+    }
+
+    /* Events Grid */
+    .programs-grid {
+        padding: 70px 0;
+        background: white;
+    }
+
+    .program-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .program-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+
+    .program-card-img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+    }
+
+    .program-card-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .program-card-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin-bottom: 10px;
+    }
+
+    .program-card-meta {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+        color: #6B7280;
+        margin-bottom: 14px;
+    }
+
+    .program-card-meta i {
+        color: #1e3a8a;
+        margin-right: 5px;
+    }
+
+    .program-card-desc {
+        font-size: 0.95rem;
+        color: #4B5563;
+        line-height: 1.6;
+        margin-bottom: 24px;
+        flex: 1;
+    }
+
+    .btn-program-details {
+        display: inline-block;
+        padding: 10px 22px;
+        border: 1px solid #374151;
+        color: #374151;
+        background: white;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        width: max-content;
+    }
+
+    .btn-program-details:hover {
+        background: #374151;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .programs-page-title {
+            font-size: 3rem;
+        }
+        .programs-filters {
+            flex-direction: column;
+            width: 90%;
+        }
+        .program-card-img {
+            height: 220px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<section class="programs-header">
+    <div class="container">
+        <h1 class="programs-page-title">Our Programme</h1>
+        <p class="programs-page-subtitle">
+            A visual journey of love in action — showcasing our outreach, community projects, and the lives being transformed through God's grace.
+        </p>
+        <div class="programs-filters" id="timeFilters">
+            <button class="prog-filter-btn active" data-filter="all">All</button>
+            <button class="prog-filter-btn" data-filter="upcoming">Upcoming</button>
+            <button class="prog-filter-btn" data-filter="past">Past</button>
+        </div>
+        <br>
+        <div class="programs-filters" id="typeFilters">
+            <button class="prog-filter-btn active" data-filter="all">All Events</button>
+            <button class="prog-filter-btn" data-filter="crusade">Crusades</button>
+            <button class="prog-filter-btn" data-filter="medical">Medical Outreaches</button>
+        </div>
+    </div>
+</section>
+
+<!-- Events Grid -->
+<section class="programs-grid">
+    <div class="container">
+        <div class="row g-4" id="programCards">
+            {% now "Y-m-d" as today %}
+            {% for event in events %}
+            <div class="col-lg-4 col-md-6 program-item" data-type="{{ event.event_type|default:'other' }}" data-date="{{ event.date|date:'Y-m-d' }}" data-time="{% if event.date|date:'Y-m-d' >= today %}upcoming{% else %}past{% endif %}">
+                <div class="program-card">
+                    <img src="{{ event.thumbnail_url }}" class="program-card-img" alt="{{ event.title }}">
+                    <div class="program-card-body">
+                        <h3 class="program-card-title">{{ event.title }}</h3>
+                        <div class="program-card-meta">
+                            <span><i class="far fa-calendar-alt"></i> {{ event.formatted_date_range }}</span>
+                            <span><i class="fas fa-map-marker-alt"></i> {{ event.location }}</span>
+                        </div>
+                        <p class="program-card-desc">{{ event.description|truncatewords:25 }}</p>
+                        <a href="{% url 'frontend:event_detail' event.id %}" class="btn-program-details">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted" style="font-size:1.1rem;">No programmes available yet. Check back soon!</p>
+            </div>
+            {% endfor %}
+            <div class="col-12 text-center py-5" id="noResults" style="display:none;">
+                <i class="fas fa-search" style="font-size:2.5rem; color:#d1d5db; margin-bottom:15px;"></i>
+                <p style="font-size:1.1rem; color:#6B7280; font-weight:600;">No programmes found for this filter.</p>
+                <p style="font-size:0.95rem; color:#9CA3AF;">Try adjusting your filters or check back later.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const timeBtns = document.querySelectorAll('#timeFilters .prog-filter-btn');
+        const typeBtns = document.querySelectorAll('#typeFilters .prog-filter-btn');
+        const cards = document.querySelectorAll('.program-item');
+        
+        let activeTime = 'all';
+        let activeType = 'all';
+
+        // Check URL for pre-selected time filter
+        const urlParams = new URLSearchParams(window.location.search);
+        const timeParam = urlParams.get('time');
+        if (timeParam && ['upcoming', 'past'].includes(timeParam)) {
+            activeTime = timeParam;
+            timeBtns.forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-filter') === timeParam);
+            });
+        }
+
+        function filterCards() {
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const matchTime = activeTime === 'all' || card.getAttribute('data-time') === activeTime;
+                const matchType = activeType === 'all' || card.getAttribute('data-type') === activeType;
+                const show = matchTime && matchType;
+                card.style.display = show ? 'block' : 'none';
+                if (show) visibleCount++;
+            });
+            document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        timeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                timeBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeTime = this.getAttribute('data-filter');
+                filterCards();
+            });
+        });
+
+        typeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                typeBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeType = this.getAttribute('data-filter');
+                filterCards();
+            });
+        });
+
+        // Apply filters on load (for URL params)
+        filterCards();
+    });
+</script>
+{% endblock %}

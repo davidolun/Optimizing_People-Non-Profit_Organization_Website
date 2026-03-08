@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import (
-    TeamMember, Event, Quote, ContactMessage, 
-    Donation, Activity, Belief, ServiceDetail
+    TeamMember, Event, ContactMessage, GalleryImage, EventStatistic,
+    EventPartner, EventTeamMetric, EventImpact
 )
 
 
@@ -28,18 +28,35 @@ class TeamMemberAdmin(admin.ModelAdmin):
     )
 
 
+class EventStatisticInline(admin.TabularInline):
+    model = EventStatistic
+    extra = 1
+
+class EventPartnerInline(admin.TabularInline):
+    model = EventPartner
+    extra = 1
+
+class EventTeamMetricInline(admin.TabularInline):
+    model = EventTeamMetric
+    extra = 1
+
+class EventImpactInline(admin.TabularInline):
+    model = EventImpact
+    extra = 1
+
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ['title', 'date', 'location', 'is_featured', 'is_upcoming', 'created_at']
-    list_filter = ['is_featured', 'date', 'created_at']
+    list_display = ['title', 'date', 'end_date', 'location', 'event_type', 'is_featured', 'is_upcoming', 'created_at']
+    list_filter = ['is_featured', 'event_type', 'date', 'created_at']
     search_fields = ['title', 'description', 'location']
     list_editable = ['is_featured']
     ordering = ['-date']
     date_hierarchy = 'date'
+    inlines = [EventStatisticInline, EventPartnerInline, EventTeamMetricInline, EventImpactInline]
     
     fieldsets = (
         ('Event Information', {
-            'fields': ('title', 'description', 'date', 'location', 'image')
+            'fields': ('title', 'description', ('date', 'end_date'), 'location', 'event_type', 'image')
         }),
         ('Registration', {
             'fields': ('registration_url',),
@@ -50,18 +67,6 @@ class EventAdmin(admin.ModelAdmin):
         }),
     )
 
-
-@admin.register(Quote)
-class QuoteAdmin(admin.ModelAdmin):
-    list_display = ['quote_preview', 'author', 'source', 'is_featured', 'order', 'created_at']
-    list_filter = ['is_featured', 'created_at']
-    search_fields = ['quote_text', 'author', 'source']
-    list_editable = ['is_featured', 'order']
-    ordering = ['order', '-created_at']
-    
-    def quote_preview(self, obj):
-        return obj.quote_text[:50] + "..." if len(obj.quote_text) > 50 else obj.quote_text
-    quote_preview.short_description = 'Quote Preview'
 
 
 @admin.register(ContactMessage)
@@ -86,82 +91,13 @@ class ContactMessageAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Donation)
-class DonationAdmin(admin.ModelAdmin):
-    list_display = ['donor_name', 'amount', 'donation_type', 'is_anonymous', 'created_at']
-    list_filter = ['donation_type', 'is_anonymous', 'created_at']
-    search_fields = ['donor_name', 'donor_email', 'message']
+
+@admin.register(GalleryImage)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'event', 'created_at']
+    list_filter = ['event', 'created_at']
+    search_fields = ['caption']
     ordering = ['-created_at']
-    readonly_fields = ['created_at']
-    
-    fieldsets = (
-        ('Donor Information', {
-            'fields': ('donor_name', 'donor_email', 'is_anonymous')
-        }),
-        ('Donation Details', {
-            'fields': ('amount', 'donation_type', 'message')
-        }),
-        ('Timestamp', {
-            'fields': ('created_at',),
-            'classes': ('collapse',)
-        }),
-    )
-
-
-@admin.register(Activity)
-class ActivityAdmin(admin.ModelAdmin):
-    list_display = ['title', 'order', 'is_active', 'created_at']
-    list_filter = ['is_active', 'created_at']
-    search_fields = ['title', 'description']
-    list_editable = ['order', 'is_active']
-    ordering = ['order']
-    
-    fieldsets = (
-        ('Activity Information', {
-            'fields': ('title', 'description', 'image')
-        }),
-        ('Display Settings', {
-            'fields': ('order', 'is_active')
-        }),
-    )
-
-
-@admin.register(Belief)
-class BeliefAdmin(admin.ModelAdmin):
-    list_display = ['belief_preview', 'order', 'is_active', 'created_at']
-    list_filter = ['is_active', 'created_at']
-    search_fields = ['belief_text']
-    list_editable = ['order', 'is_active']
-    ordering = ['order']
-    
-    def belief_preview(self, obj):
-        return obj.belief_text[:50] + "..." if len(obj.belief_text) > 50 else obj.belief_text
-    belief_preview.short_description = 'Belief Preview'
-
-
-@admin.register(ServiceDetail)
-class ServiceDetailAdmin(admin.ModelAdmin):
-    list_display = ['title', 'service_type', 'order', 'is_active', 'created_at']
-    list_filter = ['service_type', 'is_active', 'created_at']
-    search_fields = ['title', 'description']
-    list_editable = ['order', 'is_active']
-    ordering = ['order', 'title']
-    
-    fieldsets = (
-        ('Service Information', {
-            'fields': ('service_type', 'title', 'description', 'image_url')
-        }),
-        ('Features', {
-            'fields': ('features',),
-            'description': 'Enter each feature on a new line or as a JSON list'
-        }),
-        ('Display Settings', {
-            'fields': ('order', 'is_active')
-        }),
-    )
-    
-    def get_queryset(self, request):
-        return super().get_queryset(request).select_related()
 
 
 # Customize admin site

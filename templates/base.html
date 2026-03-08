@@ -12,7 +12,7 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
@@ -36,7 +36,7 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
         }
@@ -125,6 +125,29 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(248, 181, 0, 0.4);
             color: white;
+        }
+        
+        .navbar-nav .btn-nav-donate {
+            background-color: #1d4ed8;
+            color: white !important;
+            border-radius: 12px;
+            padding: 10px 28px !important;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 3px;
+        }
+        
+        .navbar-nav .btn-nav-donate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+            background-color: #1e3a8a;
+            color: white !important;
         }
         
         .hero-section {
@@ -433,6 +456,36 @@
             transform: translateY(0);
         }
         
+        .message-container {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1050;
+            width: 100%;
+            max-width: 650px;
+            padding: 0 20px;
+        }
+
+        .custom-alert {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+            border-left: 6px solid !important;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background-color: white !important;
+        }
+        
+        .custom-alert.alert-success {
+            border-left-color: #28a745 !important;
+            color: #155724 !important;
+        }
+        
+        .custom-alert.alert-danger {
+            border-left-color: #dc3545 !important;
+            color: #721c24 !important;
+        }
+        
         @media (max-width: 768px) {
             .hero-section {
                 padding: 60px 0;
@@ -493,23 +546,27 @@
                         <a class="nav-link" href="{% url 'frontend:home' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'frontend:who_we_are' %}">Who We Are</a>
+                        <a class="nav-link" href="{% url 'frontend:who_we_are' %}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'frontend:what_we_do' %}">What We Do</a>
+                        <a class="nav-link" href="{% url 'frontend:programs' %}">Programs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'frontend:quotes' %}">Quotes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'frontend:events' %}">Events</a>
+                        <a class="nav-link" href="{% url 'frontend:gallery' %}">Gallery</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'frontend:contact' %}">Contact</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-secondary ms-2" href="{% url 'frontend:donate' %}">
-                            <i class="fas fa-donate me-1"></i>Donate
+                    {% if request.user.is_staff %}
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link text-warning fw-bold" href="{% url 'dashboard:event_list' %}">
+                            <i class="fas fa-cog"></i> CMS
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link btn-nav-donate" href="{% url 'frontend:donate' %}">
+                            Donate
                         </a>
                     </li>
                 </ul>
@@ -520,11 +577,23 @@
     <!-- Main Content -->
     <main>
         {% if messages %}
-            <div class="container mt-5 pt-5">
+            <div class="message-container">
                 {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show custom-alert shadow-lg" role="alert">
+                        <div class="d-flex align-items-center">
+                            {% if message.tags == 'success' %}
+                                <i class="fas fa-check-circle fa-2x me-3 text-success"></i>
+                            {% elif message.tags == 'error' %}
+                                <i class="fas fa-exclamation-circle fa-2x me-3 text-danger"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle fa-2x me-3 text-primary"></i>
+                            {% endif %}
+                            <div>
+                                <strong class="d-block" style="font-size: 1.15rem;">{% if message.tags == 'success' %}Success!{% elif message.tags == 'error' %}Error!{% else %}Notice{% endif %}</strong>
+                                <span style="font-size: 1.05rem;">{{ message }}</span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="top: 25%;"></button>
                     </div>
                 {% endfor %}
             </div>
@@ -537,7 +606,7 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-5 col-md-6 mb-4">
                     <h5><i class="fas fa-heart me-2"></i>Optimizing People</h5>
                     <p class="mb-3">Making a difference through Christ's love by providing medical care, water supply, and food distribution to impoverished communities.</p>
                     <div class="social-links">
@@ -549,34 +618,23 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-2 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'frontend:home' %}">Home</a></li>
-                        <li><a href="{% url 'frontend:who_we_are' %}">Who We Are</a></li>
-                        <li><a href="{% url 'frontend:what_we_do' %}">What We Do</a></li>
-                        <li><a href="{% url 'frontend:events' %}">Events</a></li>
+                        <li><a href="{% url 'frontend:who_we_are' %}">About Us</a></li>
+                        <li><a href="{% url 'frontend:programs' %}">Programs</a></li>
+                        <li><a href="{% url 'frontend:gallery' %}">Gallery</a></li>
                         <li><a href="{% url 'frontend:contact' %}">Contact</a></li>
                     </ul>
                 </div>
                 
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5>Our Activities</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Medical/Mental Health Clinic</a></li>
-                        <li><a href="#">Rural Borehole Water Supply</a></li>
-                        <li><a href="#">Food Distribution</a></li>
-                        <li><a href="#">Evangelical Crusades</a></li>
-                        <li><a href="#">Community Outreach</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="col-lg-4 col-md-12 mb-4">
                     <h5>Contact Info</h5>
                     <ul class="list-unstyled">
                         <li><i class="fas fa-map-marker-alt me-2"></i>California, United States</li>
                         <li><i class="fas fa-phone me-2"></i>+1 (555) 123-4567</li>
-                        <li><i class="fas fa-envelope me-2"></i>info@optimizingpeople.org</li>
+                        <li><i class="fas fa-envelope me-2"></i>optimizingpeople@gmail.com</li>
                         <li><i class="fas fa-globe me-2"></i>www.optimizingpeople.org</li>
                     </ul>
                 </div>
@@ -656,6 +714,16 @@
                 });
             }
         }
+        
+        // Auto-scroll to form errors
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstError = document.querySelector('.text-danger');
+            if (firstError) {
+                // Get the top position minus a little padding for a fixed navbar
+                const y = firstError.getBoundingClientRect().top + window.scrollY - 150;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
+        });
     </script>
     
     {% block extra_js %}{% endblock %}

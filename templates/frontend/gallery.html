@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery - Optimizing People{% endblock %}
+
+{% block extra_css %}
+<style>
+    .gallery-header {
+        background-color: #f8f9fa;
+        padding: 140px 0 60px;
+        text-align: center;
+    }
+    .gallery-header-box {
+        border: none;
+        padding: 40px;
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+    }
+    .gallery-page-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 4.5rem;
+        font-weight: 900;
+        color: #1e3a8a;
+        margin-bottom: 20px;
+        letter-spacing: -2px;
+    }
+    .gallery-page-subtitle {
+        font-size: 1.15rem;
+        color: #4B5563;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    .event-gallery-section {
+        padding: 70px 0;
+        border-bottom: 1px solid #f3f4f6;
+    }
+    .event-gallery-header {
+        margin-bottom: 30px;
+    }
+    .event-gallery-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+    .event-gallery-subtitle {
+        color: #4B5563;
+        font-size: 1.05rem;
+    }
+    .gallery-scroll-container {
+        position: relative;
+    }
+    .gallery-carousel {
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding-bottom: 20px;
+        scrollbar-width: none; /* Firefox */
+    }
+    .gallery-carousel::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+    .gallery-item {
+        flex: 0 0 auto;
+        width: 380px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .gallery-img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+    .gallery-img:hover {
+        transform: scale(1.03);
+    }
+    .scroll-btn {
+        background: white;
+        border: 1px solid #e5e7eb;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #4B5563;
+        transition: all 0.3s ease;
+        margin-left: 10px;
+    }
+    .scroll-btn:hover {
+        background: #f9fafb;
+        color: #1e3a8a;
+        border-color: #d1d5db;
+    }
+    
+    @media (max-width: 768px) {
+        .gallery-page-title { font-size: 3rem; }
+        .gallery-item { width: 300px; }
+        .gallery-img { height: 220px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="gallery-header">
+    <div class="container">
+        <div class="gallery-header-box">
+            <h1 class="gallery-page-title">Gallery</h1>
+            <p class="gallery-page-subtitle">A visual journey of love in action — showcasing our outreach, community projects, and the lives being transformed through God's grace.</p>
+        </div>
+    </div>
+</section>
+
+{% for event in events_with_images %}
+<section class="event-gallery-section" id="event-{{ event.id }}">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end event-gallery-header">
+            <div>
+                <h2 class="event-gallery-title">{{ event.title }} | {{ event.formatted_date_range }}</h2>
+                <p class="event-gallery-subtitle">Smiles, consultations, health checks, counseling and prayer moments.</p>
+            </div>
+            <div class="d-none d-md-flex">
+                <button class="scroll-btn" onclick="document.getElementById('carousel-{{ event.id }}').scrollBy({left: -400, behavior: 'smooth'})"><i class="fas fa-arrow-left"></i></button>
+                <button class="scroll-btn" onclick="document.getElementById('carousel-{{ event.id }}').scrollBy({left: 400, behavior: 'smooth'})"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+        
+        <div class="gallery-scroll-container">
+            <div class="gallery-carousel" id="carousel-{{ event.id }}">
+                {% for image in event.gallery_images.all %}
+                <div class="gallery-item">
+                    <img src="{{ image.display_url }}" class="gallery-img" alt="{{ image.caption|default:event.title }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% empty %}
+    {% if not other_images %}
+    <div class="container text-center py-5 my-5">
+        <h3 class="text-muted">More images coming soon!</h3>
+    </div>
+    {% endif %}
+{% endfor %}
+
+{% if other_images %}
+<section class="event-gallery-section" id="other-images">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end event-gallery-header">
+            <div>
+                <h2 class="event-gallery-title">Other Activities & Moments</h2>
+                <p class="event-gallery-subtitle">More glimpses of our work and impact.</p>
+            </div>
+            <div class="d-none d-md-flex">
+                <button class="scroll-btn" onclick="document.getElementById('carousel-other').scrollBy({left: -400, behavior: 'smooth'})"><i class="fas fa-arrow-left"></i></button>
+                <button class="scroll-btn" onclick="document.getElementById('carousel-other').scrollBy({left: 400, behavior: 'smooth'})"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+        
+        <div class="gallery-scroll-container">
+            <div class="gallery-carousel" id="carousel-other">
+                {% for image in other_images %}
+                <div class="gallery-item">
+                    <img src="{{ image.display_url }}" class="gallery-img" alt="{{ image.caption|default:'Gallery Image' }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('.event-gallery-section');
+        
+        sections.forEach(section => {
+            const carousel = section.querySelector('.gallery-carousel');
+            if (!carousel) return;
+            
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let autoScrollInterval;
+            let isHovering = false;
+            let autoPlayEnabled = true;
+
+            const buttons = section.querySelectorAll('.scroll-btn');
+            buttons.forEach(btn => {
+                // remove inline onclick attribute
+                btn.removeAttribute('onclick');
+                // check if left or right based on innerHTML or class
+                btn.addEventListener('click', () => {
+                    autoPlayEnabled = false;
+                    clearInterval(autoScrollInterval);
+                    if (btn.innerHTML.includes('left')) {
+                        carousel.scrollBy({left: -400, behavior: 'smooth'});
+                    } else {
+                        carousel.scrollBy({left: 400, behavior: 'smooth'});
+                    }
+                });
+            });
+            
+            // For smooth drag UX cursor
+            carousel.style.cursor = 'grab';
+            
+            // Clone elements to create an infinite loop effect
+            const originalItems = Array.from(carousel.children);
+            // Only loop if there are enough items to stretch across
+            if (originalItems.length >= 3) {
+                originalItems.forEach(item => {
+                    const clone = item.cloneNode(true);
+                    carousel.appendChild(clone);
+                });
+            }
+            
+            const startAutoScroll = () => {
+                if (autoScrollInterval) clearInterval(autoScrollInterval);
+                autoScrollInterval = setInterval(() => {
+                    if (!isHovering && !isDown && autoPlayEnabled) {
+                        carousel.scrollLeft += 1.5;
+                    }
+                }, 30);
+            };
+            
+            const stopAutoScroll = () => {
+                if (autoScrollInterval) clearInterval(autoScrollInterval);
+            };
+            
+            // Use IntersectionObserver so we only animate if viewed
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Reset auto-play when scrolling back to it
+                        autoPlayEnabled = true;
+                        startAutoScroll();
+                    } else {
+                        stopAutoScroll();
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            observer.observe(carousel);
+            
+            // Prevent on interact
+            carousel.addEventListener('mouseenter', () => isHovering = true);
+            carousel.addEventListener('mouseleave', () => {
+                isHovering = false;
+                isDown = false;
+                carousel.style.cursor = 'grab';
+            });
+            
+            carousel.addEventListener('touchstart', () => {
+                 isHovering = true;
+                 autoPlayEnabled = false;
+                 stopAutoScroll();
+            }, {passive: true});
+            carousel.addEventListener('touchend', () => setTimeout(() => isHovering = false, 1500));
+            
+            // Let the drag happen
+            carousel.addEventListener('mousedown', (e) => {
+                isDown = true;
+                autoPlayEnabled = false;
+                stopAutoScroll();
+                carousel.style.cursor = 'grabbing';
+                startX = e.pageX - carousel.offsetLeft;
+                scrollLeft = carousel.scrollLeft;
+            });
+            carousel.addEventListener('mouseup', () => {
+                isDown = false;
+                carousel.style.cursor = 'grab';
+            });
+            carousel.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - carousel.offsetLeft;
+                const walk = (x - startX) * 2;
+                carousel.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Seamless loop 
+            carousel.addEventListener('scroll', () => {
+                if (originalItems.length >= 3) {
+                    const halfWidth = carousel.scrollWidth / 2;
+                    if (carousel.scrollLeft >= halfWidth) {
+                        carousel.scrollLeft -= halfWidth;
+                    } else if (carousel.scrollLeft <= 0) {
+                        carousel.scrollLeft += halfWidth;
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

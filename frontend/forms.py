@@ -1,7 +1,7 @@
 from django import forms
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import ContactMessage, Donation
+from .models import ContactMessage
 
 
 class ContactForm(forms.ModelForm):
@@ -76,63 +76,6 @@ class ContactForm(forms.ModelForm):
                 print(f"Email sending failed: {e}")
         return instance
 
-
-class DonationForm(forms.ModelForm):
-    """Donation form for accepting donations"""
-    
-    class Meta:
-        model = Donation
-        fields = ['donor_name', 'donor_email', 'amount', 'donation_type', 'message', 'is_anonymous']
-        widgets = {
-            'donor_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Your Full Name',
-                'required': True
-            }),
-            'donor_email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'your.email@example.com',
-                'required': True
-            }),
-            'amount': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': '0.00',
-                'min': '1',
-                'step': '0.01',
-                'required': True
-            }),
-            'donation_type': forms.Select(attrs={
-                'class': 'form-control',
-                'required': True
-            }),
-            'message': forms.Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Optional message for your donation...',
-                'rows': 3
-            }),
-            'is_anonymous': forms.CheckboxInput(attrs={
-                'class': 'form-check-input'
-            })
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['donor_name'].required = True
-        self.fields['donor_email'].required = True
-        self.fields['amount'].required = True
-        self.fields['donation_type'].required = True
-
-    def clean_amount(self):
-        amount = self.cleaned_data.get('amount')
-        if amount and amount < 1:
-            raise forms.ValidationError("Donation amount must be at least $1.00")
-        return amount
-
-    def clean_donor_name(self):
-        name = self.cleaned_data.get('donor_name')
-        if len(name) < 2:
-            raise forms.ValidationError("Name must be at least 2 characters long.")
-        return name
 
 
 class NewsletterForm(forms.Form):

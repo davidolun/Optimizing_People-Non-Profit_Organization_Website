@@ -8,9 +8,9 @@ urlpatterns = [
     # Main pages
     path('', views.HomeView.as_view(), name='home'),
     path('who-we-are/', views.WhoWeAreView.as_view(), name='who_we_are'),
-    path('what-we-do/', views.WhatWeDoView.as_view(), name='what_we_do'),
-    path('quotes/', views.QuotesView.as_view(), name='quotes'),
     path('events/', views.EventsView.as_view(), name='events'),
+    path('programs/', views.ProgramsView.as_view(), name='programs'),
+    path('gallery/', views.GalleryView.as_view(), name='gallery'),
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('donate/', views.DonateView.as_view(), name='donate'),
     
@@ -20,6 +20,5 @@ urlpatterns = [
     
     # AJAX endpoints
     path('api/newsletter-signup/', views.newsletter_signup, name='newsletter_signup'),
-    path('api/get-quote/', views.get_quote, name='get_quote'),
     path('search-events/', views.search_events, name='search_events'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,117 +1,518 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ event.title }} - Optimizing People{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Global Section Styles */
+    .section-padding-lg {
+        padding: 80px 0;
+    }
+
+    /* Header Section */
+    .program-header {
+        background-color: #f9fafb;
+        padding: 140px 0 60px;
+        text-align: center;
+    }
+    .breadcrumb-custom {
+        font-family: 'Inter', sans-serif;
+        color: #4b5563;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+    .breadcrumb-custom a {
+        color: #4b5563;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    .breadcrumb-custom a:hover {
+        color: #1e3a8a;
+    }
+    .program-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3rem;
+        font-weight: 800;
+        color: #1b4396;
+        margin-bottom: 10px;
+    }
+    .program-subtitle {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.5rem;
+        color: #1f2937;
+        font-weight: 500;
+        margin-bottom: 25px;
+    }
+    .program-meta {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.1rem;
+        color: #374151;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
+    .program-meta .divider {
+        width: 1px;
+        height: 20px;
+        background-color: #9ca3af;
+    }
+
+    /* Gallery Section */
+    .gallery-container {
+        max-width: 1150px;
+        margin: 0 auto;
+    }
+    .main-image-wrapper {
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        box-shadow: none;
+    }
+    .main-image {
+        width: 100%;
+        height: 600px;
+        object-fit: contain;
+        background-color: #ffffff;
+        display: block;
+    }
+    .thumbnail-gallery-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .gallery-nav-btn {
+        background: none;
+        border: none;
+        color: #d1d5db;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 5px;
+        transition: color 0.3s;
+    }
+    .gallery-nav-btn:hover {
+        color: #9ca3af;
+    }
+    .thumbnail-strip {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        flex: 1;
+    }
+    .thumbnail-strip::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
+    }
+    .thumbnail {
+        width: 160px;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        flex-shrink: 0;
+    }
+    .thumbnail.active, .thumbnail:hover {
+        opacity: 1;
+    }
+    .thumbnail.active {
+        border-color: #1b4396;
+    }
+
+    /* Dark Blue Section */
+    .bg-dark-blue {
+        background-color: #123681;
+        color: white;
+    }
+    .event-desc-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: #f3f4f6;
+    }
+    
+    /* Info Cards */
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .stat-number {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3.5rem;
+        font-weight: 900;
+        color: #2563eb;
+        line-height: 1;
+        margin-bottom: 10px;
+    }
+    .stat-label {
+        font-family: 'Inter', sans-serif;
+        color: #4b5563;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    /* Light Grey Section */
+    .bg-light-grey {
+        background-color: #f9fafb;
+    }
+    .section-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #1b4396;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .section-title.white {
+        color: white;
+    }
+    .section-subtitle {
+        font-family: 'Inter', sans-serif;
+        color: #4b5563;
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+    }
+
+    /* Team Cards */
+    .team-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 25px 20px;
+        text-align: center;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: transform 0.3s;
+    }
+    .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    .team-card-title {
+        color: #1f2937;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+    .team-card .stat-number {
+        font-size: 2.5rem;
+        margin-bottom: 5px;
+    }
+    .team-card .stat-label {
+        font-size: 0.95rem;
+    }
+
+    /* Impact Cards */
+    .impact-card {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        height: 100%;
+        color: #1f2937;
+    }
+    .impact-title {
+        color: #ea580c; /* Orange */
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    .impact-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .impact-list li {
+        margin-bottom: 20px;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.5;
+        width: 100%;
+    }
+    .impact-list li i {
+        color: #2563eb;
+        margin-top: 5px;
+        font-size: 0.9rem;
+    }
+
+    /* CTA Section */
+    .join-mission-section {
+        background-color: white;
+        padding: 80px 0;
+        text-align: center;
+    }
+    .btn-support {
+        background-color: #123681;
+        color: white;
+        font-weight: 600;
+        padding: 15px 40px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s;
+        border: none;
+    }
+    .btn-support:hover {
+        background-color: #0d276b;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .program-title {
+            font-size: 2.2rem;
+        }
+        .main-image {
+            height: 300px;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
+<!-- Header Section -->
+<section class="program-header">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-4 animate-fade-in">{{ event.title }}</h1>
-                <p class="lead animate-fade-in">
-                    <i class="fas fa-calendar-alt me-2"></i>{{ event.date|date:"F j, Y" }} at {{ event.date|time:"g:i A" }}
-                </p>
-                <p class="lead animate-fade-in">
-                    <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Event Details -->
-<section class="section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card">
-                    {% if event.image %}
-                    <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}" style="height: 400px; object-fit: cover;">
-                    {% endif %}
-                    <div class="card-body p-5">
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <h5 class="text-primary">
-                                    <i class="fas fa-calendar-alt me-2"></i>Date & Time
-                                </h5>
-                                <p class="mb-0">{{ event.date|date:"F j, Y" }} at {{ event.date|time:"g:i A" }}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h5 class="text-primary">
-                                    <i class="fas fa-map-marker-alt me-2"></i>Location
-                                </h5>
-                                <p class="mb-0">{{ event.location }}</p>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-primary mb-3">Event Description</h3>
-                        <div class="event-description">
-                            {{ event.description|linebreaks }}
-                        </div>
-                        
-                        {% if event.registration_url %}
-                        <div class="text-center mt-4">
-                            <a href="{{ event.registration_url }}" class="btn btn-primary btn-lg" target="_blank">
-                                <i class="fas fa-user-plus me-2"></i>Register Now
-                            </a>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Related Events -->
-<section class="section-padding bg-light">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Other Events</h2>
-                <p class="lead">Check out our other upcoming events</p>
-            </div>
+        <div class="breadcrumb-custom">
+            <a href="{% url 'frontend:home' %}">Home</a> / 
+            <a href="{% url 'frontend:programs' %}">Programs</a> / 
+            <span>{{ event.title }}</span>
         </div>
         
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-calendar-alt text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">View All Events</h5>
-                        <p class="card-text">See all our upcoming events and activities</p>
-                        <a href="{% url 'frontend:events' %}" class="btn btn-primary">
-                            <i class="fas fa-list me-2"></i>View Events
-                        </a>
-                    </div>
-                </div>
+        <h1 class="program-title">{{ event.title }}</h1>
+        <p class="program-subtitle">Community Evangelism</p>
+        
+        <div class="program-meta">
+            <span>{{ event.formatted_date_range }}</span>
+            <span class="divider"></span>
+            <span>{{ event.location }}</span>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section — only shown when actual gallery photos have been uploaded -->
+{% if event.gallery_images.all %}
+<section class="gallery-section py-5 bg-white">
+    <div class="container">
+        <div class="gallery-container">
+            <div class="main-image-wrapper">
+                <img id="mainGalleryImage" src="{{ event.gallery_images.first.display_url }}" alt="{{ event.title }}" class="main-image">
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-envelope text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Get Updates</h5>
-                        <p class="card-text">Subscribe to receive event notifications</p>
-                        <a href="{% url 'frontend:contact' %}" class="btn btn-secondary">
-                            <i class="fas fa-bell me-2"></i>Subscribe
-                        </a>
-                    </div>
+            
+            <div class="thumbnail-gallery-wrapper">
+                <button class="gallery-nav-btn" id="galleryPrev"><i class="fas fa-arrow-circle-left"></i></button>
+                <div class="thumbnail-strip" id="thumbnailStrip">
+                    {% for img in event.gallery_images.all %}
+                        <img src="{{ img.display_url }}" class="thumbnail {% if forloop.first %}active{% endif %}" onclick="updateMainImage(this)" alt="Gallery Image {{ forloop.counter }}">
+                    {% endfor %}
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-donate text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Support Us</h5>
-                        <p class="card-text">Help us continue organizing these events</p>
-                        <a href="{% url 'frontend:donate' %}" class="btn btn-success">
-                            <i class="fas fa-heart me-2"></i>Donate
-                        </a>
-                    </div>
-                </div>
+                <button class="gallery-nav-btn" id="galleryNext"><i class="fas fa-arrow-circle-right"></i></button>
             </div>
         </div>
     </div>
 </section>
+{% endif %}
+
+<!-- Description & Stats Section -->
+<section class="bg-dark-blue section-padding-lg">
+    <div class="container">
+        {% if event.statistics.all %}
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="event-desc-text">
+                    {% if event.description %}
+                        {{ event.description|linebreaks }}
+                    {% else %}
+                        <p>An evangelical outreach was conducted at {{ event.location }} from {{ event.formatted_date_range }}, organized by Optimizing People Evangelical Outreach in collaboration with ministry partners and volunteers.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-4 d-flex align-items-stretch justify-content-center">
+                    {% for stat in event.statistics.all %}
+                        {% if event.statistics.all|length == 1 %}
+                            <div class="col-sm-8 col-md-6">
+                        {% elif event.statistics.all|length == 2 %}
+                            <div class="col-sm-6">
+                        {% elif event.statistics.all|length == 3 %}
+                            {% if forloop.last %}
+                                <div class="col-12">
+                            {% else %}
+                                <div class="col-sm-6">
+                            {% endif %}
+                        {% else %}
+                            <div class="col-6 col-sm-6 col-md-3 col-lg-6">
+                        {% endif %}
+                            <div class="stat-card">
+                                <div class="stat-number" style="font-size: clamp(2rem, 5vw, 3.5rem);">{{ stat.value }}</div>
+                                <div class="stat-label">{{ stat.label }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- No stats — center the description across full width -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="event-desc-text">
+                    {% if event.description %}
+                        {{ event.description|linebreaks }}
+                    {% else %}
+                        <p>An evangelical outreach was conducted at {{ event.location }} from {{ event.formatted_date_range }}, organized by Optimizing People Evangelical Outreach in collaboration with ministry partners and volunteers.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Our Team Section -->
+{% if event.partners.all or event.team_metrics.all %}
+<section class="bg-light-grey section-padding-lg">
+    <div class="container">
+        <h2 class="section-title">Our Team</h2>
+        <p class="section-subtitle">Collaborative partnership bringing together medical and spiritual resources</p>
+        
+        <div class="row g-3 mb-4 justify-content-center flex-nowrap">
+            {% for partner in event.partners.all %}
+                <div class="{% if event.partners.all|length == 1 %}col-9 col-md-6{% elif event.partners.all|length == 2 %}col-6 col-md-5{% else %}col{% endif %} d-flex">
+                    <div class="team-card w-100 d-flex flex-column justify-content-center">
+                        <p class="team-card-title mb-0" style="white-space: normal; overflow-wrap: break-word;">
+                            {{ partner.name }}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            {% for metric in event.team_metrics.all %}
+                {% if event.team_metrics.all|length == 1 %}
+                    <div class="col-md-6 col-lg-4">
+                {% elif event.team_metrics.all|length == 2 %}
+                    <div class="col-md-6 col-lg-4">
+                {% elif event.team_metrics.all|length == 3 %}
+                    <div class="col-md-4 col-sm-6 col-lg-4">
+                {% else %}
+                    <div class="col-md-4 col-sm-6 col-lg-3">
+                {% endif %}
+                    <div class="team-card py-4">
+                        <div class="stat-number">{{ metric.value }}</div>
+                        <div class="stat-label">{{ metric.label }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Impact Assessment Section -->
+{% if event.impacts.all %}
+<section class="bg-dark-blue section-padding-lg">
+    <div class="container">
+        <h2 class="section-title white mb-5">Impact Assessment</h2>
+        
+        <div class="row g-4 justify-content-center">
+            {% for impact in event.impacts.all %}
+                {% if event.impacts.all|length == 1 %}
+                    <div class="col-lg-6 col-md-8">
+                {% elif event.impacts.all|length == 2 %}
+                    <div class="col-lg-5 col-md-6">
+                {% elif event.impacts.all|length == 3 %}
+                    <div class="col-lg-4 col-md-6">
+                {% else %}
+                    <div class="col-lg-4 col-md-6">
+                {% endif %}
+                    <div class="impact-card d-flex flex-column">
+                        <h3 class="impact-title text-center">{{ impact.title }}</h3>
+                        <ul class="impact-list mt-3" style="width: 100%;">
+                            {% for item in impact.get_items_list %}
+                            <li class="d-flex align-items-start mb-3">
+                                <i class="fas fa-check me-3 mt-1 text-primary flex-shrink-0"></i>
+                                <span>{{ item }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Join Our Mission Section -->
+<section class="join-mission-section">
+    <div class="container">
+        <h2 class="section-title">Join Our Mission</h2>
+        <p class="section-subtitle">Partner with us to bring hope, healing, and transformation to more communities</p>
+        <a href="{% url 'frontend:donate' %}" class="btn-support">Support The Next Project</a>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function updateMainImage(element) {
+        // Update main image source
+        const mainImage = document.getElementById('mainGalleryImage');
+        mainImage.src = element.src;
+        mainImage.style.opacity = 0;
+        
+        setTimeout(() => {
+            mainImage.style.transition = 'opacity 0.3s';
+            mainImage.style.opacity = 1;
+        }, 50);
+
+        // Update active class on thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => thumb.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const strip = document.getElementById('thumbnailStrip');
+        const btnPrev = document.getElementById('galleryPrev');
+        const btnNext = document.getElementById('galleryNext');
+
+        if (btnPrev && btnNext && strip) {
+            btnPrev.addEventListener('click', () => {
+                strip.scrollBy({ left: -200, behavior: 'smooth' });
+            });
+            btnNext.addEventListener('click', () => {
+                strip.scrollBy({ left: 200, behavior: 'smooth' });
+            });
+        }
+    });
+</script>
 {% endblock %}

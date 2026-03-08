@@ -1,11 +1,33 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.core.cache import cache
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView, TemplateView
 from django.utils import timezone
-from .models import TeamMember, Event, Quote, ContactMessage, Donation, Activity, Belief, ServiceDetail
-from .forms import ContactForm, DonationForm, NewsletterForm, VolunteerForm
+from .models import TeamMember, Event, ContactMessage, GalleryImage
+from .forms import ContactForm, NewsletterForm, VolunteerForm
+
+
+def check_rate_limit(request, action, limit=5, timeout=3600):
+    """
+    Check if a request exceeds the limit for a specific action within a timeout period.
+    Returns True if allowed, False if limit exceeded.
+    """
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR', 'unknown')
+        
+    cache_key = f'ratelimit_{action}_{ip}'
+    attempts = cache.get(cache_key, 0)
+    
+    if attempts >= limit:
+        return False
+        
+    cache.set(cache_key, attempts + 1, timeout)
+    return True
 
 
 class HomeView(TemplateView):
@@ -15,11 +37,9 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'featured_events': Event.objects.filter(is_featured=True, date__gte=timezone.now())[:3],
-            'activities': Activity.objects.filter(is_active=True)[:3],
-            'beliefs': Belief.objects.filter(is_active=True)[:3],
-            'featured_quotes': Quote.objects.filter(is_featured=True)[:2],
+            'featured_events': Event.objects.filter(is_featured=True).order_by('-date')[:3],
             'team_members': TeamMember.objects.filter(is_active=True)[:4],
+            'gallery_images': GalleryImage.objects.order_by('?')[:9],
         })
         return context
 
@@ -37,6 +57,12 @@ class WhoWeAreView(TemplateView):
         return context
     
     def post(self, request, *args, **kwargs):
+        if not check_rate_limit(request, 'whoweare_contact', limit=5, timeout=3600):
+            messages.error(request, 'You have submitted too many requests. Please try again later.')
+            context = self.get_context_data()
+            context['contact_form'] = ContactForm(request.POST)
+            return render(request, self.template_name, context)
+            
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
@@ -48,34 +74,6 @@ class WhoWeAreView(TemplateView):
             return render(request, self.template_name, context)
 
 
-class WhatWeDoView(TemplateView):
-    """What We Do page with detailed service descriptions"""
-    template_name = 'frontend/what_we_do.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'activities': Activity.objects.filter(is_active=True).order_by('order'),
-            'beliefs': Belief.objects.filter(is_active=True).order_by('order'),
-            'service_details': ServiceDetail.objects.filter(is_active=True).order_by('order'),
-        })
-        return context
-
-
-class QuotesView(ListView):
-    """Quotes page with inspirational quotes"""
-    model = Quote
-    template_name = 'frontend/quotes.html'
-    context_object_name = 'quotes'
-    paginate_by = 6
-    
-    def get_queryset(self):
-        return Quote.objects.all().order_by('order', '-created_at')
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['featured_quotes'] = Quote.objects.filter(is_featured=True)[:3]
-        return context
 
 
 class EventsView(ListView):
@@ -145,6 +143,17 @@ class ContactView(TemplateView):
     def post(self, request, *args, **kwargs):
         form_type = request.POST.get('form_type', 'contact')
         
+        if not check_rate_limit(request, f'contact_{form_type}', limit=5, timeout=3600):
+            messages.error(request, 'You have submitted too many requests. Please try again later.')
+            context = self.get_context_data()
+            if form_type == 'contact':
+                context['contact_form'] = ContactForm(request.POST)
+            elif form_type == 'volunteer':
+                context['volunteer_form'] = VolunteerForm(request.POST)
+            elif form_type == 'newsletter':
+                context['newsletter_form'] = NewsletterForm(request.POST)
+            return render(request, self.template_name, context)
+        
         if form_type == 'contact':
             form = ContactForm(request.POST)
             if form.is_valid():
@@ -170,27 +179,8 @@ class ContactView(TemplateView):
 
 
 class DonateView(TemplateView):
-    """Donation page with donation form"""
+    """Donation page"""
     template_name = 'frontend/donate.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'donation_form': DonationForm(),
-            'donation_types': Donation.DONATION_TYPES,
-        })
-        return context
-    
-    def post(self, request, *args, **kwargs):
-        form = DonationForm(request.POST)
-        if form.is_valid():
-            donation = form.save()
-            messages.success(request, f'Thank you for your generous donation of ${donation.amount}! Your support makes a difference.')
-            return redirect('frontend:donate')
-        else:
-            context = self.get_context_data()
-            context['donation_form'] = form
-            return render(request, self.template_name, context)
 
 
 class EventDetailView(DetailView):
@@ -214,6 +204,9 @@ class TeamMemberDetailView(DetailView):
 def newsletter_signup(request):
     """AJAX endpoint for newsletter signup"""
     if request.method == 'POST':
+        if not check_rate_limit(request, 'newsletter_ajax', limit=5, timeout=3600):
+            return JsonResponse({'success': False, 'message': 'Too many requests. Please try again later.'})
+            
         form = NewsletterForm(request.POST)
         if form.is_valid():
             # Here you could save to database or send to email service
@@ -223,16 +216,6 @@ def newsletter_signup(request):
     return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
 
-def get_quote(request):
-    """AJAX endpoint to get a random quote"""
-    quote = Quote.objects.all().order_by('?').first()
-    if quote:
-        return JsonResponse({
-            'quote': quote.quote_text,
-            'author': quote.author,
-            'source': quote.source
-        })
-    return JsonResponse({'quote': 'No quotes available'})
 
 
 def search_events(request):
@@ -251,3 +234,31 @@ def search_events(request):
         'results_count': events.count()
     }
     return render(request, 'frontend/events.html', context)
+
+
+class GalleryView(TemplateView):
+    """Gallery page with images categorized by event"""
+    template_name = 'frontend/gallery.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Events that have at least one gallery image
+        events_with_images = Event.objects.filter(gallery_images__isnull=False).distinct().order_by('-date')
+        events_with_images = events_with_images.prefetch_related('gallery_images')
+        
+        # Other images (no event associated)
+        other_images = GalleryImage.objects.filter(event__isnull=True).order_by('-created_at')
+        
+        context['events_with_images'] = events_with_images
+        context['other_images'] = other_images
+        return context
+
+
+class ProgramsView(TemplateView):
+    """Programs page showing all events dynamically"""
+    template_name = 'frontend/programs.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['events'] = Event.objects.all().order_by('-date')
+        return context

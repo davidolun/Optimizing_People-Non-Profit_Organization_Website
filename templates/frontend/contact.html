@@ -1,246 +1,441 @@
 {% extends 'base.html' %}
 
-{% block title %}Contact Us - Optimizing People{% endblock %}
+{% block title %}Contact - Optimizing People{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Header */
+    .contact-header {
+        background-color: #f3f4f6;
+        padding: 140px 0 60px;
+        text-align: center;
+    }
+
+    .contact-page-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 4.5rem;
+        font-weight: 900;
+        color: #1e3a8a;
+        margin-bottom: 20px;
+        letter-spacing: -2px;
+        font-style: italic;
+    }
+
+    .contact-page-subtitle {
+        font-size: 1.1rem;
+        color: #4B5563;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+
+    /* Contact Section */
+    .contact-section {
+        padding: 70px 0 80px;
+        background: white;
+    }
+
+    .contact-cards-row {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .contact-form-wrap {
+        flex: 0 0 55%;
+    }
+
+    .contact-info-wrap {
+        flex: 1;
+    }
+
+    .contact-form-card {
+        border: 1px solid #d1d5db;
+        border-radius: 100px 0 0 0;
+        padding: 80px 50px 50px 60px;
+        background: white;
+    }
+
+    .contact-form-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 30px;
+    }
+
+    .contact-field {
+        margin-bottom: 24px;
+    }
+
+    .contact-field label {
+        font-size: 0.85rem;
+        color: #6B7280;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .contact-field input,
+    .contact-field textarea {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #d1d5db;
+        padding: 10px 0;
+        font-size: 1rem;
+        color: #111827;
+        background: transparent;
+        outline: none;
+        transition: border-color 0.3s;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .contact-field input:focus,
+    .contact-field textarea:focus {
+        border-bottom-color: #1e3a8a;
+    }
+
+    .contact-field textarea {
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 12px;
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .contact-field textarea:focus {
+        border-color: #1e3a8a;
+        border-bottom-color: #1e3a8a;
+    }
+
+    .btn-contact-submit {
+        width: 100%;
+        background: #1e3a8a;
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 10px;
+    }
+
+    .btn-contact-submit:hover {
+        background: #152968;
+    }
+
+    /* Info Card */
+    .contact-info-card {
+        background: #1e3a8a;
+        color: white;
+        border-radius: 0 0 100px 0;
+        padding: 40px 35px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .contact-info-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .contact-info-subtitle {
+        font-size: 0.95rem;
+        color: #dbeafe;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .contact-info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .contact-info-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .contact-info-icon i {
+        color: #f87171;
+        font-size: 1.1rem;
+    }
+
+    .contact-info-label {
+        font-size: 0.8rem;
+        color: #93c5fd;
+        margin-bottom: 2px;
+    }
+
+    .contact-info-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .contact-social-text {
+        font-size: 0.9rem;
+        color: #dbeafe;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .contact-social-icons {
+        display: flex;
+        gap: 12px;
+    }
+
+    .contact-social-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: background 0.3s;
+    }
+
+    .contact-social-icon:hover {
+        background: rgba(255,255,255,0.3);
+        color: white;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+        .contact-page-title {
+            font-size: 3rem;
+        }
+        .contact-cards-row {
+            flex-direction: column;
+            gap: 30px;
+        }
+        .contact-form-wrap {
+            flex: auto;
+        }
+        .contact-form-card,
+        .contact-info-card {
+            padding: 30px;
+        }
+    }
+
+    /* FAQ Section */
+    .faq-section {
+        padding: 80px 0;
+        background: #f3f4f6;
+    }
+
+    .faq-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: #1e3a8a;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .faq-subtitle {
+        text-align: center;
+        color: #6B7280;
+        margin-bottom: 40px;
+        font-size: 1.05rem;
+    }
+
+    .faq-section .accordion-item {
+        border: none;
+        border-radius: 12px !important;
+        margin-bottom: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .faq-section .accordion-button {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #111827;
+        padding: 18px 24px;
+    }
+
+    .faq-section .accordion-button:not(.collapsed) {
+        background: #1e3a8a;
+        color: white;
+        box-shadow: none;
+    }
+
+    .faq-section .accordion-button:focus {
+        box-shadow: none;
+    }
+
+    .faq-section .accordion-body {
+        padding: 18px 24px;
+        color: #4B5563;
+        line-height: 1.7;
+    }
+
+    /* Social Section */
+    .social-section {
+        padding: 60px 0;
+        background: white;
+        text-align: center;
+    }
+
+    .social-section-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1e3a8a;
+        margin-bottom: 10px;
+    }
+
+    .social-section-text {
+        color: #6B7280;
+        margin-bottom: 25px;
+        font-size: 1rem;
+    }
+
+    .social-links-row {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .social-link-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #1e3a8a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: transform 0.3s, background 0.3s;
+    }
+
+    .social-link-btn:hover {
+        transform: translateY(-3px);
+        background: #152968;
+        color: white;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
+<!-- Header -->
+<section class="contact-header">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-4 animate-fade-in">Contact Us</h1>
-                <p class="lead animate-fade-in">
-                    Get in touch with us - we'd love to hear from you
-                </p>
-            </div>
-        </div>
+        <h1 class="contact-page-title">Contact</h1>
+        <p class="contact-page-subtitle">
+            We'd love to hear from you! Whether you have questions, wish to volunteer, or want to partner with us in spreading God's love, our team is here to connect with you.
+        </p>
     </div>
 </section>
 
-<!-- Contact Information -->
-<section class="section-padding">
+<!-- Contact Form + Info -->
+<section class="contact-section">
     <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-4">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-map-marker-alt text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Our Location</h5>
-                        <p class="card-text">
-                            California, United States<br>
-                            Serving communities worldwide
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-phone text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Phone</h5>
-                        <p class="card-text">
-                            +1 (555) 123-4567<br>
-                            Available 9 AM - 5 PM PST
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-envelope text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Email</h5>
-                        <p class="card-text">
-                            info@optimizingpeople.org<br>
-                            We respond within 24 hours
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Contact Forms -->
-<section class="section-padding bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="row g-4">
-                    <!-- General Contact Form -->
-                    <div class="col-lg-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h3 class="text-primary mb-4">
-                                    <i class="fas fa-envelope me-2"></i>Send us a Message
-                                </h3>
-                                <p class="text-muted mb-4">
-                                    Have questions or want to learn more about our work? We'd love to hear from you!
-                                </p>
-                                
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="form_type" value="contact">
-                                    <div class="mb-3">
-                                        <label for="{{ contact_form.name.id_for_label }}" class="form-label">Full Name *</label>
-                                        {{ contact_form.name }}
-                                        {% if contact_form.name.errors %}
-                                            <div class="text-danger small mt-1">{{ contact_form.name.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="{{ contact_form.email.id_for_label }}" class="form-label">Email Address *</label>
-                                        {{ contact_form.email }}
-                                        {% if contact_form.email.errors %}
-                                            <div class="text-danger small mt-1">{{ contact_form.email.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="{{ contact_form.phone.id_for_label }}" class="form-label">Phone Number</label>
-                                        {{ contact_form.phone }}
-                                        {% if contact_form.phone.errors %}
-                                            <div class="text-danger small mt-1">{{ contact_form.phone.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="{{ contact_form.subject.id_for_label }}" class="form-label">Subject *</label>
-                                        {{ contact_form.subject }}
-                                        {% if contact_form.subject.errors %}
-                                            <div class="text-danger small mt-1">{{ contact_form.subject.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="{{ contact_form.message.id_for_label }}" class="form-label">Message *</label>
-                                        {{ contact_form.message }}
-                                        {% if contact_form.message.errors %}
-                                            <div class="text-danger small mt-1">{{ contact_form.message.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <button type="submit" class="btn btn-primary w-100">
-                                        <i class="fas fa-paper-plane me-2"></i>Send Message
-                                    </button>
-                                </form>
-                            </div>
+        <div class="contact-cards-row">
+            <!-- Form -->
+            <div class="contact-form-wrap">
+                <div class="contact-form-card">
+                    <h2 class="contact-form-title">Send Us a Message</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="contact">
+                        <div class="contact-field">
+                            <label for="id_name">Full Name</label>
+                            {{ contact_form.name }}
+                            {% if contact_form.name.errors %}
+                                <div class="text-danger mt-1">{{ contact_form.name.errors.0 }}</div>
+                            {% endif %}
                         </div>
-                    </div>
+                        <div class="contact-field">
+                            <label for="id_phone">Phone</label>
+                            {{ contact_form.phone }}
+                            {% if contact_form.phone.errors %}
+                                <div class="text-danger mt-1">{{ contact_form.phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="contact-field">
+                            <label for="id_email">Email Address</label>
+                            {{ contact_form.email }}
+                            {% if contact_form.email.errors %}
+                                <div class="text-danger mt-1">{{ contact_form.email.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="contact-field">
+                            <label for="id_subject">Subject</label>
+                            {{ contact_form.subject }}
+                            {% if contact_form.subject.errors %}
+                                <div class="text-danger mt-1">{{ contact_form.subject.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="contact-field">
+                            <label for="id_message">Message</label>
+                            {{ contact_form.message }}
+                            {% if contact_form.message.errors %}
+                                <div class="text-danger mt-1">{{ contact_form.message.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn-contact-submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="contact-info-wrap">
+                <div class="contact-info-card">
+                    <h3 class="contact-info-title">Our Contact Information</h3>
+                    <p class="contact-info-subtitle">Together, let's build a future defined by innovation and excellence.</p>
                     
-                    <!-- Volunteer Form -->
-                    <div class="col-lg-6">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h3 class="text-primary mb-4">
-                                    <i class="fas fa-hands-helping me-2"></i>Volunteer with Us
-                                </h3>
-                                <p class="text-muted mb-4">
-                                    Interested in volunteering? Fill out this form and we'll get back to you with opportunities.
-                                </p>
-                                
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="form_type" value="volunteer">
-                                    <div class="mb-3">
-                                        <label for="{{ volunteer_form.name.id_for_label }}" class="form-label">Full Name *</label>
-                                        {{ volunteer_form.name }}
-                                        {% if volunteer_form.name.errors %}
-                                            <div class="text-danger small mt-1">{{ volunteer_form.name.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="{{ volunteer_form.email.id_for_label }}" class="form-label">Email Address *</label>
-                                        {{ volunteer_form.email }}
-                                        {% if volunteer_form.email.errors %}
-                                            <div class="text-danger small mt-1">{{ volunteer_form.email.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="{{ volunteer_form.phone.id_for_label }}" class="form-label">Phone Number *</label>
-                                        {{ volunteer_form.phone }}
-                                        {% if volunteer_form.phone.errors %}
-                                            <div class="text-danger small mt-1">{{ volunteer_form.phone.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Areas of Interest *</label>
-                                        <div class="row">
-                                            {% for choice in volunteer_form.interests %}
-                                            <div class="col-6">
-                                                <div class="form-check">
-                                                    {{ choice.tag }}
-                                                    <label class="form-check-label" for="{{ choice.id_for_label }}">
-                                                        {{ choice.choice_label }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-                                        </div>
-                                        {% if volunteer_form.interests.errors %}
-                                            <div class="text-danger small mt-1">{{ volunteer_form.interests.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="{{ volunteer_form.availability.id_for_label }}" class="form-label">Availability & Experience *</label>
-                                        {{ volunteer_form.availability }}
-                                        {% if volunteer_form.availability.errors %}
-                                            <div class="text-danger small mt-1">{{ volunteer_form.availability.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="{{ volunteer_form.message.id_for_label }}" class="form-label">Additional Information</label>
-                                        {{ volunteer_form.message }}
-                                        {% if volunteer_form.message.errors %}
-                                            <div class="text-danger small mt-1">{{ volunteer_form.message.errors.0 }}</div>
-                                        {% endif %}
-                                    </div>
-                                    <button type="submit" class="btn btn-secondary w-100">
-                                        <i class="fas fa-user-plus me-2"></i>Apply to Volunteer
-                                    </button>
-                                </form>
-                            </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <div class="contact-info-label">Email:</div>
+                            <p class="contact-info-value">optimizingpeople@gmail.com</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Newsletter Signup -->
-<section class="section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card bg-primary text-white">
-                    <div class="card-body text-center py-5">
-                        <h3 class="mb-4">
-                            <i class="fas fa-newspaper me-2"></i>Stay Updated
-                        </h3>
-                        <p class="lead mb-4">
-                            Subscribe to our newsletter to receive updates about our work, upcoming events, and how you can help.
-                        </p>
-                        
-                        <form method="post" class="row g-3 justify-content-center">
-                            {% csrf_token %}
-                            <input type="hidden" name="form_type" value="newsletter">
-                            <div class="col-md-6">
-                                <label for="{{ newsletter_form.email.id_for_label }}" class="form-label">Email Address *</label>
-                                {{ newsletter_form.email }}
-                                {% if newsletter_form.email.errors %}
-                                    <div class="text-warning small mt-1">{{ newsletter_form.email.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-4">
-                                <label for="{{ newsletter_form.name.id_for_label }}" class="form-label">Name (Optional)</label>
-                                {{ newsletter_form.name }}
-                                {% if newsletter_form.name.errors %}
-                                    <div class="text-warning small mt-1">{{ newsletter_form.name.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="submit" class="btn btn-secondary w-100">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </form>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <div class="contact-info-label">Address:</div>
+                            <p class="contact-info-value">California, United States</p>
+                        </div>
+                    </div>
+
+                    <p class="contact-social-text">Follow us on our social media platforms to see updates from our outreach programs, events, and community impact.</p>
+
+                    <div class="contact-social-icons">
+                        <a href="#" class="contact-social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="contact-social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="contact-social-icon"><i class="fab fa-facebook-f"></i></a>
                     </div>
                 </div>
             </div>
@@ -249,14 +444,10 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="section-padding bg-light">
+<section class="faq-section">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Frequently Asked Questions</h2>
-                <p class="lead">Common questions about our organization and work</p>
-            </div>
-        </div>
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+        <p class="faq-subtitle">Common questions about our organization and work</p>
         
         <div class="row">
             <div class="col-lg-8 mx-auto">
@@ -284,7 +475,7 @@
                         <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
                                 You can get involved by volunteering, donating, or spreading awareness about our work. 
-                                Fill out the volunteer form above or contact us directly to learn about current opportunities.
+                                Fill out the contact form above or reach out to us directly to learn about current opportunities.
                             </div>
                         </div>
                     </div>
@@ -325,7 +516,7 @@
                         </h2>
                         <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                You can donate through our donation page, which offers various giving options. 
+                                You can donate through our <a href="{% url 'frontend:donate' %}" style="color:#1e3a8a; font-weight:600;">donation page</a>, which offers various giving options. 
                                 All donations go directly to supporting our programs and helping communities in need.
                             </div>
                         </div>
@@ -336,21 +527,16 @@
     </div>
 </section>
 
-<!-- Social Media -->
-<section class="section-padding">
+<!-- Social Links -->
+<section class="social-section">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Follow Us</h2>
-                <p class="lead mb-4">Stay connected with us on social media</p>
-                <div class="social-links">
-                    <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
+        <h2 class="social-section-title">Follow Us</h2>
+        <p class="social-section-text">Stay connected with us on social media</p>
+        <div class="social-links-row">
+            <a href="#" class="social-link-btn"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link-btn"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link-btn"><i class="fab fa-tiktok"></i></a>
         </div>
     </div>
 </section>

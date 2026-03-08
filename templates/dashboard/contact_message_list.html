@@ -1,0 +1,59 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block content %}
+<div class="mb-5 d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="fw-bold mb-2" style="color: #1d1d1f; letter-spacing: -1px;">Contact Messages</h1>
+        <p class="text-secondary fs-5 mb-0" style="font-weight: 400;">Review direct messages from the public site.</p>
+    </div>
+</div>
+
+<div class="card border-0 rounded-4 mb-5" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 border-0">
+                <thead style="background-color: transparent;">
+                    <tr>
+                        <th class="ps-4 text-secondary fw-normal border-0 pt-4 pb-3 small" style="border-bottom: 1px solid rgba(0,0,0,0.05) !important;">Status</th>
+                        <th class="text-secondary fw-normal border-0 pt-4 pb-3 small" style="border-bottom: 1px solid rgba(0,0,0,0.05) !important;">Name</th>
+                        <th class="text-secondary fw-normal border-0 pt-4 pb-3 small" style="border-bottom: 1px solid rgba(0,0,0,0.05) !important;">Subject</th>
+                        <th class="text-secondary fw-normal border-0 pt-4 pb-3 small" style="border-bottom: 1px solid rgba(0,0,0,0.05) !important;">Date Received</th>
+                        <th class="pe-4 text-end text-secondary fw-normal border-0 pt-4 pb-3 small" style="border-bottom: 1px solid rgba(0,0,0,0.05) !important;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for msg in contacts %}
+                    <tr class="{% if not msg.is_read %}bg-primary bg-opacity-10{% endif %}">
+                        <td class="ps-4 border-light py-3">
+                            {% if msg.is_read %}
+                                <span class="badge rounded-pill fw-medium" style="background-color: rgba(142, 142, 147, 0.1); color: #8e8e93; border: none;">Read</span>
+                            {% else %}
+                                <span class="badge rounded-pill fw-medium" style="background-color: rgba(0, 113, 227, 0.1); color: #0071e3;">New</span>
+                            {% endif %}
+                        </td>
+                        <td class="fw-medium border-light py-3" style="color: #1d1d1f;">{{ msg.name }}</td>
+                        <td class="text-secondary text-truncate border-light py-3" style="max-width: 250px;">{{ msg.subject }}</td>
+                        <td class="text-secondary small border-light py-3">{{ msg.created_at|date:"M j, Y, g:i a" }}</td>
+                        <td class="text-end pe-4 border-light py-3">
+                            <a href="{% url 'dashboard:contact_message_detail' msg.id %}" class="btn btn-sm rounded-pill px-3 me-2" style="background-color: #f5f5f7; color: #0071e3;" title="Read Message">
+                                <i class="fas fa-book-open"></i> Read
+                            </a>
+                            <a href="{% url 'dashboard:contact_message_delete' msg.id %}" class="btn btn-sm rounded-circle" style="background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; width: 32px; height: 32px; padding: 4px;" title="Delete Message">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-secondary border-0" style="background-color: transparent;">
+                            <div class="mb-3 opacity-50"><i class="fas fa-inbox fa-3x" style="color: #8e8e93;"></i></div>
+                            <h4 class="fw-medium text-dark">No messages yet.</h4>
+                            <p>When someone contacts you from the public website, their message will appear here.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

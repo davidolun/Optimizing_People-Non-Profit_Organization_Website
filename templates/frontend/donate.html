@@ -1,143 +1,273 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Donate - Optimizing People{% endblock %}
+{% block title %}Support - Optimizing People{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
+<style>
+    .support-hero {
+        background-color: #f7f9fc;
+        padding: 160px 0 80px 0;
+        text-align: center;
+    }
+    .section-title-blue {
+        color: #1d4ed8;
+        font-weight: 800;
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        font-family: 'Inter', sans-serif;
+    }
+    .support-subtitle {
+        color: #4b5563;
+        font-size: 1.15rem;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+    
+    .payment-section {
+        background-color: #ffffff;
+        padding: 80px 0;
+    }
+    .payment-title {
+        color: #1d4ed8;
+        font-weight: 800;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .payment-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        height: 100%;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .zelle-header {
+        background-color: #681ccc;
+        color: white;
+        padding: 20px 24px;
+        font-weight: bold;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+    }
+    .zelle-logo {
+        font-family: Arial, sans-serif;
+        font-weight: 800;
+        font-size: 1.5rem;
+        margin-left: 8px;
+        letter-spacing: -1px;
+    }
+    .paypal-header {
+        background-color: #a0dcf8;
+        color: #003087;
+        padding: 20px 24px;
+        font-weight: bold;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+    }
+    .payment-body {
+        padding: 30px;
+    }
+    .payment-subtitle {
+        color: #4b5563;
+        margin-bottom: 30px;
+        font-size: 1.05rem;
+    }
+    .payment-step {
+        margin-bottom: 20px;
+        color: #374151;
+        font-size: 1rem;
+    }
+    .payment-step strong {
+        color: #111827;
+        font-weight: 700;
+    }
+    
+    .copy-input-group {
+        display: flex;
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
+    .copy-input {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1px solid #d1d5db;
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        font-size: 1rem;
+        color: #4b5563;
+        outline: none;
+        background: #fff;
+    }
+    .copy-btn-zelle {
+        background-color: #681ccc;
+        color: white;
+        border: none;
+        border-radius: 0 8px 8px 0;
+        padding: 0 24px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    .copy-btn-zelle:hover { opacity: 0.9; }
+    
+    .copy-btn-paypal {
+        background-color: #a0dcf8;
+        color: #003087;
+        border: none;
+        border-radius: 0 8px 8px 0;
+        padding: 0 24px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    .copy-btn-paypal:hover { opacity: 0.9; }
+
+    .impact-section {
+        background-color: #eef4ff;
+        padding: 80px 0;
+    }
+    
+    .impact-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 40px 30px;
+        height: 100%;
+        text-align: center;
+        border: 1px solid #bfdbfe;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .impact-card-title {
+        color: #1d4ed8;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    .impact-card-text {
+        color: #4b5563;
+        font-size: 1.05rem;
+        line-height: 1.6;
+    }
+    
+    .questions-box {
+        border: 1px dashed #2563eb;
+        border-radius: 0;
+        padding: 50px 30px;
+        text-align: center;
+        margin-top: 60px;
+        background: transparent;
+    }
+    .questions-title {
+        color: #1d4ed8;
+        font-size: 2.25rem;
+        font-weight: 800;
+        margin-bottom: 25px;
+    }
+    .questions-text {
+        color: #4b5563;
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        line-height: 1.6;
+    }
+    .contact-item {
+        color: #4b5563;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .contact-item i {
+        color: #2563eb;
+    }
+</style>
+
+<!-- Support Hero Section -->
+<section class="support-hero">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-4 animate-fade-in">Make a Difference</h1>
-                <p class="lead animate-fade-in">
-                    Your donation helps us bring hope, healing, and help to communities in need
-                </p>
-            </div>
-        </div>
+        <h1 class="section-title-blue animate-fade-in">Support</h1>
+        <p class="support-subtitle animate-fade-in">
+            Your generosity transforms lives through medical care, spiritual ministry, and community support. Join us as we bring hope, healing, and the love of Christ to underserved communities.
+        </p>
     </div>
 </section>
 
-<!-- Donation Impact -->
-<section class="section-padding">
+<!-- Payment Methods Section -->
+<section class="payment-section">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Your Impact</h2>
-                <p class="lead">Every donation makes a real difference in someone's life</p>
-            </div>
-        </div>
+        <h2 class="payment-title">Select Payment Method</h2>
         
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-dollar-sign text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">$25</h5>
-                        <p class="card-text">Provides a week's worth of nutritious meals for a family</p>
+        <div class="row g-5 justify-content-center">
+            <!-- Zelle Card -->
+            <div class="col-lg-6">
+                <div class="payment-card">
+                    <div class="zelle-header">
+                        Pay with <span class="zelle-logo">Zelle®</span>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-dollar-sign text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">$50</h5>
-                        <p class="card-text">Covers medical consultation and basic treatment for one person</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-dollar-sign text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">$100</h5>
-                        <p class="card-text">Supports water purification system maintenance for a month</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-dollar-sign text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">$500</h5>
-                        <p class="card-text">Funds a complete medical outreach program for a community</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Donation Form -->
-<section class="section-padding bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card shadow-lg">
-                    <div class="card-body p-5">
-                        <h3 class="text-primary mb-4 text-center">
-                            <i class="fas fa-donate me-2"></i>Make a Donation
-                        </h3>
-                        <p class="text-center text-muted mb-4">
-                            Your generous contribution helps us continue our mission of serving communities in need
-                        </p>
+                    <div class="payment-body">
+                        <p class="payment-subtitle">Zelle (Bank Transfer — USA Only)</p>
                         
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="{{ donation_form.donor_name.id_for_label }}" class="form-label">Full Name *</label>
-                                    {{ donation_form.donor_name }}
-                                    {% if donation_form.donor_name.errors %}
-                                        <div class="text-danger small mt-1">{{ donation_form.donor_name.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="{{ donation_form.donor_email.id_for_label }}" class="form-label">Email Address *</label>
-                                    {{ donation_form.donor_email }}
-                                    {% if donation_form.donor_email.errors %}
-                                        <div class="text-danger small mt-1">{{ donation_form.donor_email.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="{{ donation_form.amount.id_for_label }}" class="form-label">Donation Amount *</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">$</span>
-                                        {{ donation_form.amount }}
-                                    </div>
-                                    {% if donation_form.amount.errors %}
-                                        <div class="text-danger small mt-1">{{ donation_form.amount.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="{{ donation_form.donation_type.id_for_label }}" class="form-label">Donation Type *</label>
-                                    {{ donation_form.donation_type }}
-                                    {% if donation_form.donation_type.errors %}
-                                        <div class="text-danger small mt-1">{{ donation_form.donation_type.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12">
-                                    <label for="{{ donation_form.message.id_for_label }}" class="form-label">Message (Optional)</label>
-                                    {{ donation_form.message }}
-                                    {% if donation_form.message.errors %}
-                                        <div class="text-danger small mt-1">{{ donation_form.message.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        {{ donation_form.is_anonymous }}
-                                        <label class="form-check-label" for="{{ donation_form.is_anonymous.id_for_label }}">
-                                            Make this donation anonymous
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-primary btn-lg">
-                                        <i class="fas fa-donate me-2"></i>Donate Now
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        <div class="payment-step">
+                            <strong>Step 1:</strong> Open your bank app and select Zelle.
+                        </div>
+                        <div class="payment-step">
+                            <strong>Step 2:</strong> Tap Send Money → Add Recipient.
+                        </div>
+                        <div class="payment-step">
+                            <strong>Step 3:</strong> Copy and paste this email as the recipient
+                        </div>
+                        
+                        <div class="copy-input-group">
+                            <input type="text" class="copy-input" value="optimizingpeople@gmail.com" readonly id="zelleEmail">
+                            <button class="copy-btn-zelle" onclick="copyText('zelleEmail', this)">Copy</button>
+                        </div>
+                        
+                        <div class="payment-step pt-3">
+                            <strong>Step 4:</strong> Enter your donation amount and send.
+                        </div>
+                        <div class="payment-step">
+                            <strong>Step 5:</strong> Enter your donation amount and send.
+                        </div>
+                        
+                        <p class="text-muted mt-5 mb-0" style="font-size: 0.95rem;">Payments are processed instantly via Zelle.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PayPal Card -->
+            <div class="col-lg-6">
+                <div class="payment-card">
+                    <div class="paypal-header">
+                        Pay with <i class="fab fa-paypal ms-2 me-1"></i> <strong>PayPal</strong>
+                    </div>
+                    <div class="payment-body">
+                        <p class="payment-subtitle">PayPal (International Donations)</p>
+                        
+                        <div class="payment-step">
+                            <strong>Step 1:</strong> Open your PayPal app or visit PayPal.
+                        </div>
+                        <div class="payment-step">
+                            <strong>Step 2:</strong> Tap Send Money.
+                        </div>
+                        <div class="payment-step">
+                            <strong>Step 3:</strong> Paste this email as the recipient:
+                        </div>
+                        
+                        <div class="copy-input-group">
+                            <input type="text" class="copy-input" value="optimizingpeople@gmail.com" readonly id="paypalEmail">
+                            <button class="copy-btn-paypal" onclick="copyText('paypalEmail', this)">Copy</button>
+                        </div>
+                        
+                        <div class="payment-step pt-3">
+                            <strong>Step 4:</strong> Enter your donation amount and send.
+                        </div>
+                        
+                        <p class="text-muted mt-5 pt-3 mb-0" style="font-size: 0.95rem;">You can donate from anywhere in the world</p>
                     </div>
                 </div>
             </div>
@@ -145,245 +275,97 @@
     </div>
 </section>
 
-<!-- Donation Types -->
-<section class="section-padding">
+<!-- How Your Donation Helps Section -->
+<section class="impact-section">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Ways to Give</h2>
-                <p class="lead">Choose how you'd like to make a difference</p>
+        <h2 class="payment-title" style="margin-bottom: 15px;">How Your Donation Helps</h2>
+        <p class="support-subtitle text-center" style="margin-bottom: 60px; max-width: 700px;">
+            Every dollar directly supports our mission to serve communities with medical care, spiritual guidance, and essential resources.
+        </p>
+        
+        <div class="row g-4 justify-content-center">
+            <!-- Medical Services -->
+            <div class="col-lg-4 col-md-6">
+                <div class="impact-card">
+                    <h3 class="impact-card-title">Medical Services</h3>
+                    <p class="impact-card-text">
+                        Free healthcare, medications, eye care, and laboratory tests for those in need.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Spiritual Ministry -->
+            <div class="col-lg-4 col-md-6">
+                <div class="impact-card">
+                    <h3 class="impact-card-title">Spiritual Ministry</h3>
+                    <p class="impact-card-text">
+                        Evangelical outreach, Bible distribution, and spiritual counseling.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Community Support -->
+            <div class="col-lg-4 col-md-6">
+                <div class="impact-card">
+                    <h3 class="impact-card-title">Community Support</h3>
+                    <p class="impact-card-text">
+                        Food, clean water, solar lamps, and essential resources for underserved areas.
+                    </p>
+                </div>
             </div>
         </div>
         
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-heart text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Medical/Mental Health Clinic</h5>
-                        <p class="card-text">Support our medical outreach programs that provide free healthcare to underserved communities.</p>
-                        <ul class="list-unstyled text-start">
-                            <li><i class="fas fa-check text-primary me-2"></i>Free medical consultations</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Mental health support</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Emergency medical care</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-tint text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Rural Borehole Water Supply</h5>
-                        <p class="card-text">Help us provide clean, safe drinking water to communities that lack access to this basic necessity.</p>
-                        <ul class="list-unstyled text-start">
-                            <li><i class="fas fa-check text-primary me-2"></i>Borehole drilling</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Water treatment systems</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Maintenance support</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-utensils text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Food Distribution</h5>
-                        <p class="card-text">Support our food security programs that combat hunger and malnutrition in rural communities.</p>
-                        <ul class="list-unstyled text-start">
-                            <li><i class="fas fa-check text-primary me-2"></i>Regular food drives</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Emergency food assistance</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Nutritional education</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-cross text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">General Donation</h5>
-                        <p class="card-text">Support our overall mission and allow us to allocate funds where they're needed most.</p>
-                        <ul class="list-unstyled text-start">
-                            <li><i class="fas fa-check text-primary me-2"></i>Flexible funding</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Administrative support</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Program development</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-graduation-cap text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Education Support</h5>
-                        <p class="card-text">Help us provide educational opportunities and resources to children and adults in need.</p>
-                        <ul class="list-unstyled text-start">
-                            <li><i class="fas fa-check text-primary me-2"></i>School supplies</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Scholarships</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Educational programs</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-hands-helping text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Other</h5>
-                        <p class="card-text">Specify how you'd like your donation to be used or support a specific initiative.</p>
-                        <ul class="list-unstyled text-start">
-                            <li><i class="fas fa-check text-primary me-2"></i>Custom designation</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Special projects</li>
-                            <li><i class="fas fa-check text-primary me-2"></i>Emergency relief</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Why Donate -->
-<section class="section-padding bg-light">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Why Donate to Optimizing People?</h2>
-                <p class="lead">Your support makes a real difference in the lives of those we serve</p>
-            </div>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-chart-line text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Proven Impact</h5>
-                        <p class="card-text">We have a track record of successfully implementing programs that directly benefit communities in need.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-shield-alt text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Transparent Use</h5>
-                        <p class="card-text">We ensure that your donations are used efficiently and transparently for the intended purposes.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-globe text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Global Reach</h5>
-                        <p class="card-text">Your donation helps us reach communities worldwide, starting from Nigeria and expanding globally.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-heart text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Christian Values</h5>
-                        <p class="card-text">Our work is grounded in Christian principles of love, service, and compassion for all people.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-users text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Community Focused</h5>
-                        <p class="card-text">We work directly with communities to understand their needs and provide sustainable solutions.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-star text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Tax Deductible</h5>
-                        <p class="card-text">As a registered non-profit organization, your donations may be tax-deductible.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Donation Methods -->
-<section class="section-padding">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold text-primary mb-4">Donation Methods</h2>
-                <p class="lead">Choose the most convenient way for you to give</p>
-            </div>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-credit-card text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Credit/Debit Card</h5>
-                        <p class="card-text">Secure online donations using your credit or debit card.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-university text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Bank Transfer</h5>
-                        <p class="card-text">Direct bank transfer for larger donations or recurring giving.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-mobile-alt text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Mobile Payment</h5>
-                        <p class="card-text">Quick and easy donations through mobile payment platforms.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <i class="fas fa-envelope text-primary mb-3" style="font-size: 3rem;"></i>
-                        <h5 class="card-title text-primary">Check by Mail</h5>
-                        <p class="card-text">Send a check to our mailing address for traditional giving.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Call to Action -->
-<section class="section-padding bg-primary text-white">
-    <div class="container">
+        <!-- Questions Box -->
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold mb-4">Ready to Make a Difference?</h2>
-                <p class="lead mb-4">
-                    Your donation, no matter the size, helps us continue our mission of serving communities in need. 
-                    Together, we can bring hope and healing to those who need it most.
-                </p>
-                <div class="d-flex flex-wrap justify-content-center gap-3">
-                    <a href="#donation-form" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-donate me-2"></i>Donate Now
-                    </a>
-                    <a href="{% url 'frontend:contact' %}" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-envelope me-2"></i>Contact Us
-                    </a>
+            <div class="col-12">
+                <div class="questions-box">
+                    <h2 class="questions-title">Questions about giving?</h2>
+                    <p class="questions-text">
+                        We're here to help. Contact us if you have questions or need assistance with your donation.
+                    </p>
+                    <div class="contact-item">
+                        <i class="far fa-envelope"></i>
+                        <span>optimizingpeople@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>California, United States</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    function copyText(inputId, btnElement) {
+        var copyText = document.getElementById(inputId);
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+        
+        var originalText = btnElement.innerText;
+        btnElement.innerText = "Copied!";
+        
+        try {
+            // Try standard clipboard API first (Works on modern browsers in secure context / localhost)
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(copyText.value);
+            } else {
+                // Fallback for non-https local IPs (e.g. testing on a phone)
+                document.execCommand('copy');
+            }
+        } catch (err) {
+            btnElement.innerText = "Failed";
+        }
+        
+        // Reset the button text after 2 seconds
+        setTimeout(function() {
+            btnElement.innerText = originalText;
+        }, 2000);
+        
+        // Deselect text so the user isn't stuck with highlighted text
+        window.getSelection().removeAllRanges();
+    }
+</script>
 {% endblock %}
