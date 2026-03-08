@@ -53,6 +53,11 @@
                         {{ form.is_featured|as_crispy_field }}
                         <small class="text-secondary d-block mt-1">Featured events appear prominently on the home page.</small>
                     </div>
+
+                    <div class="alert mt-3 p-3 rounded-4 border-0" style="background-color: rgba(0, 113, 227, 0.05);">
+                        {{ form.is_visible|as_crispy_field }}
+                        <small class="text-secondary d-block mt-1">Hidden events are only visible in the dashboard.</small>
+                    </div>
                 </div>
             </div>
 

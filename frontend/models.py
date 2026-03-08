@@ -38,6 +38,7 @@ class Event(models.Model):
     location = models.CharField(max_length=200)
     image = models.ImageField(upload_to='event_images/', blank=True, null=True)
     is_featured = models.BooleanField(default=False)
+    is_visible = models.BooleanField(default=True, help_text="Uncheck to hide this event from the public website")
     event_type = models.CharField(max_length=20, choices=EVENT_TYPES, default='other')
     registration_url = models.URLField(blank=True, help_text="Optional registration link")
     created_at = models.DateTimeField(auto_now_add=True)

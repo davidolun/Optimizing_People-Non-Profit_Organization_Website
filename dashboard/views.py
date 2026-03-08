@@ -389,3 +389,32 @@ class EventImpactDeleteView(StaffRequiredMixin, DeleteView):
     def get_success_url(self):
         messages.success(self.request, 'Impact section deleted.')
         return reverse('dashboard:event_data_manage', kwargs={'event_id': self.object.event.id})
+
+import json
+from django.http import JsonResponse
+
+class UpdateDataOrderView(StaffRequiredMixin, View):
+    """AJAX view to update the display order of data cards."""
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            model_type = data.get('model_type')
+            order_list = data.get('order_list', []) # List of IDs in new order
+            
+            model_map = {
+                'statistic': EventStatistic,
+                'partner': EventPartner,
+                'metric': EventTeamMetric,
+                'impact': EventImpact,
+            }
+            
+            model = model_map.get(model_type)
+            if not model:
+                return JsonResponse({'success': False, 'error': 'Invalid model type'})
+                
+            for index, item_id in enumerate(order_list):
+                model.objects.filter(id=item_id).update(order=index)
+                
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})

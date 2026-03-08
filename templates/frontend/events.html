@@ -76,30 +76,37 @@
         <div class="row g-4">
             {% for event in featured_events %}
             <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 class="card-title text-primary">{{ event.title }}</h5>
-                            <span class="badge bg-warning text-dark">Featured</span>
-                        </div>
-                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
-                        <div class="mt-auto">
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
-                            </p>
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
-                            </p>
-                            <div class="d-flex gap-2">
-                                <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-info-circle me-1"></i>Details
-                                </a>
-                                {% if event.registration_url %}
-                                    <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
-                                        <i class="fas fa-user-plus me-1"></i>Register
+                <div class="event-card-wrapper">
+                    {% if event.is_upcoming %}
+                        <span class="timeline-badge badge-upcoming"><i class="fas fa-clock me-1"></i> Upcoming</span>
+                    {% else %}
+                        <span class="timeline-badge badge-past"><i class="fas fa-history me-1"></i> Past</span>
+                    {% endif %}
+                    <div class="card h-100">
+                        <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title text-primary">{{ event.title }}</h5>
+                                <span class="badge bg-warning text-dark">Featured</span>
+                            </div>
+                            <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
+                            <div class="mt-auto">
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
+                                </p>
+                                <p class="text-muted mb-3">
+                                    <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-info-circle me-1"></i>Details
                                     </a>
-                                {% endif %}
+                                    {% if event.registration_url %}
+                                        <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
+                                            <i class="fas fa-user-plus me-1"></i>Register
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -131,33 +138,40 @@
         <div class="row g-4">
             {% for event in events %}
             <div class="col-lg-4 col-md-6">
-                <div class="card h-100 shadow-lg">
-                    <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 class="card-title text-primary">{{ event.title }}</h5>
-                            <span class="badge bg-success">Search Result</span>
-                        </div>
-                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
-                        <div class="mt-auto">
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
-                            </p>
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-clock me-2"></i>{{ event.date|time:"g:i A" }}
-                            </p>
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
-                            </p>
-                            <div class="d-flex gap-2">
-                                <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-info-circle me-1"></i>Details
-                                </a>
-                                {% if event.registration_url %}
-                                    <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
-                                        <i class="fas fa-user-plus me-1"></i>Register
+                <div class="event-card-wrapper">
+                    {% if event.is_upcoming %}
+                        <span class="timeline-badge badge-upcoming"><i class="fas fa-clock me-1"></i> Upcoming</span>
+                    {% else %}
+                        <span class="timeline-badge badge-past"><i class="fas fa-history me-1"></i> Past</span>
+                    {% endif %}
+                    <div class="card h-100 shadow-lg">
+                        <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title text-primary">{{ event.title }}</h5>
+                                <span class="badge bg-success">Search Result</span>
+                            </div>
+                            <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
+                            <div class="mt-auto">
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
+                                </p>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-clock me-2"></i>{{ event.date|time:"g:i A" }}
+                                </p>
+                                <p class="text-muted mb-3">
+                                    <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-info-circle me-1"></i>Details
                                     </a>
-                                {% endif %}
+                                    {% if event.registration_url %}
+                                        <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
+                                            <i class="fas fa-user-plus me-1"></i>Register
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -233,30 +247,37 @@
         <div class="row g-4">
             {% for event in all_events %}
             <div class="col-lg-4 col-md-6">
-                <div class="card h-100">
-                    <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary">{{ event.title }}</h5>
-                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
-                        <div class="mt-auto">
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
-                            </p>
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-clock me-2"></i>{{ event.date|time:"g:i A" }}
-                            </p>
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
-                            </p>
-                            <div class="d-flex gap-2">
-                                <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-info-circle me-1"></i>Details
-                                </a>
-                                {% if event.registration_url %}
-                                    <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
-                                        <i class="fas fa-user-plus me-1"></i>Register
+                <div class="event-card-wrapper">
+                    {% if event.is_upcoming %}
+                        <span class="timeline-badge badge-upcoming"><i class="fas fa-clock me-1"></i> Upcoming</span>
+                    {% else %}
+                        <span class="timeline-badge badge-past"><i class="fas fa-history me-1"></i> Past</span>
+                    {% endif %}
+                    <div class="card h-100">
+                        <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-primary">{{ event.title }}</h5>
+                            <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
+                            <div class="mt-auto">
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
+                                </p>
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-clock me-2"></i>{{ event.date|time:"g:i A" }}
+                                </p>
+                                <p class="text-muted mb-3">
+                                    <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-info-circle me-1"></i>Details
                                     </a>
-                                {% endif %}
+                                    {% if event.registration_url %}
+                                        <a href="{{ event.registration_url }}" class="btn btn-secondary btn-sm" target="_blank">
+                                            <i class="fas fa-user-plus me-1"></i>Register
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -330,24 +351,27 @@
         <div class="row g-4">
             {% for event in past_events %}
             <div class="col-lg-4 col-md-6">
-                <div class="card h-100 opacity-75">
-                    <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 class="card-title text-primary">{{ event.title }}</h5>
-                            <span class="badge bg-secondary">Past Event</span>
-                        </div>
-                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:15 }}</p>
-                        <div class="mt-auto">
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
-                            </p>
-                            <p class="text-muted mb-3">
-                                <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
-                            </p>
-                            <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-info-circle me-1"></i>View Details
-                            </a>
+                <div class="event-card-wrapper">
+                    <span class="timeline-badge badge-past"><i class="fas fa-history me-1"></i> Past</span>
+                    <div class="card h-100 opacity-75">
+                        <img src="{{ event.thumbnail_url }}" class="card-img-top" alt="{{ event.title }}">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title text-primary">{{ event.title }}</h5>
+                                <span class="badge bg-secondary">Past Event</span>
+                            </div>
+                            <p class="card-text flex-grow-1">{{ event.description|truncatewords:15 }}</p>
+                            <div class="mt-auto">
+                                <p class="text-muted mb-2">
+                                    <i class="fas fa-calendar-alt me-2"></i>{{ event.formatted_date_range }}
+                                </p>
+                                <p class="text-muted mb-3">
+                                    <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                                </p>
+                                <a href="{% url 'frontend:event_detail' event.id %}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-info-circle me-1"></i>View Details
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

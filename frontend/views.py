@@ -37,9 +37,9 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'featured_events': Event.objects.filter(is_featured=True).order_by('-date')[:3],
+            'featured_events': Event.objects.filter(is_featured=True, is_visible=True).order_by('-date')[:3],
             'team_members': TeamMember.objects.filter(is_active=True)[:4],
-            'gallery_images': GalleryImage.objects.order_by('?')[:9],
+            'gallery_images': GalleryImage.objects.filter(event__is_visible=True).order_by('?')[:9] if Event.objects.filter(is_visible=True).exists() else GalleryImage.objects.filter(event__isnull=True).order_by('?')[:9],
         })
         return context
 
@@ -84,7 +84,7 @@ class EventsView(ListView):
     paginate_by = 6
     
     def get_queryset(self):
-        queryset = Event.objects.filter(date__gte=timezone.now()).order_by('date')
+        queryset = Event.objects.filter(is_visible=True, date__gte=timezone.now()).order_by('date')
         
         # Handle search query
         query = self.request.GET.get('q')
@@ -99,8 +99,8 @@ class EventsView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['featured_events'] = Event.objects.filter(is_featured=True, date__gte=timezone.now())[:3]
-        context['past_events'] = Event.objects.filter(date__lt=timezone.now()).order_by('-date')[:5]
+        context['featured_events'] = Event.objects.filter(is_featured=True, is_visible=True, date__gte=timezone.now())[:3]
+        context['past_events'] = Event.objects.filter(is_visible=True, date__lt=timezone.now()).order_by('-date')[:5]
         
         # Add search context
         context['query'] = self.request.GET.get('q', '')
@@ -108,7 +108,7 @@ class EventsView(ListView):
         
         # Add all events context (for when there's a search)
         if context['query']:
-            all_events_queryset = Event.objects.filter(date__gte=timezone.now()).order_by('date')
+            all_events_queryset = Event.objects.filter(is_visible=True, date__gte=timezone.now()).order_by('date')
             paginator = Paginator(all_events_queryset, 6)
             page_number = self.request.GET.get('all_page', 1)
             try:
@@ -190,6 +190,12 @@ class EventDetailView(DetailView):
     context_object_name = 'event'
     slug_field = 'id'
     slug_url_kwarg = 'event_id'
+    
+    def get_queryset(self):
+        # Prevent non-staff users from seeing hidden events
+        if self.request.user.is_staff:
+            return Event.objects.all()
+        return Event.objects.filter(is_visible=True)
 
 
 class TeamMemberDetailView(DetailView):
@@ -223,10 +229,12 @@ def search_events(request):
     query = request.GET.get('q', '')
     if query:
         events = Event.objects.filter(
-            title__icontains=query
-        ).filter(date__gte=timezone.now()).order_by('date')
+            is_visible=True,
+            title__icontains=query,
+            date__gte=timezone.now()
+        ).order_by('date')
     else:
-        events = Event.objects.filter(date__gte=timezone.now()).order_by('date')
+        events = Event.objects.filter(is_visible=True, date__gte=timezone.now()).order_by('date')
     
     context = {
         'events': events,
@@ -242,8 +250,8 @@ class GalleryView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Events that have at least one gallery image
-        events_with_images = Event.objects.filter(gallery_images__isnull=False).distinct().order_by('-date')
+        # Events that have at least one gallery image and are visible
+        events_with_images = Event.objects.filter(is_visible=True, gallery_images__isnull=False).distinct().order_by('-date')
         events_with_images = events_with_images.prefetch_related('gallery_images')
         
         # Other images (no event associated)
@@ -260,5 +268,5 @@ class ProgramsView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = Event.objects.all().order_by('-date')
+        context['events'] = Event.objects.filter(is_visible=True).order_by('-date')
         return context

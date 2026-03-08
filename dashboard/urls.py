@@ -45,4 +45,6 @@ urlpatterns = [
     path('messages/', views.ContactMessageListView.as_view(), name='contact_message_list'),
     path('messages/<int:pk>/', views.ContactMessageDetailView.as_view(), name='contact_message_detail'),
     path('messages/<int:pk>/delete/', views.ContactMessageDeleteView.as_view(), name='contact_message_delete'),
+    # AJAX Reorder
+    path('data/reorder/', views.UpdateDataOrderView.as_view(), name='update_data_order'),
 ]

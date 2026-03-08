@@ -523,6 +523,37 @@
                 font-size: 1.5rem;
             }
         }
+        .timeline-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: inline-flex;
+            align-items: center;
+            pointer-events: none;
+        }
+        
+        .badge-upcoming {
+            background-color: #0071e3; /* Apple Blue */
+            color: white;
+        }
+        
+        .badge-past {
+            background-color: #6e6e73; /* Apple Grey */
+            color: white;
+        }
+
+        .event-card-wrapper {
+            position: relative;
+            height: 100%;
+        }
     </style>
     
     {% block extra_css %}{% endblock %}

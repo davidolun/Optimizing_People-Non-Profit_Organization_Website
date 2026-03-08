@@ -6,7 +6,7 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = [
             'title', 'event_type', 'date', 'end_date', 'location', 
-            'image', 'registration_url', 'is_featured', 'description'
+            'image', 'registration_url', 'is_featured', 'is_visible', 'description'
         ]
         widgets = {
             'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
@@ -49,7 +49,7 @@ class GalleryImageUploadForm(forms.ModelForm):
 class EventStatisticForm(forms.ModelForm):
     class Meta:
         model = EventStatistic
-        fields = ['value', 'label', 'order']
+        fields = ['value', 'label']
         widgets = {
             'value': forms.TextInput(attrs={'placeholder': "e.g. '184' or '50+'"}),
             'label': forms.TextInput(attrs={'placeholder': "e.g. 'Total Attendance'"}),
@@ -58,7 +58,7 @@ class EventStatisticForm(forms.ModelForm):
 class EventPartnerForm(forms.ModelForm):
     class Meta:
         model = EventPartner
-        fields = ['name', 'order']
+        fields = ['name']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': "e.g. 'Optimizing People'"}),
         }
@@ -66,7 +66,7 @@ class EventPartnerForm(forms.ModelForm):
 class EventTeamMetricForm(forms.ModelForm):
     class Meta:
         model = EventTeamMetric
-        fields = ['value', 'label', 'order']
+        fields = ['value', 'label']
         widgets = {
             'value': forms.TextInput(attrs={'placeholder': "e.g. '14'"}),
             'label': forms.TextInput(attrs={'placeholder': "e.g. 'Total Volunteers'"}),
@@ -75,7 +75,7 @@ class EventTeamMetricForm(forms.ModelForm):
 class EventImpactForm(forms.ModelForm):
     class Meta:
         model = EventImpact
-        fields = ['title', 'items', 'order']
+        fields = ['title', 'items']
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': "e.g. 'Spiritual Impact'"}),
             'items': forms.Textarea(attrs={

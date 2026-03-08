@@ -70,14 +70,16 @@
     </div>
     <div class="card-body p-4">
         {% if statistics %}
-        <div class="row g-3 mb-4">
+        <div class="row g-3 mb-4 sortable-container" data-type="statistic">
             {% for stat in statistics %}
-            <div class="col-md-4">
-                <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background-color: #f5f5f7;">
-                    <div>
-                        <div class="fw-bold" style="color: #0071e3; font-size: 1.4rem; letter-spacing: -0.5px;">{{ stat.value }}</div>
-                        <div class="small fw-medium" style="color: #515154;">{{ stat.label }}</div>
-                        <div class="small" style="color: #8e8e93;">Order: {{ stat.order }}</div>
+            <div class="col-md-4 sortable-item" data-id="{{ stat.id }}">
+                <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background-color: #f5f5f7; cursor: grab; border: 1px solid rgba(0,0,0,0.03);">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-grip-vertical text-muted opacity-50"></i>
+                        <div>
+                            <div class="fw-bold" style="color: #0071e3; font-size: 1.4rem; letter-spacing: -0.5px;">{{ stat.value }}</div>
+                            <div class="small fw-medium" style="color: #515154;">{{ stat.label }}</div>
+                        </div>
                     </div>
                     <div class="d-flex gap-2">
                         <a href="{% url 'dashboard:event_stat_edit' stat.pk %}" class="btn btn-sm rounded-circle" style="background-color: white; color: #515154; width: 32px; height: 32px; padding: 4px;" title="Edit"><i class="fas fa-pen"></i></a>
@@ -99,9 +101,8 @@
         <form method="post" action="{% url 'dashboard:event_stat_add' event.id %}">
             {% csrf_token %}
             <div class="row g-3 align-items-end">
-                <div class="col-md-4">{{ stat_form.value|as_crispy_field }}</div>
-                <div class="col-md-5">{{ stat_form.label|as_crispy_field }}</div>
-                <div class="col-md-2">{{ stat_form.order|as_crispy_field }}</div>
+                <div class="col-md-5">{{ stat_form.value|as_crispy_field }}</div>
+                <div class="col-md-6">{{ stat_form.label|as_crispy_field }}</div>
                 <div class="col-md-1">
                     <button type="submit" class="btn w-100 rounded-3 fw-medium" style="background-color: #0071e3; color: white;">Add</button>
                 </div>
@@ -126,13 +127,13 @@
     </div>
     <div class="card-body p-4">
         {% if partners %}
-        <div class="row g-3 mb-4">
+        <div class="row g-3 mb-4 sortable-container" data-type="partner">
             {% for partner in partners %}
-            <div class="col-md-4">
-                <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background-color: #f5f5f7;">
-                    <div>
+            <div class="col-md-4 sortable-item" data-id="{{ partner.id }}">
+                <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background-color: #f5f5f7; cursor: grab; border: 1px solid rgba(0,0,0,0.03);">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-grip-vertical text-muted opacity-50"></i>
                         <div class="fw-semibold" style="color: #1d1d1f;">{{ partner.name }}</div>
-                        <div class="small" style="color: #8e8e93;">Order: {{ partner.order }}</div>
                     </div>
                     <div class="d-flex gap-2">
                         <a href="{% url 'dashboard:event_partner_edit' partner.pk %}" class="btn btn-sm rounded-circle" style="background-color: white; color: #515154; width: 32px; height: 32px; padding: 4px;"><i class="fas fa-pen"></i></a>
@@ -154,8 +155,7 @@
         <form method="post" action="{% url 'dashboard:event_partner_add' event.id %}">
             {% csrf_token %}
             <div class="row g-3 align-items-end">
-                <div class="col-md-8">{{ partner_form.name|as_crispy_field }}</div>
-                <div class="col-md-2">{{ partner_form.order|as_crispy_field }}</div>
+                <div class="col-md-10">{{ partner_form.name|as_crispy_field }}</div>
                 <div class="col-md-2">
                     <button type="submit" class="btn w-100 rounded-3 fw-medium" style="background-color: #34c759; color: white;">Add</button>
                 </div>
@@ -180,14 +180,16 @@
     </div>
     <div class="card-body p-4">
         {% if team_metrics %}
-        <div class="row g-3 mb-4">
+        <div class="row g-3 mb-4 sortable-container" data-type="metric">
             {% for metric in team_metrics %}
-            <div class="col-md-4">
-                <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background-color: #f5f5f7;">
-                    <div>
-                        <div class="fw-bold" style="color: #5856d6; font-size: 1.4rem; letter-spacing: -0.5px;">{{ metric.value }}</div>
-                        <div class="small fw-medium" style="color: #515154;">{{ metric.label }}</div>
-                        <div class="small" style="color: #8e8e93;">Order: {{ metric.order }}</div>
+            <div class="col-md-4 sortable-item" data-id="{{ metric.id }}">
+                <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background-color: #f5f5f7; cursor: grab; border: 1px solid rgba(0,0,0,0.03);">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-grip-vertical text-muted opacity-50"></i>
+                        <div>
+                            <div class="fw-bold" style="color: #5856d6; font-size: 1.4rem; letter-spacing: -0.5px;">{{ metric.value }}</div>
+                            <div class="small fw-medium" style="color: #515154;">{{ metric.label }}</div>
+                        </div>
                     </div>
                     <div class="d-flex gap-2">
                         <a href="{% url 'dashboard:event_metric_edit' metric.pk %}" class="btn btn-sm rounded-circle" style="background-color: white; color: #515154; width: 32px; height: 32px; padding: 4px;"><i class="fas fa-pen"></i></a>
@@ -209,9 +211,8 @@
         <form method="post" action="{% url 'dashboard:event_metric_add' event.id %}">
             {% csrf_token %}
             <div class="row g-3 align-items-end">
-                <div class="col-md-3">{{ metric_form.value|as_crispy_field }}</div>
-                <div class="col-md-6">{{ metric_form.label|as_crispy_field }}</div>
-                <div class="col-md-2">{{ metric_form.order|as_crispy_field }}</div>
+                <div class="col-md-4">{{ metric_form.value|as_crispy_field }}</div>
+                <div class="col-md-7">{{ metric_form.label|as_crispy_field }}</div>
                 <div class="col-md-1">
                     <button type="submit" class="btn w-100 rounded-3 fw-medium" style="background-color: #5856d6; color: white;">Add</button>
                 </div>
@@ -236,12 +237,15 @@
     </div>
     <div class="card-body p-4">
         {% if impacts %}
-        <div class="row g-3 mb-4">
+        <div class="row g-3 mb-4 sortable-container" data-type="impact">
             {% for impact in impacts %}
-            <div class="col-md-6">
-                <div class="p-3 rounded-3" style="background-color: #f5f5f7;">
+            <div class="col-md-6 sortable-item" data-id="{{ impact.id }}">
+                <div class="p-3 rounded-3" style="background-color: #f5f5f7; cursor: grab; border: 1px solid rgba(0,0,0,0.03);">
                     <div class="d-flex justify-content-between align-items-start mb-2">
-                        <div class="fw-bold" style="color: #ff9500;">{{ impact.title }}</div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-grip-vertical text-muted opacity-50"></i>
+                            <div class="fw-bold" style="color: #ff9500;">{{ impact.title }}</div>
+                        </div>
                         <div class="d-flex gap-2 ms-2 flex-shrink-0">
                             <a href="{% url 'dashboard:event_impact_edit' impact.pk %}" class="btn btn-sm rounded-circle" style="background-color: white; color: #515154; width: 32px; height: 32px; padding: 4px;"><i class="fas fa-pen"></i></a>
                             <a href="{% url 'dashboard:event_impact_delete' impact.pk %}" class="btn btn-sm rounded-circle" style="background-color: rgba(255,59,48,0.1); color: #ff3b30; width: 32px; height: 32px; padding: 4px;"><i class="fas fa-trash"></i></a>
@@ -252,7 +256,6 @@
                         <li>{{ item }}</li>
                         {% endfor %}
                     </ul>
-                    <div class="small mt-2" style="color: #8e8e93;">Order: {{ impact.order }}</div>
                 </div>
             </div>
             {% endfor %}
@@ -269,9 +272,8 @@
         <form method="post" action="{% url 'dashboard:event_impact_add' event.id %}">
             {% csrf_token %}
             <div class="row g-3 align-items-start">
-                <div class="col-md-4">{{ impact_form.title|as_crispy_field }}</div>
+                <div class="col-md-5">{{ impact_form.title|as_crispy_field }}</div>
                 <div class="col-md-6">{{ impact_form.items|as_crispy_field }}</div>
-                <div class="col-md-1">{{ impact_form.order|as_crispy_field }}</div>
                 <div class="col-md-1 d-flex align-items-end">
                     <button type="submit" class="btn w-100 rounded-3 fw-medium" style="background-color: #ff9500; color: white; height: 40px;">Add</button>
                 </div>
@@ -279,4 +281,45 @@
         </form>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sortables = document.querySelectorAll('.sortable-container');
+        
+        sortables.forEach(container => {
+            new Sortable(container, {
+                animation: 150,
+                ghostClass: 'opacity-50',
+                onEnd: function (evt) {
+                    const modelType = container.getAttribute('data-type');
+                    const items = container.querySelectorAll('.sortable-item');
+                    const orderList = Array.from(items).map(item => item.getAttribute('data-id'));
+                    
+                    // Show a subtle saving indicator if you like, but for now we'll just send
+                    fetch("{% url 'dashboard:update_data_order' %}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({
+                            model_type: modelType,
+                            order_list: orderList
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.success) {
+                            alert('Failed to save order: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating order:', error);
+                    });
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
