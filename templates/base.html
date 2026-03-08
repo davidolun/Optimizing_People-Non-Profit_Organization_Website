@@ -33,12 +33,93 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            max-width: 100%;
         }
         
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
+            word-wrap: break-word; /* Prevent long words from breaking layout */
+            overflow-wrap: break-word;
+        }
+
+        /* Prevent side-scrolling global fix */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Essential for mobile: ensure no hidden overflow content forces page width expansion */
+        .row {
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+            overflow-x: visible !important; /* Allow carousels within rows */
+        }
+
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            overflow: visible !important; /* Allow carousels within containers */
+        }
+
+        @media (max-width: 991px) {
+            .navbar {
+                padding: 0.5rem 0;
+            }
+            .navbar-brand img {
+                height: 45px !important;
+            }
+            .navbar-brand {
+                font-size: 1.2rem !important;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                padding: 1.5rem 0;
+            }
+            .navbar-nav .nav-item {
+                margin: 0.8rem 0; /* Vertical spacing for mobile menu items */
+            }
+            .navbar-nav .nav-link {
+                font-size: 1.1rem;
+                padding: 0.5rem 0;
+            }
+            .navbar-nav .btn-nav-donate {
+                margin-top: 1rem !important;
+                display: inline-block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .display-4, .about-page-title, .gallery-page-title {
+                font-size: 2.2rem !important;
+            }
+            .display-5 {
+                font-size: 1.8rem !important;
+            }
+            main {
+                padding-top: 20px; /* Breathe room */
+            }
+        }
+
+        .section-padding {
+            padding: 60px 0;
+        }
+
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 40px 15px;
+            }
         }
         
         .navbar {
@@ -592,34 +673,11 @@
             transform: scale(1.1);
         }
         
-        /* Apple Text Reveal Section */
-        .text-reveal {
-            position: relative;
-            color: rgba(255, 255, 255, 0.15); /* Muted white */
-            background: linear-gradient(to bottom, #ffffff 50%, transparent 50%);
-            background-size: 100% 200%;
-            background-position: 0 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: background-position 0.1s linear;
-            display: inline;
-        }
-
-        .text-reveal[data-reveal-dark="true"] {
-            color: rgba(30, 58, 138, 0.15);
-            background: linear-gradient(to bottom, #1e3a8a 50%, transparent 50%);
-            background-size: 100% 200%;
-            background-position: 0 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .text-reveal {
-                -webkit-text-fill-color: white;
-                background-position: 0 0;
-            }
+        /* Magnetic Button Base */
+        .btn-magnetic {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
         }
     </style>
     

@@ -97,8 +97,8 @@
                         <thead style="background-color: transparent;">
                             <tr>
                                 <th class="ps-4 text-secondary fw-normal border-0 pt-3 pb-2 small">Title</th>
-                                <th class="text-secondary fw-normal border-0 pt-3 pb-2 small">Date</th>
-                                <th class="text-secondary fw-normal border-0 pt-3 pb-2 small">Location</th>
+                                <th class="text-secondary fw-normal border-0 pt-3 pb-2 small d-none d-sm-table-cell">Date</th>
+                                <th class="text-secondary fw-normal border-0 pt-3 pb-2 small d-none d-md-table-cell">Location</th>
                                 <th class="text-secondary fw-normal border-0 pt-3 pb-2 small">Status</th>
                             </tr>
                         </thead>
@@ -108,8 +108,8 @@
                                 <td class="ps-4 fw-medium border-light">
                                     <a href="{% url 'dashboard:event_update' event.id %}" class="text-decoration-none" style="color: #1d1d1f;">{{ event.title }}</a>
                                 </td>
-                                <td class="text-secondary border-light">{{ event.date|date:"M j, Y" }}</td>
-                                <td class="text-secondary small border-light">{{ event.location }}</td>
+                                <td class="text-secondary border-light d-none d-sm-table-cell">{{ event.date|date:"M j, Y" }}</td>
+                                <td class="text-secondary small border-light d-none d-md-table-cell">{{ event.location }}</td>
                                 <td class="border-light">
                                     {% if event.is_upcoming %}
                                         <span class="badge rounded-pill fw-medium" style="background-color: rgba(52, 199, 89, 0.1); color: #34c759; padding: 6px 12px;">Upcoming</span>

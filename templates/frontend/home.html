@@ -375,25 +375,97 @@
     }
 
     @media (max-width: 768px) {
+        .hero-section-new {
+            padding-top: 120px; /* More space for the navbar on mobile */
+            min-height: 60vh;
+            padding-bottom: 80px;
+        }
         .hero-title-new {
-            font-size: 3rem;
+            font-size: 2.2rem; /* Smaller for mobile to fit screen */
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+        .hero-subtitle-new {
+            font-size: 1rem;
+            margin-bottom: 2rem;
         }
         .stat-number {
-            font-size: 2rem;
+            font-size: 1.8rem;
         }
         .hero-buttons {
             flex-direction: column;
             width: 100%;
             max-width: 300px;
             margin: 0 auto;
+            gap: 12px;
         }
         .team-grid {
-            grid-template-columns: 1fr;
-            margin-top: 40px;
+            grid-template-columns: 1fr 1fr; /* Two columns on mobile */
+            gap: 12px;
+            max-width: 100%;
+            margin-top: 30px;
+        }
+        .team-img {
+            padding: 5px; /* Smaller padding on mobile */
+        }
+        .team-info {
+            padding: 10px 5px;
+        }
+        .team-name {
+            font-size: 0.7rem;
+        }
+        .team-role {
+            font-size: 0.65rem;
         }
         .filters-container {
             flex-direction: column;
             width: 100%;
+        }
+        .stats-section {
+            margin-top: -30px; /* Adjust overlap for mobile */
+            padding: 40px 0;
+        }
+
+        .hero-section-new::before {
+            background-attachment: scroll !important;
+            background-repeat: no-repeat;
+        }
+
+        /* Gallery Mobile Shape */
+        .gallery-title {
+            font-size: 2.1rem;
+            margin-bottom: 10px;
+        }
+        .gallery-subtitle {
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        .gallery-track {
+            overflow-x: auto !important; /* Force allow touch scroll */
+            -webkit-overflow-scrolling: touch;
+            padding: 10px 0 20px;
+            gap: 15px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .gallery-track::-webkit-scrollbar {
+            display: none;
+        }
+        .gallery-img-container {
+            flex: 0 0 85% !important; /* Show most of one large image */
+        }
+        .gallery-img {
+            height: 240px !important; /* Maintain better aspect ratio on mobile */
+            border-radius: 12px;
+        }
+        .gallery-nav-btn {
+            display: none; /* Hide arrow icons on mobile */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title-new {
+            font-size: 1.8rem;
         }
     }
 

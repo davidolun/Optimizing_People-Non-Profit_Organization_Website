@@ -25,7 +25,18 @@ SECRET_KEY = 'django-insecure-change-this-in-production-12345'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.8','0.0.0.0','knightly-sherril-dynamometric.ngrok-free.dev' ]
+ALLOWED_HOSTS = ['*']  # Temporarily allow any host for dev to debug login issues with ngrok and local network and mobile devices.
+
+CSRF_USE_SESSIONS = True  # Tie CSRF to the session for more reliable mobile logins.
+CSRF_TRUSTED_ORIGINS = [
+    'https://knightly-sherril-dynamometric.ngrok-free.dev',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://192.168.1.8:8000',
+    'http://192.168.1.245:8000',
+    'http://192.168.1.245',
+    'http://192.168.1.8'
+]
 
 
 # Application definition
@@ -153,9 +164,16 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
+# Proxy SSL Header for ngrok/HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Session Settings
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = False  # Keep false if not exclusively HTTPS
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
 
 # Logging
 LOGGING = {
@@ -173,6 +191,11 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'INFO',
             'propagate': True,
+        },
+        'django.security.csrf': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     },
 }

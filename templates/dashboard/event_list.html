@@ -8,9 +8,17 @@
     <a href="{% url 'dashboard:event_create' %}" class="btn rounded-pill px-4" style="background-color: #0071e3; color: white; font-weight: 500;"><i class="fas fa-plus mr-2"></i> Add Event</a>
 </div>
 
-<div class="card border-0 rounded-4 mb-5" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
+<div class="card border-0 rounded-4 mb-5 outer-mobile-card shadow-sm shadow-md-none" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); backdrop-filter: blur(10px);">
+    <style>
+        @media (max-width: 991px) {
+            .outer-mobile-card { background: transparent !important; border: none !important; backdrop-filter: none !important; box-shadow: none !important; }
+            .outer-mobile-card > .card-body { padding: 0 !important; }
+        }
+    </style>
     <div class="card-body p-0">
-        <div class="table-responsive">
+        <!-- Desktop Table View -->
+        <div class="table-responsive d-none d-md-block">
+            <!-- (Table content remains same) -->
             <table class="table align-middle mb-0 border-0">
                 <thead style="background-color: transparent;">
                     <tr>
@@ -33,25 +41,67 @@
                         <td class="text-secondary border-light py-3">{{ event.date|date:"F j, Y" }}</td>
                         <td class="text-secondary small border-light py-3">{{ event.location }}</td>
                         <td class="text-end pe-4 border-light py-3">
-                            <a href="{% url 'frontend:event_detail' event.id %}" target="_blank" class="btn btn-sm rounded-pill px-3" style="background-color: #f5f5f7; color: #0071e3;" title="View Public"><i class="fas fa-eye"></i> View</a>
-                            <a href="{% url 'dashboard:event_data_manage' event.id %}" class="btn btn-sm rounded-pill px-3 ms-1" style="background-color: #f5f5f7; color: #ff9500;" title="Data Cards"><i class="fas fa-layer-group"></i> Cards</a>
-                            <a href="{% url 'dashboard:event_gallery' event.id %}" class="btn btn-sm rounded-pill px-3 ms-1" style="background-color: #f5f5f7; color: #5856d6;" title="Gallery"><i class="fas fa-images"></i> Photos</a>
-                            <a href="{% url 'dashboard:event_update' event.id %}" class="btn btn-sm rounded-circle ms-1" style="background-color: #f5f5f7; color: #515154; width: 32px; height: 32px; padding: 4px;" title="Edit"><i class="fas fa-pen"></i></a>
-                            <a href="{% url 'dashboard:event_delete' event.id %}" class="btn btn-sm rounded-circle ms-1" style="background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; width: 32px; height: 32px; padding: 4px;" title="Delete"><i class="fas fa-trash"></i></a>
+                            <div class="d-flex justify-content-end gap-1">
+                                <a href="{% url 'frontend:event_detail' event.id %}" target="_blank" class="btn btn-sm rounded-pill px-3" style="background-color: #f5f5f7; color: #0071e3;" title="View Public"><i class="fas fa-eye"></i> View</a>
+                                <a href="{% url 'dashboard:event_data_manage' event.id %}" class="btn btn-sm rounded-pill px-3" style="background-color: #f5f5f7; color: #ff9500;" title="Data Cards"><i class="fas fa-layer-group"></i> Cards</a>
+                                <a href="{% url 'dashboard:event_gallery' event.id %}" class="btn btn-sm rounded-pill px-3" style="background-color: #f5f5f7; color: #5856d6;" title="Gallery"><i class="fas fa-images"></i> Photos</a>
+                                <a href="{% url 'dashboard:event_update' event.id %}" class="btn btn-sm rounded-circle" style="background-color: #f5f5f7; color: #515154; width: 32px; height: 32px; padding: 4px;" title="Edit"><i class="fas fa-pen"></i></a>
+                                <a href="{% url 'dashboard:event_delete' event.id %}" class="btn btn-sm rounded-circle" style="background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; width: 32px; height: 32px; padding: 4px;" title="Delete"><i class="fas fa-trash"></i></a>
+                            </div>
                         </td>
                     </tr>
                     {% empty %}
-                    <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">
-                            <div class="mb-3 text-secondary opacity-50"><i class="fas fa-calendar-times fa-3x"></i></div>
-                            <h4>No events found.</h4>
-                            <p>Get started by creating your first outreach event!</p>
-                            <a href="{% url 'dashboard:event_create' %}" class="btn btn-primary mt-2">Create Event</a>
-                        </td>
-                    </tr>
+                    <tr><td colspan="5" class="text-center py-5">No events found.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="d-md-none p-2">
+            <style>
+                @media (max-width: 767px) {
+                    .outer-card-wrapper { background: transparent !important; border: none !important; box-shadow: none !important; backdrop-filter: none !important; }
+                }
+            </style>
+            {% for event in events %}
+            <div class="card border-0 rounded-4 mb-3 p-3 shadow-sm" style="background: white; border: 1px solid rgba(0,0,0,0.06) !important;">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="fw-bold text-dark mb-0 pe-3">{{ event.title }}</h6>
+                    <div class="d-flex gap-3">
+                        <a href="{% url 'dashboard:event_update' event.id %}" class="btn btn-sm p-1 text-secondary" title="Edit"><i class="fas fa-pen"></i></a>
+                        <a href="{% url 'dashboard:event_delete' event.id %}" class="btn btn-sm p-1 text-danger" title="Delete"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <span class="badge rounded-pill fw-medium" style="background-color: #f5f5f7; color: #515154; font-size: 0.75rem;">{{ event.get_event_type_display }}</span>
+                    {% if event.is_featured %}<span class="badge rounded-pill bg-warning bg-opacity-10 text-warning" style="font-size: 0.75rem;">Featured</span>{% endif %}
+                </div>
+                
+                <div class="small text-secondary mb-3" style="font-size: 0.85rem;">
+                    <div class="mb-1 d-flex align-items-center"><i class="fas fa-calendar-day me-2 text-primary opacity-50"></i> {{ event.date|date:"M j, Y" }}</div>
+                    <div class="d-flex align-items-center"><i class="fas fa-location-dot me-2 text-primary opacity-50"></i> {{ event.location }}</div>
+                </div>
+                
+                <div class="d-grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                    <a href="{% url 'frontend:event_detail' event.id %}" target="_blank" class="btn btn-sm rounded-pill fw-semibold py-2" style="background: rgba(0,113,227,0.08); color: #0071e3; border: none; font-size: 0.75rem;">
+                        <i class="fas fa-eye d-block mb-1"></i> View
+                    </a>
+                    <a href="{% url 'dashboard:event_data_manage' event.id %}" class="btn btn-sm rounded-pill fw-semibold py-2" style="background: rgba(255,149,0,0.08); color: #ff9500; border: none; font-size: 0.75rem;">
+                        <i class="fas fa-layer-group d-block mb-1"></i> Cards
+                    </a>
+                    <a href="{% url 'dashboard:event_gallery' event.id %}" class="btn btn-sm rounded-pill fw-semibold py-2" style="background: rgba(88,86,214,0.08); color: #5856d6; border: none; font-size: 0.75rem;">
+                        <i class="fas fa-images d-block mb-1"></i> Gallery
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-5 text-secondary opacity-50">
+                <i class="fas fa-calendar-times fa-3x mb-3"></i>
+                <p>No events found.</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

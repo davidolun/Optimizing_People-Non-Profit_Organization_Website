@@ -68,9 +68,9 @@ class EventDeleteView(StaffRequiredMixin, DeleteView):
     template_name = 'dashboard/event_confirm_delete.html'
     success_url = reverse_lazy('dashboard:event_list')
 
-    def delete(self, request, *args, **kwargs):
+    def form_valid(self, form):
         messages.success(self.request, 'Event deleted successfully!')
-        return super().delete(request, *args, **kwargs)
+        return super().form_valid(form)
 
 # --- Gallery Image Management ---
 
@@ -133,11 +133,9 @@ class GalleryImageDeleteView(StaffRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('dashboard:event_gallery', kwargs={'event_id': self.object.event.id})
 
-    def delete(self, request, *args, **kwargs):
-        obj = self.get_object()
-        # Optionally delete from cloudinary using robust API but safe to just detach for now.
+    def form_valid(self, form):
         messages.success(self.request, 'Picture successfully removed from event gallery!')
-        return super().delete(request, *args, **kwargs)
+        return super().form_valid(form)
 
 # --- Contact Messages Management ---
 
@@ -164,9 +162,9 @@ class ContactMessageDeleteView(StaffRequiredMixin, DeleteView):
     template_name = 'dashboard/contact_message_confirm_delete.html'
     success_url = reverse_lazy('dashboard:contact_message_list')
     
-    def delete(self, request, *args, **kwargs):
+    def form_valid(self, form):
         messages.success(self.request, 'Message deleted successfully!')
-        return super().delete(request, *args, **kwargs)
+        return super().form_valid(form)
 
 
 # --- Event Data (Cards) Management ---

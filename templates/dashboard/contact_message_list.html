@@ -9,7 +9,8 @@
 
 <div class="card border-0 rounded-4 mb-5" style="background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03); backdrop-filter: blur(10px);">
     <div class="card-body p-0">
-        <div class="table-responsive">
+        <!-- Desktop Table View -->
+        <div class="table-responsive d-none d-md-block">
             <table class="table align-middle mb-0 border-0">
                 <thead style="background-color: transparent;">
                     <tr>
@@ -22,7 +23,7 @@
                 </thead>
                 <tbody>
                     {% for msg in contacts %}
-                    <tr class="{% if not msg.is_read %}bg-primary bg-opacity-10{% endif %}">
+                    <tr style="{% if not msg.is_read %}background-color: rgba(0, 113, 227, 0.02);{% endif %}">
                         <td class="ps-4 border-light py-3">
                             {% if msg.is_read %}
                                 <span class="badge rounded-pill fw-medium" style="background-color: rgba(142, 142, 147, 0.1); color: #8e8e93; border: none;">Read</span>
@@ -34,25 +35,56 @@
                         <td class="text-secondary text-truncate border-light py-3" style="max-width: 250px;">{{ msg.subject }}</td>
                         <td class="text-secondary small border-light py-3">{{ msg.created_at|date:"M j, Y, g:i a" }}</td>
                         <td class="text-end pe-4 border-light py-3">
-                            <a href="{% url 'dashboard:contact_message_detail' msg.id %}" class="btn btn-sm rounded-pill px-3 me-2" style="background-color: #f5f5f7; color: #0071e3;" title="Read Message">
-                                <i class="fas fa-book-open"></i> Read
-                            </a>
-                            <a href="{% url 'dashboard:contact_message_delete' msg.id %}" class="btn btn-sm rounded-circle" style="background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; width: 32px; height: 32px; padding: 4px;" title="Delete Message">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                            <div class="d-flex justify-content-end gap-1">
+                                <a href="{% url 'dashboard:contact_message_detail' msg.id %}" class="btn btn-sm rounded-pill px-3" style="background-color: #f5f5f7; color: #0071e3;" title="Read Message">
+                                    <i class="fas fa-book-open"></i> Read
+                                </a>
+                                <a href="{% url 'dashboard:contact_message_delete' msg.id %}" class="btn btn-sm rounded-circle" style="background-color: rgba(255, 59, 48, 0.1); color: #ff3b30; width: 32px; height: 32px; padding: 4px;" title="Delete Message">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     {% empty %}
-                    <tr>
-                        <td colspan="5" class="text-center py-5 text-secondary border-0" style="background-color: transparent;">
-                            <div class="mb-3 opacity-50"><i class="fas fa-inbox fa-3x" style="color: #8e8e93;"></i></div>
-                            <h4 class="fw-medium text-dark">No messages yet.</h4>
-                            <p>When someone contacts you from the public website, their message will appear here.</p>
-                        </td>
-                    </tr>
+                    <tr><td colspan="5" class="text-center py-5">No messages yet.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile View (Cards) -->
+        <div class="d-md-none p-3">
+            {% for msg in contacts %}
+            <div class="card border-0 rounded-4 mb-3 p-3 position-relative shadow-none" 
+                 style="background: white; border: 1px solid rgba(0,0,0,0.06) !important; {% if not msg.is_read %}border-left: 4px solid #0071e3 !important;{% endif %}">
+                
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small text-secondary" style="font-size: 0.75rem;">{{ msg.created_at|date:"M j, g:i a" }}</span>
+                    {% if not msg.is_read %}
+                        <span class="badge rounded-pill fw-bold" style="background-color: rgba(0, 113, 227, 0.1); color: #0071e3; font-size: 0.7rem;">NEW</span>
+                    {% endif %}
+                </div>
+                
+                <h6 class="fw-bold mb-1" style="color: #1d1d1f;">{{ msg.name }}</h6>
+                <p class="small text-secondary mb-3 text-truncate">{{ msg.subject }}</p>
+                
+                <div class="d-flex gap-2">
+                    <a href="{% url 'dashboard:contact_message_detail' msg.id %}" class="btn btn-sm rounded-pill flex-grow-1 fw-semibold py-2" 
+                       style="background: #f5f5f7; color: #0071e3; font-size: 0.75rem;">
+                        <i class="fas fa-book-open me-1"></i> Read Message
+                    </a>
+                    <a href="{% url 'dashboard:contact_message_delete' msg.id %}" class="btn btn-sm rounded-pill px-3" 
+                       style="background: rgba(255, 59, 48, 0.08); color: #ff3b30;">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-5 text-secondary opacity-50">
+                <i class="fas fa-inbox fa-3x mb-3"></i>
+                <p>No messages yet.</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -150,12 +150,50 @@
     }
 
     @media (max-width: 768px) {
+        .programs-header {
+            padding: 120px 15px 40px; /* Adjusted padding to fix title clip and breathe */
+        }
         .programs-page-title {
-            font-size: 3rem;
+            font-size: 2.1rem; /* Better fit for standard phones */
+            letter-spacing: -1px;
+        }
+        .programs-page-subtitle {
+            font-size: 0.95rem;
+            margin-bottom: 25px;
         }
         .programs-filters {
-            flex-direction: column;
-            width: 90%;
+            display: flex;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            background: transparent;
+            box-shadow: none;
+            padding: 5px 0;
+            border-radius: 0;
+            gap: 8px; /* Slightly tighter horizontal gap */
+            scrollbar-width: none;
+            margin-bottom: 0px; /* Remove bottom margin to stack closer */
+        }
+        .programs-filters::-webkit-scrollbar {
+            display: none;
+        }
+        .prog-filter-btn {
+            flex: 0 0 auto;
+            padding: 7px 15px; /* Slightly smaller padding */
+            font-size: 0.85rem;
+            white-space: nowrap;
+            background: white;
+            border: 1px solid #e5e7eb;
+            color: #4b5563;
+        }
+        .prog-filter-btn.active {
+            background: #1e3a8a !important;
+            color: white !important;
+            border-color: #1e3a8a !important;
+        }
+        /* Tighter vertical spacer between rows */
+        #typeFilters {
+            margin-top: 5px;
         }
         .program-card-img {
             height: 220px;
@@ -177,7 +215,6 @@
             <button class="prog-filter-btn" data-filter="upcoming">Upcoming</button>
             <button class="prog-filter-btn" data-filter="past">Past</button>
         </div>
-        <br>
         <div class="programs-filters" id="typeFilters">
             <button class="prog-filter-btn active" data-filter="all">All Events</button>
             <button class="prog-filter-btn" data-filter="crusade">Crusades</button>
@@ -262,12 +299,31 @@
             document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
         }
 
+        function scrollToResults() {
+            if (window.innerWidth < 768) {
+                const grid = document.querySelector('.programs-grid');
+                if (grid) {
+                    const offset = 80; // Compensate for fixed navbar
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = grid.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }
+
         timeBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 timeBtns.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 activeTime = this.getAttribute('data-filter');
                 filterCards();
+                scrollToResults();
             });
         });
 
@@ -277,6 +333,7 @@
                 this.classList.add('active');
                 activeType = this.getAttribute('data-filter');
                 filterCards();
+                scrollToResults();
             });
         });
 
