@@ -75,9 +75,11 @@
         border-radius: 16px;
         overflow: hidden;
         transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         height: 100%;
         display: flex;
         flex-direction: column;
+        position: relative;
     }
 
     .program-card:hover {
@@ -198,7 +200,9 @@
                         <span class="timeline-badge badge-past"><i class="fas fa-history me-1"></i> Past</span>
                     {% endif %}
                     <div class="program-card">
-                        <img src="{{ event.thumbnail_url }}" class="program-card-img" alt="{{ event.title }}">
+                        <div class="img-scale-container">
+                            <img src="{{ event.thumbnail_url }}" class="program-card-img" alt="{{ event.title }}">
+                        </div>
                         <div class="program-card-body">
                             <h3 class="program-card-title">{{ event.title }}</h3>
                             <div class="program-card-meta">
@@ -206,7 +210,7 @@
                                 <span><i class="fas fa-map-marker-alt"></i> {{ event.location }}</span>
                             </div>
                             <p class="program-card-desc">{{ event.description|truncatewords:25 }}</p>
-                            <a href="{% url 'frontend:event_detail' event.id %}" class="btn-program-details">View Details</a>
+                            <a href="{% url 'frontend:event_detail' event.id %}" class="btn-program-details stretched-link">View Details</a>
                         </div>
                     </div>
                 </div>

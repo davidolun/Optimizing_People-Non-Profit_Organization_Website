@@ -9,16 +9,36 @@
 
     /* Hero Section */
     .hero-section-new {
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                    url('{% static "images/hero-image.jpg" %}'); /* Fallback image */
-        background-size: cover;
-        background-position: center;
         min-height: 90vh;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
         padding-top: 80px;
+        position: relative;
+        overflow: hidden;
+        background: black; /* Base background */
+    }
+
+    .hero-section-new::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                    url('{% static "images/hero-image.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed; /* This creates the parallax depth naturally */
+        z-index: 0;
+    }
+
+    /* Target content to be above the pseudo-parallax */
+    .hero-section-new .container {
+        position: relative;
+        z-index: 1;
     }
     
     .hero-title-new {
@@ -91,7 +111,10 @@
     /* Stats Section */
     .stats-section {
         background-color: #F6F6F6;
-        padding: 60px 0;
+        padding: 50px 0;
+        position: relative;
+        z-index: 10;
+        margin-top: -20px; /* Pulls the stats up into the hero area */
     }
     
     .stat-number {
@@ -182,6 +205,8 @@
         display: flex;
         flex-direction: column;
         transition: all 0.3s;
+        position: relative;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
     
     .event-card:hover {
@@ -551,18 +576,18 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <h1 class="hero-title-new animate-fade-in">
+                <h1 class="hero-title-new reveal-item">
                     Transforming lives<br>
                     <span class="hero-highlight">through Christ's Love</span>
                 </h1>
-                <p class="hero-subtitle-new animate-fade-in">
+                <p class="hero-subtitle-new reveal-item stagger-1">
                     Join us in bringing Hope, Health, and Spiritual Wellness to Communities in Nigeria through Medical Outreaches, Clean Water Projects, and Evangelical Missions.
                 </p>
-                <div class="hero-buttons animate-fade-in">
-                    <a href="{% url 'frontend:donate' %}" class="btn-solid-white">
+                <div class="hero-buttons reveal-item stagger-2">
+                    <a href="{% url 'frontend:donate' %}" class="btn-solid-white btn-magnetic">
                         Support Our Mission
                     </a>
-                    <a href="{% url 'frontend:programs' %}?time=upcoming" class="btn-outline-white">
+                    <a href="{% url 'frontend:programs' %}?time=upcoming" class="btn-outline-white btn-magnetic">
                         Upcoming Events <i class="fa-solid fa-arrow-right-up ms-1" style="transform: rotate(45deg);"></i>
                     </a>
                 </div>
@@ -575,20 +600,20 @@
 <section class="stats-section">
     <div class="container">
         <div class="d-flex flex-wrap justify-content-center" style="gap: 2.5rem 6rem;">
-            <div class="text-center">
-                <div class="stat-number animate-fade-in">9,000+</div>
+            <div class="text-center p-4 rounded-4 shadow-sm" style="min-width: 180px; background: white; border: 1px solid #eee;">
+                <div class="stat-number counter-value" data-target="9000" data-suffix="+">0</div>
                 <div class="stat-label">Lives Impacted</div>
             </div>
-            <div class="text-center">
-                <div class="stat-number animate-fade-in">10+</div>
+            <div class="text-center p-4 rounded-4 shadow-sm" style="min-width: 180px; background: white; border: 1px solid #eee;">
+                <div class="stat-number counter-value" data-target="10" data-suffix="+">0</div>
                 <div class="stat-label">Collaborators</div>
             </div>
-            <div class="text-center">
-                <div class="stat-number animate-fade-in">200+</div>
+            <div class="text-center p-4 rounded-4 shadow-sm" style="min-width: 180px; background: white; border: 1px solid #eee;">
+                <div class="stat-number counter-value" data-target="200" data-suffix="+">0</div>
                 <div class="stat-label">Donations</div>
             </div>
-            <div class="text-center">
-                <div class="stat-number animate-fade-in">20+</div>
+            <div class="text-center p-4 rounded-4 shadow-sm" style="min-width: 180px; background: white; border: 1px solid #eee;">
+                <div class="stat-number counter-value" data-target="20" data-suffix="+">0</div>
                 <div class="stat-label">Assisted Communities</div>
             </div>
         </div>
@@ -598,9 +623,9 @@
 <!-- Events & Outreaches -->
 <section class="events-section">
     <div class="container">
-        <span class="section-tag animate-fade-in">Programs</span>
-        <h2 class="section-title animate-fade-in">Events & Outreaches</h2>
-        <p class="section-subtitle animate-fade-in">
+        <span class="section-tag reveal-item">Programs</span>
+        <h2 class="section-title reveal-item">Events & Outreaches</h2>
+        <p class="section-subtitle reveal-item">
             Browse through our history of crusades and medical outreaches that have touched lives across Africa
         </p>
         
@@ -615,14 +640,16 @@
         <div class="row g-4">
             {% for event in featured_events %}
             <div class="col-lg-4 col-md-6 filterable-event" data-type="{{ event.event_type|default:'other' }}">
-                <div class="event-card-wrapper animade-fade-in">
+                <div class="event-card-wrapper reveal-item stagger-{{ forloop.counter }}">
                     {% if event.is_upcoming %}
                         <span class="timeline-badge badge-upcoming"><i class="fas fa-clock me-1"></i> Upcoming</span>
                     {% else %}
                         <span class="timeline-badge badge-past"><i class="fas fa-history me-1"></i> Past</span>
                     {% endif %}
                     <div class="event-card">
-                        <img src="{{ event.thumbnail_url }}" class="event-img" alt="{{ event.title }}">
+                        <div class="img-scale-container">
+                            <img src="{{ event.thumbnail_url }}" class="event-img" alt="{{ event.title }}">
+                        </div>
                         <div class="event-body">
                             <h3 class="event-title">{{ event.title }}</h3>
                             <div class="event-meta">
@@ -632,7 +659,7 @@
                             <p class="event-desc">
                                 {{ event.description|truncatewords:20 }}
                             </p>
-                            <a href="{% url 'frontend:event_detail' event.id %}" class="btn-view-details">View Details</a>
+                            <a href="{% url 'frontend:event_detail' event.id %}" class="btn-view-details stretched-link">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -644,8 +671,8 @@
             {% endfor %}
         </div>
         
-        <div class="text-center mt-5 pt-2 animate-fade-in">
-            <a href="{% url 'frontend:programs' %}" class="btn-solid-blue">View All Programs & Events</a>
+        <div class="text-center mt-5 pt-2 reveal-item">
+            <a href="{% url 'frontend:programs' %}" class="btn-solid-blue btn-magnetic">View All Programs & Events</a>
         </div>
     </div>
 </section>
@@ -655,19 +682,19 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
-                <div class="about-tag animate-fade-in">Get to Know Us</div>
-                <h2 class="about-title animate-fade-in">About Us</h2>
-                <p class="about-text animate-fade-in">
+                <div class="about-tag reveal-item">Get to Know Us</div>
+                <h2 class="about-title reveal-item stagger-1">About Us</h2>
+                <p class="about-text reveal-item stagger-2">
                     Optimizing People is an international, non-denominational nonprofit organization dedicated to transforming lives through faith-inspired humanitarian work. Founded on a divine vision in 2020, we extend Christ's love by providing Bibles, healthcare, and essential support to underserved communities.
                 </p>
-                <p class="about-text animate-fade-in">
+                <p class="about-text reveal-item stagger-3">
                     Based in California, we currently serve communities across Nigeria and are expanding globally as God leads. Our work is rooted in biblical values, compassion, and service to all—regardless of faith or background.
                 </p>
             </div>
             <div class="col-lg-6">
                 <div class="team-grid">
                     {% for member in team_members %}
-                    <div class="team-member animate-fade-in">
+                    <div class="team-member reveal-item stagger-{{ forloop.counter }}">
                         {% if member.photo %}
                             <img src="{{ member.photo.url }}" class="team-img team-img-cover" alt="{{ member.name }}">
                         {% else %}
@@ -691,13 +718,13 @@
         <!-- Mission -->
         <div class="row mv-row mb-5 pb-lg-4">
             <div class="col-lg-5 mb-4 mb-lg-0 order-2 order-lg-1">
-                <h2 class="mv-title animate-fade-in">Our Mission</h2>
-                <p class="mv-text animate-fade-in">
+                <h2 class="mv-title reveal-item">Our Mission</h2>
+                <p class="mv-text reveal-item stagger-1">
                     To demonstrate the love of Christ by reaching out to impoverished and rural communities through humanitarian services, health initiatives, and gospel-centered outreach — uplifting lives and inspiring faith-driven change across nations.
                 </p>
             </div>
             <div class="col-lg-7 order-1 order-lg-2 mb-4 mb-lg-0">
-                <div class="mv-img-container animate-fade-in text-center">
+                <div class="mv-img-container reveal-item stagger-2 text-center">
                     <img src="https://res.cloudinary.com/duu7pc7s3/image/upload/v1772142947/c677a494e9b68fabb75899ae2f77b00f4354a0ba_ouxxbi.png" 
                          class="mv-img" alt="Our Mission">
                 </div>
@@ -707,14 +734,14 @@
         <!-- Vision -->
         <div class="row mv-row mt-5 pt-lg-2">
             <div class="col-lg-7 mb-4 mb-lg-0">
-                <div class="mv-img-container animate-fade-in text-center">
+                <div class="mv-img-container reveal-item text-center">
                     <img src="https://res.cloudinary.com/duu7pc7s3/image/upload/v1772142945/0b69e4dae5c21da0e3be11e11738dd387b45228b_cfg4oi.png" 
                          class="mv-img" alt="Our Vision">
                 </div>
             </div>
             <div class="col-lg-5 ps-lg-4">
-                <h2 class="mv-title animate-fade-in">Our Vision</h2>
-                <p class="mv-text animate-fade-in">
+                <h2 class="mv-title reveal-item stagger-1">Our Vision</h2>
+                <p class="mv-text reveal-item stagger-2">
                     To build a world where hope is restored, needs are met, and communities thrive through the transforming power of Christ's love and compassion.
                 </p>
             </div>
@@ -729,7 +756,7 @@
         
         <div class="row g-4 justify-content-center">
             <div class="col-lg-4 col-md-6">
-                <div class="belief-card animate-fade-in">
+                <div class="belief-card reveal-item stagger-{{ forloop.counter }}">
                     <h3 class="belief-title">God Is Love</h3>
                     <p class="belief-text">God is love, and we are called to live and walk in that love daily.</p>
                 </div>
@@ -755,12 +782,12 @@
 <!-- Gallery Section -->
 <section class="gallery-section">
     <div class="container">
-        <h2 class="gallery-title animate-fade-in">Gallery</h2>
-        <p class="gallery-subtitle animate-fade-in">
+        <h2 class="gallery-title reveal-item">Gallery</h2>
+        <p class="gallery-subtitle reveal-item stagger-1">
             A visual journey of love in action — showcasing our outreach, community projects, and the lives being transformed through God's grace.
         </p>
         
-        <div class="gallery-carousel animate-fade-in">
+        <div class="gallery-carousel reveal-item stagger-2">
             <button class="gallery-nav-btn" id="galleryPrev"><i class="fas fa-arrow-left"></i></button>
             <div class="gallery-track" id="galleryTrack">
                 {% for image in gallery_images %}
@@ -784,6 +811,10 @@
                 {% endfor %}
             </div>
             <button class="gallery-nav-btn" id="galleryNext"><i class="fas fa-arrow-right"></i></button>
+        </div>
+        
+        <div class="text-center mt-5 reveal-item">
+            <a href="{% url 'frontend:gallery' %}" class="btn-solid-blue btn-magnetic">View Full Gallery & Projects</a>
         </div>
     </div>
 </section>
@@ -830,9 +861,101 @@
         const nextBtn = document.getElementById('galleryNext');
         
         if (track && prevBtn && nextBtn) {
-            const scrollAmount = track.querySelector('.gallery-img-container')?.offsetWidth + 20 || 400;
-            prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
-            nextBtn.addEventListener('click', () => track.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let autoScrollInterval;
+            let isHovering = false;
+            let autoPlayEnabled = true;
+
+            // Clone items for infinite loop
+            const originalItems = Array.from(track.children);
+            if (originalItems.length >= 3) {
+                originalItems.forEach(item => {
+                    const clone = item.cloneNode(true);
+                    track.appendChild(clone);
+                });
+            }
+
+            const startAutoScroll = () => {
+                if (autoScrollInterval) clearInterval(autoScrollInterval);
+                autoScrollInterval = setInterval(() => {
+                    if (!isHovering && !isDown && autoPlayEnabled) {
+                        track.scrollLeft += 1.5; // Constant drift speed
+                    }
+                }, 30);
+            };
+
+            const stopAutoScroll = () => {
+                if (autoScrollInterval) clearInterval(autoScrollInterval);
+            };
+
+            // Use IntersectionObserver
+            const galObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        autoPlayEnabled = true;
+                        startAutoScroll();
+                    } else {
+                        stopAutoScroll();
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            galObserver.observe(track);
+
+            track.style.cursor = 'grab';
+
+            track.addEventListener('mouseenter', () => isHovering = true);
+            track.addEventListener('mouseleave', () => {
+                isHovering = false;
+                isDown = false;
+                track.style.cursor = 'grab';
+            });
+
+            track.addEventListener('mousedown', (e) => {
+                isDown = true;
+                autoPlayEnabled = false;
+                track.style.cursor = 'grabbing';
+                startX = e.pageX - track.offsetLeft;
+                scrollLeft = track.scrollLeft;
+            });
+
+            track.addEventListener('mouseup', () => {
+                isDown = false;
+                track.style.cursor = 'grab';
+            });
+
+            track.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - track.offsetLeft;
+                const walk = (x - startX) * 2;
+                track.scrollLeft = scrollLeft - walk;
+            });
+
+            // Navigation buttons
+            prevBtn.addEventListener('click', () => {
+                autoPlayEnabled = false;
+                track.scrollBy({ left: -400, behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                autoPlayEnabled = false;
+                track.scrollBy({ left: 400, behavior: 'smooth' });
+            });
+
+            // Infinite loop logic
+            track.addEventListener('scroll', () => {
+                if (originalItems.length >= 3) {
+                    const halfWidth = track.scrollWidth / 2;
+                    if (track.scrollLeft >= halfWidth - 5) {
+                        track.scrollLeft = 0;
+                    } else if (track.scrollLeft <= 0) {
+                        track.scrollLeft = halfWidth;
+                    }
+                }
+            });
         }
     });
 </script>
