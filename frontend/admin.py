@@ -16,7 +16,7 @@ class TeamMemberAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name', 'position', 'bio', 'photo')
+            'fields': ('name', 'position', 'bio', 'photo', 'photo_url')
         }),
         ('Contact Information', {
             'fields': ('email', 'phone'),
