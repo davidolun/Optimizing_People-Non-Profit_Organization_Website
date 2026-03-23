@@ -5,24 +5,14 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = [
-            'title', 'event_type', 'date', 'end_date', 'location', 
-            'image', 'registration_url', 'is_featured', 'is_visible', 'description'
+            'title', 'event_type', 'date', 'end_date', 'location',
+            'registration_url', 'is_featured', 'is_visible', 'description'
         ]
         widgets = {
             'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'end_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'description': forms.Textarea(attrs={'rows': 4}),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Only require image on creation (no existing instance)
-        if not self.instance.pk:
-            self.fields['image'].required = True
-            self.fields['image'].help_text = 'Required. Upload a thumbnail image for this event.'
-        else:
-            self.fields['image'].required = False
-            self.fields['image'].help_text = 'Leave blank to keep the current image.'
 
 class GalleryImageUploadForm(forms.ModelForm):
     image_file = forms.ImageField(required=True, label="Select Image to Upload")
