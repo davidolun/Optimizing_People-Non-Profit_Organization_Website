@@ -38,7 +38,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update({
             'featured_events': Event.objects.filter(is_featured=True, is_visible=True).order_by('-date')[:3],
-            'team_members': TeamMember.objects.filter(is_active=True)[:4],
+            'team_members': TeamMember.objects.filter(is_active=True).order_by('order'),
             'gallery_images': GalleryImage.objects.filter(event__is_visible=True).order_by('?')[:20] if Event.objects.filter(is_visible=True).exists() else GalleryImage.objects.filter(event__isnull=True).order_by('?')[:20],
         })
         return context
