@@ -24,10 +24,12 @@
                     <div class="card-body p-5">
                         <div class="row">
                             <div class="col-lg-4 text-center mb-4">
-                                {% if team_member.photo %}
+                                {% if team_member.photo_url %}
+                                    <img src="{{ team_member.photo_url }}" alt="{{ team_member.name }}" class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
+                                {% elif team_member.photo %}
                                     <img src="{{ team_member.photo.url }}" alt="{{ team_member.name }}" class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
                                 {% else %}
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" 
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
                                          alt="{{ team_member.name }}" class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
                                 {% endif %}
                             </div>

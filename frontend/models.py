@@ -9,6 +9,7 @@ class TeamMember(models.Model):
     position = models.CharField(max_length=100)
     bio = models.TextField(blank=True, help_text="Brief bio about the team member")
     photo = models.ImageField(upload_to='team_photos/', blank=True, null=True)
+    photo_url = models.URLField(blank=True, help_text="Cloudinary or external photo URL (used instead of uploaded photo if set)")
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=20, blank=True)
     order = models.PositiveIntegerField(default=0, help_text="Order of display on the page")

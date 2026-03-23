@@ -767,7 +767,9 @@
                 <div class="team-grid">
                     {% for member in team_members %}
                     <div class="team-member reveal-item stagger-{{ forloop.counter }}">
-                        {% if member.photo %}
+                        {% if member.photo_url %}
+                            <img src="{{ member.photo_url }}" class="team-img team-img-cover" alt="{{ member.name }}">
+                        {% elif member.photo %}
                             <img src="{{ member.photo.url }}" class="team-img team-img-cover" alt="{{ member.name }}">
                         {% else %}
                             <img src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" class="team-img team-img-cover" alt="{{ member.name }}">
