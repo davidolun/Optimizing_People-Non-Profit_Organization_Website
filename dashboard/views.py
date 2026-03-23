@@ -8,9 +8,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from frontend.models import Event, TeamMember, GalleryImage, ContactMessage, EventStatistic, EventPartner, EventTeamMetric, EventImpact
 from .forms import EventForm, GalleryImageUploadForm, EventStatisticForm, EventPartnerForm, EventTeamMetricForm, EventImpactForm
 from django.contrib import messages
-from dotenv import load_dotenv
-
-load_dotenv()
 
 # Optional configurations if missing in settings
 if os.getenv('CLOUDINARY_CLOUD_NAME'):
