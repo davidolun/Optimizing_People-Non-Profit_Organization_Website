@@ -24,7 +24,7 @@
     .about-page-subtitle {
         font-size: 1.1rem;
         color: #4B5563;
-        max-width: 700px;
+        max-width: 100%;
         margin: 0 auto;
         line-height: 1.7;
     }
@@ -50,9 +50,14 @@
     }
 
     .team-grid-about {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 30px;
+    }
+
+    .team-card-about {
+        flex: 0 0 calc(25% - 23px);
     }
 
     .team-card-about {
@@ -177,9 +182,8 @@
 
     /* Responsive */
     @media (max-width: 991px) {
-        .team-grid-about {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 500px;
+        .team-card-about {
+            flex: 0 0 calc(50% - 15px);
         }
     }
 
@@ -205,10 +209,9 @@
             width: 90%;
             margin-bottom: 20px;
         }
-        .team-grid-about {
-            grid-template-columns: 1fr;
+        .team-card-about {
+            flex: 0 0 100%;
             max-width: 320px;
-            margin: 0 auto;
         }
     }
 
@@ -226,7 +229,7 @@
     <div class="container">
         <h1 class="about-page-title">About US</h1>
         <p class="about-page-subtitle">
-            A non-profit organization focused on community wellness, clean water, food security, and faith-based empowerment for underserved communities.
+            Here at Optimizing People, we understand that sometimes, all it takes to change the world is a little support. Since the founding vision received, we have been determined to make an impact in Christ's strength.
         </p>
     </div>
 </section>
@@ -235,8 +238,10 @@
 <section class="about-desc-section">
     <div class="container">
         <div class="about-desc-text">
-            <p>Optimizing People is an international, non-denominational nonprofit organization dedicated to transforming lives through faith-inspired humanitarian work. Founded on a divine vision in 2020, we extend Christ's love by providing Bibles, healthcare, and essential support to underserved communities.</p>
-            <p>Based in California, we currently serve communities across Nigeria and are expanding globally as God leads. Our work is rooted in biblical values, compassion, and service to all—regardless of faith or background.</p>
+            <p>Optimizing People is a dream and kingdom vision that began with a passion about upbringing in the remote part of Nigeria. It is inspired further by the Holy Spirit on ministering to society through provision of water outlets, basic human needs, free medical/mental health care to the impoverished community in rural areas.</p>
+            <p>It is an international, non-denominational, and evangelical non-profit organization. This indicates that we are Christian-based believers, upholding the word of God and the leading of the Holy Spirit. Our operation is situated in California, United States, from where we are reaching out to Nigeria and in future to the other parts of the world as the Lord leads.</p>
+            <p>It is the heart cry of our Lord Jesus Christ that everyone is saved! Therefore, our desire is to walk in this path, proclaiming the gospel. We participate in evangelical crusades, but we are not a church or a fellowship. Our services are equally opened to Christians and nonchristians.</p>
+            <p>At Optimizing People, we are to offer evangelical messages, materials, and spiritual enlightenment including basic needs and health care support towards promoting life. We believe in the Lord Jesus Christ and reach out in His love towards mankind. It is our delight if you can please join us by supporting our efforts in making a measurable difference in the lives of others.</p>
         </div>
     </div>
 </section>
@@ -276,7 +281,7 @@
             <div class="col-lg-5 mb-4 mb-lg-0 order-2 order-lg-1">
                 <h2 class="mv-title">Our Mission</h2>
                 <p class="mv-text">
-                    To demonstrate the love of Christ by reaching out to impoverished and rural communities through humanitarian services, health initiatives, and gospel-centered outreach — uplifting lives and inspiring faith-driven change across nations.
+                    At Optimizing People, we are to offer evangelical messages, materials, and spiritual enlightenment including basic needs and health care support towards promoting life. We believe in the Lord Jesus Christ and reach out in His love towards mankind.
                 </p>
             </div>
             <div class="col-lg-7 order-1 order-lg-2 mb-4 mb-lg-0">
@@ -298,7 +303,7 @@
             <div class="col-lg-5 ps-lg-4">
                 <h2 class="mv-title">Our Vision</h2>
                 <p class="mv-text">
-                    To build a world where hope is restored, needs are met, and communities thrive through the transforming power of Christ's love and compassion.
+                    It is the heart cry of our Lord Jesus Christ that everyone is saved! Therefore, our desire is to walk in this path; proclaiming the gospel.
                 </p>
             </div>
         </div>
@@ -321,19 +326,19 @@
             <div class="col-lg-4">
                 <div class="belief-card-about">
                     <h3 class="belief-card-title">God Is Love</h3>
-                    <p class="belief-card-text">God is love, and we are called to live and walk in that love daily.</p>
+                    <p class="belief-card-text">We believe that God is love and we must live in love.</p>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="belief-card-about">
                     <h3 class="belief-card-title">The Trinity</h3>
-                    <p class="belief-card-text">God the Father, the Son, and the Holy Spirit — three persons in one true God.</p>
+                    <p class="belief-card-text">We believe in God the Father, God the Son, and the Holy Spirit.</p>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="belief-card-about">
                     <h3 class="belief-card-title">God's Good Plans</h3>
-                    <p class="belief-card-text">God's plans for every believer are good, even through life's challenges.</p>
+                    <p class="belief-card-text">We believe in God's good plans for all believers despite the life challenges.</p>
                 </div>
             </div>
             {% endfor %}

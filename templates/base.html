@@ -70,24 +70,41 @@
             overflow: visible !important; /* Allow carousels within containers */
         }
 
-        @media (max-width: 991px) {
-            .navbar {
-                padding: 0.5rem 0;
-            }
-            .navbar-brand img {
-                height: 45px !important;
-            }
-            .navbar-brand {
-                font-size: 1.2rem !important;
+        @media (max-width: 1197px) {
+            .container {
+                max-width: 100% !important;
+                padding-left: 20px;
+                padding-right: 20px;
             }
         }
 
-        @media (max-width: 991px) {
+        @media (max-width: 1197px) {
+            .navbar {
+                padding: 0.4rem 0;
+            }
+            .navbar-brand img {
+                height: 36px !important;
+            }
+            .navbar-brand {
+                font-size: 1.1rem !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand img {
+                height: 30px !important;
+            }
+            .navbar-brand {
+                font-size: 1rem !important;
+            }
+        }
+
+        @media (max-width: 1197px) {
             .navbar-collapse {
                 padding: 1.5rem 0;
             }
             .navbar-nav .nav-item {
-                margin: 0.8rem 0; /* Vertical spacing for mobile menu items */
+                margin: 0.8rem 0;
             }
             .navbar-nav .nav-link {
                 font-size: 1.1rem;
@@ -354,42 +371,95 @@
         }
         
         .footer {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background-color: #1e3a8a;
             color: white;
-            padding: 60px 0 30px;
+            padding: 60px 0 0;
         }
-        
-        .footer h5 {
-            color: var(--secondary-color);
-            margin-bottom: 20px;
+
+        .footer-brand-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
         }
-        
-        .footer a {
-            color: #bdc3c7;
+
+        .footer-tagline {
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 24px;
+        }
+
+        .footer-social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.8);
+            color: white;
+            font-size: 1rem;
             text-decoration: none;
             transition: all 0.3s ease;
         }
-        
-        .footer a:hover {
-            color: var(--secondary-color);
+
+        .footer-social-links a:hover {
+            background: white;
+            color: #1e3a8a;
         }
-        
-        .social-links a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: var(--primary-color);
+
+        .footer-heading {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
             color: white;
-            text-align: center;
-            line-height: 40px;
-            border-radius: 50%;
-            margin: 0 5px;
-            transition: all 0.3s ease;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e05c2a;
+            display: inline-block;
         }
-        
-        .social-links a:hover {
-            background: var(--secondary-color);
-            transform: translateY(-3px);
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-contact-item {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            white-space: nowrap;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            margin-top: 50px;
+            padding: 20px 0;
+            text-align: center;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.9rem;
         }
         
         .form-control {
@@ -686,7 +756,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-xl navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'frontend:home' %}">
                 <img src="{% static 'images/logos.png' %}" alt="Optimizing People Logo" height="60" class="me-2">
@@ -755,51 +825,48 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-md-6 mb-4">
-                    <h5><i class="fas fa-heart me-2"></i>Optimizing People</h5>
-                    <p class="mb-3">Making a difference through Christ's love by providing medical care, water supply, and food distribution to impoverished communities.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+            <div class="row gy-4">
+                <!-- Brand + Social -->
+                <div class="col-12 col-lg-5">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{% static 'images/logos.png' %}" alt="Optimizing People Logo" height="60" class="me-3">
+                        <div>
+                            <div class="footer-brand-name">Optimizing People</div>
+                            <div class="footer-tagline">Promoting supernatural living and wellness</div>
+                        </div>
+                    </div>
+                    <div class="footer-social-links mt-3">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="X">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor">
+                                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{% url 'frontend:home' %}">Home</a></li>
-                        <li><a href="{% url 'frontend:who_we_are' %}">About Us</a></li>
-                        <li><a href="{% url 'frontend:programs' %}">Programs</a></li>
-                        <li><a href="{% url 'frontend:gallery' %}">Gallery</a></li>
-                        <li><a href="{% url 'frontend:contact' %}">Contact</a></li>
+
+                <!-- Quick Links -->
+                <div class="col-12 col-sm-6 col-lg-3 offset-lg-2">
+                    <div class="footer-heading">Quick Links</div>
+                    <ul class="footer-links mt-3">
+                        <li><a href="{% url 'frontend:who_we_are' %}">Our Mission</a></li>
+                        <li><a href="{% url 'frontend:programs' %}">Activities</a></li>
+                        <li><a href="{% url 'frontend:events' %}">Events</a></li>
                     </ul>
                 </div>
-                
-                <div class="col-lg-4 col-md-12 mb-4">
-                    <h5>Contact Info</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-map-marker-alt me-2"></i>California, United States</li>
-                        <li><i class="fas fa-phone me-2"></i>+1 (555) 123-4567</li>
-                        <li><i class="fas fa-envelope me-2"></i>optimizingpeople@gmail.com</li>
-                        <li><i class="fas fa-globe me-2"></i>www.optimizingpeople.org</li>
-                    </ul>
+
+                <!-- Contact -->
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <div class="footer-heading">Contact us</div>
+                    <div class="footer-contact-item mt-3">California, United States</div>
+                    <div class="footer-contact-item">optimizingpeople@gmail.com</div>
                 </div>
             </div>
-            
-            <hr class="my-4" style="border-color: #495057;">
-            
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 Optimizing People. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="mb-0">Powered by faith, hope, and love</p>
-                </div>
-            </div>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2026 Optimizing People. All rights reserved.
         </div>
     </footer>
 
